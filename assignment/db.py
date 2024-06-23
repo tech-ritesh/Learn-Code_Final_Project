@@ -8,5 +8,6 @@ def get_connection():
     r'DATABASE=Cafeteria;'
     r'Trusted_Connection=yes;'
 )
-    
+    # cur1 = conn.cursor()
     return conn
+
