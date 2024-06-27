@@ -1,12 +1,8 @@
-# exceptions.py
-
 class CafeteriaError(Exception):
     """Base class for all custom exceptions in the Cafeteria Management System"""
     def __init__(self, message):
         super().__init__(message)
         self.message = message
-
-# exceptions.py
 
 class InvalidInputError(CafeteriaError):
     """Exception raised for invalid input."""
