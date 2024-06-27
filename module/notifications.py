@@ -1,4 +1,4 @@
-from ..Database_Connection.connection import connection
+import connection
 
 from datetime import datetime
 
