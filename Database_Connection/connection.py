@@ -1,12 +1,14 @@
-import pyodbc as odbccon
+import pyodbc
 
-def get_connection():
-    conn = odbccon.connect(
-    r'DRIVER={SQL Server};'
-    r'SERVER=(local)\SQLEXPRESS;'
-    r'DATABASE=Cafeteria;'
-    r'Trusted_Connection=yes;'
-)
-    # cur1 = conn.cursor()
-    return conn
-
+class connection:
+    @staticmethod
+    def get_connection():
+        # Replace with your actual database connection details
+        conn = pyodbc.connect(
+            'DRIVER={ODBC Driver 17 for SQL Server};'
+            'SERVER=your_server;'
+            'DATABASE=your_database;'
+            'UID=your_username;'
+            'PWD=your_password'
+        )
+        return conn

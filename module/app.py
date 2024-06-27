@@ -211,7 +211,7 @@ class CafeteriaClient:
     def send_request(self, request):
         try:
             self.client_socket.send(request.encode('utf-8'))
-            response = self.client_socket.recv(1024).decode('utf-8')
+            response = self.client_socket.recv(4096).decode('utf-8')
             return response
         except Exception as e:
             print(f"Error: {e}")
@@ -228,7 +228,7 @@ class CafeteriaClient:
 
             name = input("Enter your name: ")
             response = self.send_request(f"authenticate,{employee_id},{name}")
-            print(response)
+            # print(response)
             if "Authenticated" in response:
                 self.user = response.split(":")[1].strip()
                 print(response)
@@ -280,31 +280,31 @@ class CafeteriaClient:
                 response = self.send_request("get_feedback_report")
                 print(response)
             elif choice == 2:
-                response = self.send_request("get_menu")
-                menu_items = json.dumps(response)
-                print("The menu items are as follows:")
-                for item in menu_items:
-                    print(f"{item[0]}: {item[1]}")
-                items = input("Enter item IDs to recommend (comma-separated): ")
-                response = self.send_request(f"add_recommendation,{items}")
+                response = self.send_request("add_recommendation")
                 print(response)
+                
             elif choice == 3:
                 response = self.send_request("get_recommendations")
                 print(response)
+            
+            elif choice == 4:
+                response = self.send_request("monthly_feedback_report")
+                print(response)
+                
             elif choice == 4:
                 print("Thanks for visiting cafeteria!!")
                 break
 
     def employee_menu(self):
         while True:
-            print("\n1. Give Feedback\n2. View Menu\n3. View Recommendations\n4. Order\n5. See Order\n6 Exit")
+            print("\n1. Give Feedback\n2. View Menu\n3. View Recommendations\n4. Order\n5. See Order\n6 Get Feedback \n7 Exit")
             choice = int(input("Enter your choice: "))
             if choice == 1:
                 user_id = self.user
                 menu_id = int(input("Enter menu item ID: "))
                 rating = int(input("Enter rating (1-5): "))
                 comment = input("Enter comment: ")
-                date = datetime.now().isoformat()
+                date = datetime.now()
                 response = self.send_request(f"add_feedback,{user_id},{menu_id},{rating},{comment},{date}")
                 print(response)
             elif choice == 2:
@@ -321,6 +321,10 @@ class CafeteriaClient:
                 response = self.send_request(f"add_order,{user_id},{menu_id},{quantity},{date}")
                 print(response)
             elif choice == 5:
+                response = self.send_request("get_feedback")
+                print(response)
+                
+            elif choice == 6:
                 print("Thanks for visiting cafeteria!!")
                 break
 

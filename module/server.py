@@ -86,8 +86,12 @@ import threading
 # server.py
 import socket
 import threading
-from module import auth
-from module import menu, report, feedback, recommendation
+import login
+import menu
+import notifications
+import report
+import feedback
+import recommendation
 from exceptions import InvalidInputError, MenuItemError, RecommendationError, FeedbackError
 from module import notifications
 
@@ -117,11 +121,11 @@ class CafeteriaServer:
     def process_request(self, request):
         try:
             parts = request.split(',')
-            action = parts[0]
+            action = parts[0].strip()
 
             if action == 'authenticate':
-                employee_id, name = parts[1], parts[2]
-                user = auth.authenticate(employee_id, name)
+                employee_id, name = parts[1].strip(), parts[2].strip()
+                user = login.login(employee_id, name)
                 if user:
                     return f"Authenticated: {user}"
                 
@@ -130,13 +134,13 @@ class CafeteriaServer:
                 
             elif action == 'add_menu_item':
                 itemName, price, availabilityStatus, mealType, specialty = parts[1:]
-                menu.add_menu_item(itemName, float(price), int(availabilityStatus), mealType, specialty)
-                notifications.notifications(f'New Menu item {itemName} added in Menu')
+                menu.add_menu_item(itemName.strip(), float(price), int(availabilityStatus), mealType, specialty)
+                notifications(f'New Menu item {itemName} added in menu')
                 return "Menu item added successfully."
             
             elif action == 'update_menu_item':
                 itemName, price, id, availabilityStatus, mealType, specialty = parts[1:]
-                menu.update_menu_item(itemName, float(price), int(id), int(availabilityStatus), mealType, specialty)
+                menu.update_menu_item(itemName.strip(), float(price), int(id), int(availabilityStatus), mealType, specialty)
                 return "Menu item updated successfully."
             
             elif action == 'delete_menu_item':
@@ -150,16 +154,22 @@ class CafeteriaServer:
             
             elif action == 'add_feedback':
                 user_id, menu_id, rating, comment, date = parts[1:]
+
                 feedback.add_feedback(user_id, int(menu_id), int(rating), comment, date)
                 return "Feedback added successfully."
+            
+            elif action == 'get_feedback' :
+                feedback = feedback.get_feedback()
+                return feedback
             
             elif action == 'get_recommendations':
                 recommendations = recommendation.get_recommendations()
                 return str(recommendations)
             
-            elif action == 'get_recommendations':
-                recommendations = recommendation.add_recommendation()
-                return str(recommendations)
+            elif action == 'add_recommendations':
+                response = recommendation.add_recommendation()
+                return response
+                
             
             else:
                 return "Unknown action"

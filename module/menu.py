@@ -1,108 +1,92 @@
-from db import get_connection
-import pyodbc as odbccon
+from ..Database_Connection.connection import connection
 
 
-def add_menu_item(itemName, price, availabilityStatus, mealType, specialty):
-    conn = odbccon.connect(
-        r"DRIVER={SQL Server};"
-        r"SERVER=(local)\SQLEXPRESS;"
-        r"DATABASE=Cafeteria;"
-        r"Trusted_Connection=yes;"
-    )
-    cur1 = conn.cursor()
+class MenuManager:
+    @staticmethod
+    def add_menu_item(itemName, price, availabilityStatus, mealType, specialty):
+        try:
+            conn = connection.get_connection()
+            cur1 = conn.cursor()
 
-    sql = "INSERT INTO Menu (itemName, price, availabilityStatus, mealType, specialty) VALUES (?, ?, ?, ?, ?)"
+            sql = "INSERT INTO Menu (itemName, price, availabilityStatus, mealType, specialty) VALUES (?, ?, ?, ?, ?)"
+            cur1.execute(sql, (itemName, price, availabilityStatus, mealType, specialty))
+            conn.commit()
+            print("Menu item added successfully!")
+        except ValueError:
+            print("Invalid input. Please enter numeric values for price and availability status.")
+        except Exception as e:
+            print(f"An error occurred while adding menu item: {str(e)}")
+        finally:
+            if conn:
+                conn.close()
 
-    try:
-        cur1.execute(sql, (itemName, price, availabilityStatus, mealType, specialty))
-        cur1.commit()
-        print("Menu item added successfully!")
-    except ValueError:
-        print(
-            "Invalid input. Please enter a numeric value for price and availability status."
-        )
+    @staticmethod
+    def update_menu_item(itemName, price, id, availabilityStatus, mealType, specialty):
+        try:
+            conn = connection.get_connection()
+            cur1 = conn.cursor()
 
-    conn.close()
+            sql = "UPDATE Menu SET itemName = ?, price = ?, availabilityStatus = ?, mealType = ?, specialty = ? WHERE id = ?"
+            cur1.execute(sql, (itemName, price, availabilityStatus, mealType, specialty, id))
 
+            rows_affected = cur1.rowcount
+            if rows_affected > 0:
+                print("Menu item updated successfully!")
+            else:
+                print("No menu item found with the provided ID. Please check the ID and try again.")
 
-def update_menu_item(itemName, price, id, availabilityStatus,mealType, specialty):
-    conn = odbccon.connect(
-        r"DRIVER={SQL Server};"
-        r"SERVER=(local)\SQLEXPRESS;"
-        r"DATABASE=Cafeteria;"
-        r"Trusted_Connection=yes;"
-    )
-    cur1 = conn.cursor()
+            conn.commit()
+        except ValueError:
+            print("Invalid input. Please enter numeric values for price and ID.")
+        except Exception as e:
+            print(f"An error occurred while updating menu item: {str(e)}")
+        finally:
+            if conn:
+                conn.close()
 
-    try:
-        
-        sql = "UPDATE Menu SET itemName = ?, price = ?, availabilityStatus = ?, mealType = ?, specialty = ? WHERE id = ?"
+    @staticmethod
+    def delete_menu_item(id):
+        try:
+            conn = connection.get_connection()
+            cur1 = conn.cursor()
 
-        cur1.execute(sql, (itemName, price, availabilityStatus,mealType, specialty, id))
-        rows_affected = cur1.rowcount 
+            sql = "UPDATE Menu SET is_deleted = 0 WHERE id = ?"
+            cur1.execute(sql, (id,))
 
-        if rows_affected > 0:
-            print("Menu item updated successfully!")
-        else:
-            print(
-                "No menu item found with the provided ID. Please check the ID and try again."
-            )
+            rows_affected = cur1.rowcount
+            if rows_affected > 0:
+                print("Menu item deleted successfully!")
+            else:
+                print("No menu item found with the provided ID. Please check the ID and try again.")
 
-        cur1.commit()
-    except ValueError:
-        print("Invalid input. Please enter a numeric value for price and ID.")
+            conn.commit()
+        except ValueError:
+            print("Invalid input. Please enter numeric values for ID.")
+        except Exception as e:
+            print(f"An error occurred while deleting menu item: {str(e)}")
+        finally:
+            if conn:
+                conn.close()
 
-    conn.close()
-
-
-def delete_menu_item(id):
-    try:
-        conn = odbccon.connect(
-            r"DRIVER={SQL Server};"
-            r"SERVER=(local)\SQLEXPRESS;"
-            r"DATABASE=Cafeteria;"
-            r"Trusted_Connection=yes;"
-        )
-        cur1 = conn.cursor()
-        sql = "update menu set is_deleted = 0 where id = ?"
-        cur1.execute(sql, (id,))
-
-        rows_affected = cur1.rowcount
-        if rows_affected > 0:
-            print("Menu item deleted successfully!")
-        else:
-            print(
-                "No menu item found with the provided ID. Please check the ID and try again."
-            )
-
-        cur1.commit()
-    except (odbccon.Error, ValueError) as ex:
-        print("Error:", ex)
-
-    finally:
-        if conn:
-            conn.close()
-
-
-def get_menu():
-    try:
-        conn = odbccon.connect(
-            r"DRIVER={SQL Server};"
-            r"SERVER=(local)\SQLEXPRESS;"
-            r"DATABASE=Cafeteria;"
-            r"Trusted_Connection=yes;"
-        )
-        with conn.cursor() as cur1:
-            sql = "SELECT * FROM Menu"
-            cur1.execute(sql)
-            result = cur1.fetchall()
-            return result
-    except odbccon.Error as ex:
-        print("Error retrieving menu:", ex)
-    finally:
-        if conn:
-            conn.close()
-
+    @staticmethod
+    def get_menu():
+        try:
+            conn = connection.get_connection()
+            with conn.cursor() as cur1:
+                sql = "SELECT * FROM Menu"
+                cur1.execute(sql)
+                result = cur1.fetchall()
+                return result
+        except Exception as e:
+            print(f"An error occurred while retrieving menu: {str(e)}")
+        finally:
+            if conn:
+                conn.close()
 
 if __name__ == "__main__":
-    print(get_menu())
+    menu_manager = MenuManager()
+    menu_manager.add_menu_item("New Item", 10.99, 1, "Lunch", "Specialty dish")
+    menu_manager.update_menu_item("Updated Item", 12.99, 1, 1, "Dinner", "New specialty")
+    menu_manager.delete_menu_item(1)
+    menu_items = menu_manager.get_menu()
+    print(menu_items)
