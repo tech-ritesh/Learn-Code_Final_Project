@@ -1,16 +1,18 @@
-import pyodbc as odbccon
+from Database.connection import get_connection
+# from exceptions.exceptions import ConnectionError
 
 class menuManage :
     def __init__(self) -> None:
         pass
+    
     @staticmethod
-    def add_menu_item(itemName, price, availabilityStatus, mealType, specialty):
-        conn = odbccon.connect(
-            r"DRIVER={SQL Server};"
-            r"SERVER=(local)\SQLEXPRESS;"
-            r"DATABASE=Cafeteria;"
-            r"Trusted_Connection=yes;"
-        )
+    def add_menu_item(self, itemName, price, availabilityStatus, mealType, specialty):
+        self.itemName = itemName,
+        self.price = price
+        self.availabilityStatus = availabilityStatus
+        self.mealType = mealType
+        self.specialty = specialty
+        conn = get_connection()
         cur1 = conn.cursor()
 
         sql = "INSERT INTO Menu (itemName, price, availabilityStatus, mealType, specialty) VALUES (?, ?, ?, ?, ?)"
@@ -27,13 +29,13 @@ class menuManage :
         conn.close()
 
     @staticmethod
-    def update_menu_item(itemName, price, id, availabilityStatus,mealType, specialty):
-        conn = odbccon.connect(
-            r"DRIVER={SQL Server};"
-            r"SERVER=(local)\SQLEXPRESS;"
-            r"DATABASE=Cafeteria;"
-            r"Trusted_Connection=yes;"
-        )
+    def update_menu_item(self, itemName, price, id, availabilityStatus,mealType, specialty):
+        self.itemName = itemName,
+        self.price = price
+        self.availabilityStatus = availabilityStatus
+        self.mealType = mealType
+        self.specialty = specialty
+        conn = get_connection()
         cur1 = conn.cursor()
 
         try:
@@ -57,14 +59,10 @@ class menuManage :
         conn.close()
 
     @staticmethod
-    def delete_menu_item(id):
+    def delete_menu_item(self, id):
+        self.id = id
         try:
-            conn = odbccon.connect(
-                r"DRIVER={SQL Server};"
-                r"SERVER=(local)\SQLEXPRESS;"
-                r"DATABASE=Cafeteria;"
-                r"Trusted_Connection=yes;"
-            )
+            conn = get_connection()
             cur1 = conn.cursor()
             sql = "update menu set is_deleted = 0 where id = ?"
             cur1.execute(sql, (id,))
@@ -78,8 +76,8 @@ class menuManage :
                 )
 
             cur1.commit()
-        except (odbccon.Error, ValueError) as ex:
-            print("Error:", ex)
+        except ConnectionError as connectionError:
+            print("Error:", connectionError)
 
         finally:
             if conn:
@@ -88,19 +86,14 @@ class menuManage :
     @staticmethod
     def get_menu():
         try:
-            conn = odbccon.connect(
-                r"DRIVER={SQL Server};"
-                r"SERVER=(local)\SQLEXPRESS;"
-                r"DATABASE=Cafeteria;"
-                r"Trusted_Connection=yes;"
-            )
+            conn = get_connection()
             with conn.cursor() as cur1:
                 sql = "SELECT * FROM Menu"
                 cur1.execute(sql)
                 result = cur1.fetchall()
                 return result
-        except odbccon.Error as ex:
-            print("Error retrieving menu:", ex)
+        except Exception as e:
+            print("Error:", e)
         finally:
             if conn:
                 conn.close()

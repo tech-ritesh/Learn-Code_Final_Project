@@ -1,15 +1,18 @@
 import socket
 from datetime import datetime
 import sys
-import report, feedback
-from menu import menuManage
+from logistics import feedback
+from logistics.menu import menuManage
+from logistics import notifications
+from logistics import recommendation
+from logistics import report
 from Authentication.login import Login
-from exceptions import InvalidInputError, MenuItemError, RecommendationError, FeedbackError
+from exceptions.exceptions import InvalidInputError, MenuItemError, RecommendationError, FeedbackError
 import pyodbc as odbccon
-import recommendation
 import connection
-import discard_menu_item_list
-import remove_monthly_discard_items
+from discard_items.discard_menu_item_list import discard_list
+from discard_items import remove_monthly_discard_items
+from Database.connection import get_connection
 
 class CafeteriaManagementSystem:
     def __init__(self):
@@ -27,8 +30,8 @@ class CafeteriaManagementSystem:
                     sys.exit()
 
                 name = input("Enter your name: ")
-                login_OBJ = Login()
-                self.user = login_OBJ.authenticate(employee_id, name)
+                user_login = Login()
+                self.user = user_login.authenticate(employee_id, name)
 
                 if self.user:
                     break
@@ -51,7 +54,7 @@ class CafeteriaManagementSystem:
 
     def admin_menu(self):
         while True:
-            ad_menu = menuManage()
+            
             try:
                 print("\n1. Add Menu Item\n2. Update Menu Item\n3. Delete Menu Item\n4. View Menu\n5. Discard Menu Items List\n6. Exit\n")
                 choice = int(input("Enter your choice: "))
@@ -61,7 +64,7 @@ class CafeteriaManagementSystem:
                     availabilityStatus = int(input("Enter the availabilityStatus: "))
                     mealType = input("Enter the mealType: ")
                     specialty = input("Enter the speciality: ")
-                    ad_menu.add_menu_item(itemName, price, availabilityStatus, mealType, specialty)
+                    menuManage.add_menu_item(itemName, price, availabilityStatus, mealType, specialty)
                     self.send_notification("Menu item added successfully.")
                 
                 elif choice == 2:
@@ -71,23 +74,24 @@ class CafeteriaManagementSystem:
                     mealType = input("Enter the mealType: ")
                     specialty = input("Enter the speciality: ")
                     id = int(input("Enter the id of the item to update: "))
-                    ad_menu.update_menu_item(itemName, price, id, availabilityStatus, mealType, specialty)
+                    menuManage.update_menu_item(itemName, price, id, availabilityStatus, mealType, specialty)
                     self.send_notification(f"Menu item successfully updated: {itemName}")
                 
                 elif choice == 3:
                     id = int(input("Enter item ID: "))
-                    menu.menuManager(id)
+                    menuManage.delete_menu_item(id)
                     self.send_notification(f"Menu item successfully deleted: {id}")
                 
                 elif choice == 4:
-                    menu_items = menu.menuManager.get_menu()
+                    menu_items = menuManage.get_menu()
                     print("The menu items are as follows : \n")
                     for item in menu_items:
                         print(item)
                 
                 elif choice == 5:
-                    discard_menu_items = discard_menu_item_list.discard_list()
-                    print(discard_menu_item_list)
+                    discard_menu_items = discard_list()
+                    print(discard_list)
+                    self.send_notification(f"Discarded items: {str(discard_menu_items)}")
                     print("If you want to remove these items from menu but it should once in a month : ")
                     print("press 1 to remove the item else press 2 to ask users for detailed feedback")
                     inp = int(input('enter the num:'))
@@ -95,17 +99,12 @@ class CafeteriaManagementSystem:
                     if inp==1:
                         remove_monthly_discard_items.remove_discarded_items(discard_menu_items)
                     elif inp==2 :
-                        conn = odbccon.connect(
-                            r"DRIVER={SQL Server};"
-                            r"SERVER=(local)\SQLEXPRESS;"
-                            r"DATABASE=Cafeteria;"
-                            r"Trusted_Connection=yes;"
-                        )
+                        conn = get_connection()
                         cur1 = conn.cursor()
                         sql = """insert into discard_feedback (feedback_request) values (What didnt you like about ?)"""
                         for item in discard_menu_items:
                             cur1.execute(sql, (f"{item['itemName']}"))
-                    self.send_notification(f"Discarded items: {str(discard_menu_items)}")
+                    
                     
                     # input = int(input("enter the number :"))
                     # if input==1:
@@ -158,7 +157,7 @@ class CafeteriaManagementSystem:
                     feedback.add_feedback(user_id, menu_id, rating, comment, d)
                     print(f"{user_id} has successfully given the feedback.")
                 elif choice == 2:
-                    menu_items = menu.menu.get_menu()
+                    menu_items = menuManage.menu.get_menu()
                     for item in menu_items:
                         print(item)
                 elif choice == 3:

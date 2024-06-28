@@ -1,12 +1,7 @@
-import pyodbc as odbccon
+from Database.connection import get_connection
 
 def discard_list():
-    conn = conn = odbccon.connect(
-        r"DRIVER={SQL Server};"
-        r"SERVER=(local)\SQLEXPRESS;"
-        r"DATABASE=Cafeteria;"
-        r"Trusted_Connection=yes;"
-    )
+    conn = get_connection()
     cur = conn.cursor()
     sql = """
         SELECT m.itemName, rf.menuId, rf.avg_rating, rf.total_feedbacks, sf.negative_comments

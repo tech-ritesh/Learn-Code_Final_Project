@@ -1,13 +1,8 @@
-import pyodbc as odbccon
+from Database.connection import get_connection
 
 class recommendation() :
     def add_recommendation():
-        conn = odbccon.connect(
-            r'DRIVER={SQL Server};'
-            r'SERVER=(local)\SQLEXPRESS;'
-            r'DATABASE=Cafeteria;'
-            r'Trusted_Connection=yes;'
-        )
+        conn = get_connection()
         if conn:
             try:
                 

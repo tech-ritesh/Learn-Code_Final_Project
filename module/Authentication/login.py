@@ -1,4 +1,4 @@
-import pyodbc as odbccon
+from Database.connection import get_connection
 
 class Login:
     def __init__(self) -> None:
@@ -6,12 +6,7 @@ class Login:
     
     def authenticate(self, employee_id, name):
         try:
-            conn = odbccon.connect(
-            r"DRIVER={SQL Server};"
-            r"SERVER=(local)\SQLEXPRESS;"
-            r"DATABASE=Cafeteria;"
-            r"Trusted_Connection=yes;"
-        )
+            conn = get_connection()
             cur1 = conn.cursor()
             sql = "SELECT * FROM Users WHERE employeeId = ? AND name = ?"
             cur1.execute(sql, (employee_id, name))

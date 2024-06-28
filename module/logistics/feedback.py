@@ -1,12 +1,7 @@
-import pyodbc as odbccon
+from Database.connection import get_connection
 
 def add_feedback(user_id, menu_id, rating, comment, d):
-    conn = odbccon.connect(
-        r"DRIVER={SQL Server};"
-        r"SERVER=(local)\SQLEXPRESS;"
-        r"DATABASE=Cafeteria;"
-        r"Trusted_Connection=yes;"
-    )
+    conn = get_connection
     cur1 = conn.cursor()
     
     sql = "INSERT INTO Feedback (userId, menuId, rating, comment, feedbackDate) VALUES ( ?, ?, ?, ?, ?)"
@@ -14,12 +9,7 @@ def add_feedback(user_id, menu_id, rating, comment, d):
     cur1.commit()
 
 def get_feedback():
-    conn = odbccon.connect(
-        r"DRIVER={SQL Server};"
-        r"SERVER=(local)\SQLEXPRESS;"
-        r"DATABASE=Cafeteria;"
-        r"Trusted_Connection=yes;"
-    )
+    conn = get_connection
     cur1 = conn.cursor()
     
     sql = "SELECT * FROM Feedback"

@@ -23,3 +23,8 @@ class FeedbackError(CafeteriaError):
     """Exception raised for errors related to feedback."""
     def __init__(self, message="Feedback error"):
         super().__init__(message)
+    
+class ConnectionError(CafeteriaError):
+    """Exception raised for errors related to feedback."""
+    def __init__(self, message="Feedback error"):
+        super().__init__(message)

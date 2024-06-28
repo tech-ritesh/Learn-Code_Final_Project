@@ -1,13 +1,8 @@
-import pyodbc as odbccon
+from Database.connection import get_connection
 
 class report():
     def monthly_feedback_report() :
-        conn = odbccon.connect(
-            r'DRIVER={SQL Server};'
-            r'SERVER=(local)\SQLEXPRESS;'
-            r'DATABASE=Cafeteria;'
-            r'Trusted_Connection=yes;'
-        )
+        conn = get_connection()
         cur1 = conn.cursor()
         
         sql = """SELECT menuId, AVG(rating) as avg_rating, COUNT(*) as total_feedbacks
