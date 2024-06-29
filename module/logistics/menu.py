@@ -1,12 +1,13 @@
 from Database import connection
 
-class menuManage :
+
+class menuManage:
     def __init__(self) -> None:
         pass
-    
+
     @staticmethod
     def add_menu_item(self, itemName, price, availabilityStatus, mealType, specialty):
-        self.itemName = itemName,
+        self.itemName = (itemName,)
         self.price = price
         self.availabilityStatus = availabilityStatus
         self.mealType = mealType
@@ -17,7 +18,9 @@ class menuManage :
         sql = "INSERT INTO Menu (itemName, price, availabilityStatus, mealType, specialty) VALUES (?, ?, ?, ?, ?)"
 
         try:
-            cur1.execute(sql, (itemName, price, availabilityStatus, mealType, specialty))
+            cur1.execute(
+                sql, (itemName, price, availabilityStatus, mealType, specialty)
+            )
             cur1.commit()
             print("Menu item added successfully!")
         except ValueError:
@@ -28,8 +31,10 @@ class menuManage :
         conn.close()
 
     @staticmethod
-    def update_menu_item(self, itemName, price, id, availabilityStatus,mealType, specialty):
-        self.itemName = itemName,
+    def update_menu_item(
+        self, itemName, price, id, availabilityStatus, mealType, specialty
+    ):
+        self.itemName = (itemName,)
         self.price = price
         self.availabilityStatus = availabilityStatus
         self.mealType = mealType
@@ -38,11 +43,13 @@ class menuManage :
         cur1 = conn.cursor()
 
         try:
-            
+
             sql = "UPDATE Menu SET itemName = ?, price = ?, availabilityStatus = ?, mealType = ?, specialty = ? WHERE id = ?"
 
-            cur1.execute(sql, (itemName, price, availabilityStatus,mealType, specialty, id))
-            rows_affected = cur1.rowcount 
+            cur1.execute(
+                sql, (itemName, price, availabilityStatus, mealType, specialty, id)
+            )
+            rows_affected = cur1.rowcount
 
             if rows_affected > 0:
                 print("Menu item updated successfully!")

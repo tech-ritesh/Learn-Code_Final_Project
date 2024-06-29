@@ -30,8 +30,6 @@ class recommendation() :
         WHERE CAST(recommendationDate AS DATE) = CAST(DATEADD(day, 1, GETDATE()) AS DATE);"""
         cur1.execute(sql)
         result = cur1.fetchall()
-        for items in result : 
-            print(f"The recommendation for food are {items}:")
         return result
 
 if __name__ == "__main__" :
