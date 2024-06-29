@@ -9,7 +9,6 @@ from logistics import report
 from Authentication.login import Login
 from exceptions.exceptions import InvalidInputError, MenuItemError, RecommendationError, FeedbackError
 import pyodbc as odbccon
-import connection
 from discard_items.discard_menu_item_list import discard_list
 from discard_items.delete_discarded_menuItem import delete_discarded
 from discard_items.feedback_request import requset
