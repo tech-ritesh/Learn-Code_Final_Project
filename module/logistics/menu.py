@@ -1,5 +1,4 @@
-from Database.connection import get_connection
-# from exceptions.exceptions import ConnectionError
+from Database import connection
 
 class menuManage :
     def __init__(self) -> None:
@@ -12,7 +11,7 @@ class menuManage :
         self.availabilityStatus = availabilityStatus
         self.mealType = mealType
         self.specialty = specialty
-        conn = get_connection()
+        conn = connection.get_connection()
         cur1 = conn.cursor()
 
         sql = "INSERT INTO Menu (itemName, price, availabilityStatus, mealType, specialty) VALUES (?, ?, ?, ?, ?)"
@@ -35,7 +34,7 @@ class menuManage :
         self.availabilityStatus = availabilityStatus
         self.mealType = mealType
         self.specialty = specialty
-        conn = get_connection()
+        conn = connection.get_connection()
         cur1 = conn.cursor()
 
         try:
@@ -62,7 +61,7 @@ class menuManage :
     def delete_menu_item(self, id):
         self.id = id
         try:
-            conn = get_connection()
+            conn = connection.get_connection()
             cur1 = conn.cursor()
             sql = "update menu set is_deleted = 0 where id = ?"
             cur1.execute(sql, (id,))
@@ -86,7 +85,7 @@ class menuManage :
     @staticmethod
     def get_menu():
         try:
-            conn = get_connection()
+            conn = connection.get_connection()
             with conn.cursor() as cur1:
                 sql = "SELECT * FROM Menu"
                 cur1.execute(sql)

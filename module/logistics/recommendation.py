@@ -1,8 +1,8 @@
-from Database.connection import get_connection
+from Database import connection
 
 class recommendation() :
     def add_recommendation():
-        conn = get_connection()
+        conn = connection.get_connection()
         if conn:
             try:
                 
@@ -15,7 +15,7 @@ class recommendation() :
                     cur.execute(sql)
                     
                     
-            except odbccon.Error as err:
+            except ConnectionError as err:
                 print(f"Error inserting recommendations: {err}")
             finally:
                 cur.close()
@@ -23,19 +23,15 @@ class recommendation() :
                 
 
     def get_recommendations():
-        conn = odbccon.connect(
-            r'DRIVER={SQL Server};'
-            r'SERVER=(local)\SQLEXPRESS;'
-            r'DATABASE=Cafeteria;'
-            r'Trusted_Connection=yes;'
-        )
+        conn = connection.get_connection()
         cur1 = conn.cursor()
         sql = """SELECT menuId, itemName, mealType
         FROM Recommendations
         WHERE CAST(recommendationDate AS DATE) = CAST(DATEADD(day, 1, GETDATE()) AS DATE);"""
         cur1.execute(sql)
-        result = cur1.fetchone()
-        print(f"The recommendation for food are {result}:")
+        result = cur1.fetchall()
+        for items in result : 
+            print(f"The recommendation for food are {items}:")
         return result
 
 if __name__ == "__main__" :

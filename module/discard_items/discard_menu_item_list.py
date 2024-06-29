@@ -1,7 +1,7 @@
-from Database.connection import get_connection
+from Database import connection
 
 def discard_list():
-    conn = get_connection()
+    conn = connection.get_connection()
     cur = conn.cursor()
     sql = """
         SELECT m.itemName, rf.menuId, rf.avg_rating, rf.total_feedbacks, sf.negative_comments

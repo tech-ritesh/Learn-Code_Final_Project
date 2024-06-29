@@ -1,7 +1,7 @@
-from Database.connection import get_connection
+from Database import connection
 
 def add_feedback(user_id, menu_id, rating, comment, d):
-    conn = get_connection
+    conn = connection.get_connection()
     cur1 = conn.cursor()
     
     sql = "INSERT INTO Feedback (userId, menuId, rating, comment, feedbackDate) VALUES ( ?, ?, ?, ?, ?)"
@@ -9,7 +9,7 @@ def add_feedback(user_id, menu_id, rating, comment, d):
     cur1.commit()
 
 def get_feedback():
-    conn = get_connection
+    conn = connection.get_connection()
     cur1 = conn.cursor()
     
     sql = "SELECT * FROM Feedback"

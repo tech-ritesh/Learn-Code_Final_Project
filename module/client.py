@@ -1,5 +1,4 @@
 import socket
-# import recommendation
 
 def send_notification(message):
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 

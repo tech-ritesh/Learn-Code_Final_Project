@@ -1,8 +1,8 @@
-from Database.connection import get_connection
+from Database import connection
 
 class report():
     def monthly_feedback_report() :
-        conn = get_connection()
+        conn = connection.get_connection()
         cur1 = conn.cursor()
         
         sql = """SELECT menuId, AVG(rating) as avg_rating, COUNT(*) as total_feedbacks
