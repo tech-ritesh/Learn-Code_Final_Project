@@ -1,7 +1,13 @@
 # client.py
 import socket
 import sys
-
+from Database import connection
+from Authentication.login import Login
+from logistics.menu import menuManage
+from logistics import notifications
+from discard_items import discard_menu_item_list
+from exceptions.exceptions import InvalidInputError
+from logistics import notifications
 
 class CafeteriaClient:
     def __init__(self, server_host="localhost", server_port=9999):
@@ -16,21 +22,22 @@ class CafeteriaClient:
         return response
 
     def authenticate_user(self):
+        
         while True:
-            employee_id = input("Enter your Employee ID or 'quit' to exit: ")
-            if employee_id.lower() == "quit":
+            user_id = input("Enter your user_id or 'quit' to exit: ")
+            if user_id.lower() == "quit":
                 self.send_message("disconnect")
                 print("Exiting the system. Goodbye!")
                 sys.exit()
 
             name = input("Enter your name: ")
-            response = self.send_message(f"authenticate|{employee_id}|{name}")
+            response = self.send_message(f"authenticate|{user_id}|{name}")
             if response == "authenticated":
                 print("Authentication successful.")
                 break
             else:
                 print("Authentication failed. Please try again.")
-
+    
     def admin_menu(self):
         while True:
             print(
@@ -43,9 +50,12 @@ class CafeteriaClient:
                 availabilityStatus = int(input("Enter the availabilityStatus: "))
                 mealType = input("Enter the mealType: ")
                 specialty = input("Enter the speciality: ")
-                self.send_message(
-                    f"add_menu_item|{itemName}|{price}|{availabilityStatus}|{mealType}|{specialty}"
-                )
+                menu = menuManage()
+                menu.add_menu_item(itemName, price, availabilityStatus, mealType, specialty)
+                # input = "New item {itemName} added today!!"
+                notifications.insert_notification(f"New item {itemName} added today!!")
+                # self.send_message(f"add_menu_item|{itemName}|{price}|{availabilityStatus}|{mealType}|{specialty}")
+                
             elif choice == 2:
                 itemName = input("Enter item name for modification: ")
                 price = float(input("Enter item price for modification: "))
@@ -53,26 +63,33 @@ class CafeteriaClient:
                 availabilityStatus = int(input("Enter the availabilityStatus: "))
                 mealType = input("Enter the mealType: ")
                 specialty = input("Enter the speciality: ")
-                self.send_message(
-                    f"update_menu_item|{itemName}|{price}|{id}|{availabilityStatus}|{mealType}|{specialty}"
-                )
+                menu = menuManage()
+                menu.update_menu_item(itemName,price, id, availabilityStatus,mealType, specialty)
+                notifications.insert_notification(f"item {itemName} updated today!!")
+                
             elif choice == 3:
                 id = int(input("Enter item ID: "))
-                self.send_message(f"delete_menu_item|{id}")
+                menuManage.delete_menu_item(id)
+                notifications.insert_notification(f"item {itemName} deleted today!!")
+                
             elif choice == 4:
                 response = self.send_message("get_menu")
                 print("Menu items:\n" + response)
+                
             elif choice == 5:
                 response = self.send_message("discard_list")
-                print("Discarded items:\n" + response)
+                print("Items based on sentimental analysis that needs to be discarded :\n" + response)
+                print("Deletion for discarded items will take place only once in a month :\n")
                 print("1. Remove items\n2. Request detailed feedback")
                 inp = int(input("Enter your choice: "))
                 if inp == 1:
                     self.send_message("delete_discarded")
+                    
                 elif inp == 2:
                     self.send_message("request_feedback")
+                    
             elif choice == 6:
-                self.send_message("disconnect")
+                self.send_message("Logout")
                 print("Exiting the system. Goodbye!")
                 break
 
@@ -91,14 +108,17 @@ class CafeteriaClient:
                 response = self.send_message("get_recommendations")
                 print("Recommendations:\n" + response)
             elif choice == 4:
-                self.send_message("disconnect")
+                self.send_message("Logout")
                 print("Exiting the system. Goodbye!")
                 break
 
     def employee_menu(self):
         while True:
+            res = notifications.get_notification()
+            print("Notifications :\n")
+            print("\n".join(f'{str(item)}' for item in res))
             print(
-                "\n1. Give Feedback\n2. View Menu\n3. View Recommendations\n4. Order\n5. Exit"
+                "\n1. Give Feedback\n2. View Menu\n3. View Recommendations\n4. Order\n5. Update Profile\n6. Preference\n7. Logout"
             )
             choice = int(input("Enter your choice: "))
             if choice == 1:
@@ -121,7 +141,30 @@ class CafeteriaClient:
                 Quantity = int(input("Enter the Quantity: "))
                 self.send_message(f"order|{user_id}|{MenuId}|{Quantity}")
             elif choice == 5:
-                self.send_message("disconnect")
+                print("Please suggest the below prefernces of yours : \n")
+                employee_id = int(input("enter employee id : "))
+                name = input("enter your name : ")
+                user_login = Login()
+                user = user_login.authenticate(employee_id, name)
+                if user :
+                    print("authenticated")
+                else:
+                    print("authentication_failed")
+                    break
+                
+                dietary_preference = input("Please select one (Vegeterian/Non-Vegeterian/Eggetarian): ")
+                spice_level = input("Please select your spice level (High/Medium/Low): ")
+                preferred_cuisine = input("What do you prefer most (North Indian/South Indian/Other): ")
+                sweet_tooth = input("Do you have a sweet tooth? (Yes/No): ")
+                self.send_message(
+                    f"update_profile|{employee_id}|{dietary_preference}|{spice_level}|{preferred_cuisine}|{sweet_tooth}"
+                )
+            elif choice == 6 :
+                employee_id = int(input("enter employee id : "))
+                self.send_message(f"user_preference|{employee_id}")
+                
+            elif choice == 7:
+                self.send_message("Logout")
                 print("Exiting the system. Goodbye!")
                 break
 

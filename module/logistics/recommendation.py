@@ -1,5 +1,5 @@
 from Database import connection
-
+from datetime import datetime
 class recommendation() :
     def add_recommendation():
         conn = connection.get_connection()
@@ -8,10 +8,18 @@ class recommendation() :
                 
                 with conn.cursor() as cur:
                     sql = """INSERT INTO Recommendations (menuId, itemName, mealType, recommendationDate)
-                                SELECT m.id, m.itemName, m.mealType, DATEADD(day, 1, GETDATE())
+                                SELECT DISTINCT m.id, m.itemName, m.mealType, DATEADD(day, 1, GETDATE())
                                 FROM feedback f
                                 JOIN menu m ON f.menuId = m.id
-                                WHERE f.rating >= 3 AND f.comment IN ('nice taste', 'delicious');"""
+                                WHERE f.rating >= 3 
+                                AND f.comment IN ('nice taste', 'delicious')
+                                AND NOT EXISTS (
+                                    SELECT 1
+                                    FROM Recommendations r
+                                    WHERE r.menuId = m.id
+                                    AND CAST(r.recommendationDate AS DATE) = CAST(DATEADD(day, 1, GETDATE()) AS DATE)
+                                );
+                                """
                     cur.execute(sql)
                     
                     
@@ -30,7 +38,11 @@ class recommendation() :
         WHERE CAST(recommendationDate AS DATE) = CAST(DATEADD(day, 1, GETDATE()) AS DATE);"""
         cur1.execute(sql)
         result = cur1.fetchall()
-        return result
+        if result :
+            return result
+        else :
+            date = datetime.now()
+            return f'No recommendation for food today! {date}'
 
 if __name__ == "__main__" :
     recommendation = recommendation()

@@ -1,41 +1,34 @@
 from Database import connection
-
+from exceptions.exceptions import MenuItemError
 
 class menuManage:
     def __init__(self) -> None:
         pass
 
-    @staticmethod
-    def add_menu_item(self, itemName, price, availabilityStatus, mealType, specialty):
-        self.itemName = (itemName,)
+    def add_menu_item(self,itemName, price, availabilityStatus, mealType, specialty) :
+        self.itemName = itemName
         self.price = price
         self.availabilityStatus = availabilityStatus
         self.mealType = mealType
         self.specialty = specialty
-        conn = connection.get_connection()
-        cur1 = conn.cursor()
-
-        sql = "INSERT INTO Menu (itemName, price, availabilityStatus, mealType, specialty) VALUES (?, ?, ?, ?, ?)"
-
         try:
+            cur1 = connection.get_connection().cursor()
+            sql = "INSERT INTO Menu (itemName, price, availabilityStatus, mealType, specialty) VALUES (?, ?, ?, ?, ?)"            
             cur1.execute(
-                sql, (itemName, price, availabilityStatus, mealType, specialty)
+                sql, (self.itemName, self.price, self.availabilityStatus, self.mealType, self.specialty)
             )
             cur1.commit()
+            cur1.close()
             print("Menu item added successfully!")
-        except ValueError:
-            print(
-                "Invalid input. Please enter a numeric value for price and availability status."
-            )
+        except MenuItemError :
+            MenuItemError.add_note("Menu Item Not Added Succesfully")
+            
 
-        conn.close()
-
-    @staticmethod
-    def update_menu_item(
-        self, itemName, price, id, availabilityStatus, mealType, specialty
-    ):
-        self.itemName = (itemName,)
+    def update_menu_item(self, itemName, price, id, availabilityStatus, mealType, specialty):
+        
+        self.itemName = itemName
         self.price = price
+        self.id = id
         self.availabilityStatus = availabilityStatus
         self.mealType = mealType
         self.specialty = specialty
@@ -59,14 +52,12 @@ class menuManage:
                 )
 
             cur1.commit()
-        except ValueError:
-            print("Invalid input. Please enter a numeric value for price and ID.")
+        except MenuItemError:
+            MenuItemError.add_note('Menu Item Not Update Successfully')
 
         conn.close()
 
-    @staticmethod
-    def delete_menu_item(self, id):
-        self.id = id
+    def delete_menu_item(id):
         try:
             conn = connection.get_connection()
             cur1 = conn.cursor()
@@ -82,8 +73,8 @@ class menuManage:
                 )
 
             cur1.commit()
-        except ConnectionError as connectionError:
-            print("Error:", connectionError)
+        except MenuItemError :
+            MenuItemError.add_note("Menu Item Not Deleted Succesfully")
 
         finally:
             if conn:
@@ -98,8 +89,8 @@ class menuManage:
                 cur1.execute(sql)
                 result = cur1.fetchall()
                 return result
-        except Exception as e:
-            print("Error:", e)
+        except MenuItemError :
+            MenuItemError.add_note('Could not show menu item')
         finally:
             if conn:
                 conn.close()
