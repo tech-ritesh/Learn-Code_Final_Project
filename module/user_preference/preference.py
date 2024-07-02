@@ -1,12 +1,12 @@
 from Database import connection
 
+
 class user_preference:
     def __init__(self) -> None:
         pass
-    
-    
-    def user_prefernce(EmployeeID) :
-        
+
+    def user_prefernce(employee_id):
+
         conn = connection.get_connection()
         cur = conn.cursor()
         sql = """SELECT itemName
@@ -20,8 +20,7 @@ class user_preference:
                 AND Menu.preferred_cuisine = UserPreferenceProfile.PreferredCuisine
                 AND Menu.sweet_tooth = UserPreferenceProfile.SweetTooth
             );"""
-        
-        cur.execute(sql, (EmployeeID,))
+
+        cur.execute(sql, (employee_id,))
         result = cur.fetchall()
         return result
-        

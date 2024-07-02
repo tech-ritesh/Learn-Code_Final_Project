@@ -6,9 +6,7 @@ class requset:
     def __init__(self) -> None:
         pass
     
-    
     def add_feedback_requst(discard_menu_items):
-        # self.discard_menu_items = discard_menu_items
         conn = connection.get_connection()
         if conn:
             try:
