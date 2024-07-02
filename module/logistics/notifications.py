@@ -1,6 +1,7 @@
 from datetime import datetime
 from Database import connection
 
+
 def insert_notification(message):
     try:
         conn = connection.get_connection()
@@ -14,7 +15,8 @@ def insert_notification(message):
     finally:
         cur1.close()
         conn.close()
-        
+
+
 def get_notification():
     try:
         conn = connection.get_connection()

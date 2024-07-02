@@ -1,11 +1,12 @@
 from Database import connection
 from exceptions.exceptions import MenuItemError
 
+
 class menuManage:
     def __init__(self) -> None:
         pass
 
-    def add_menu_item(self,itemName, price, availabilityStatus, mealType, specialty) :
+    def add_menu_item(self, itemName, price, availabilityStatus, mealType, specialty):
         self.itemName = itemName
         self.price = price
         self.availabilityStatus = availabilityStatus
@@ -13,19 +14,27 @@ class menuManage:
         self.specialty = specialty
         try:
             cur1 = connection.get_connection().cursor()
-            sql = "INSERT INTO Menu (itemName, price, availabilityStatus, mealType, specialty) VALUES (?, ?, ?, ?, ?)"            
+            sql = "INSERT INTO Menu (itemName, price, availabilityStatus, mealType, specialty) VALUES (?, ?, ?, ?, ?)"
             cur1.execute(
-                sql, (self.itemName, self.price, self.availabilityStatus, self.mealType, self.specialty)
+                sql,
+                (
+                    self.itemName,
+                    self.price,
+                    self.availabilityStatus,
+                    self.mealType,
+                    self.specialty,
+                ),
             )
             cur1.commit()
             cur1.close()
             print("Menu item added successfully!")
-        except MenuItemError :
+        except MenuItemError:
             MenuItemError.add_note("Menu Item Not Added Succesfully")
-            
 
-    def update_menu_item(self, itemName, price, id, availabilityStatus, mealType, specialty):
-        
+    def update_menu_item(
+        self, itemName, price, id, availabilityStatus, mealType, specialty
+    ):
+
         self.itemName = itemName
         self.price = price
         self.id = id
@@ -53,7 +62,7 @@ class menuManage:
 
             cur1.commit()
         except MenuItemError:
-            MenuItemError.add_note('Menu Item Not Update Successfully')
+            MenuItemError.add_note("Menu Item Not Update Successfully")
 
         conn.close()
 
@@ -73,7 +82,7 @@ class menuManage:
                 )
 
             cur1.commit()
-        except MenuItemError :
+        except MenuItemError:
             MenuItemError.add_note("Menu Item Not Deleted Succesfully")
 
         finally:
@@ -89,12 +98,12 @@ class menuManage:
                 cur1.execute(sql)
                 result = cur1.fetchall()
                 return result
-        except MenuItemError :
-            MenuItemError.add_note('Could not show menu item')
+        except MenuItemError:
+            MenuItemError.add_note("Could not show menu item")
         finally:
             if conn:
                 conn.close()
 
 
-# if __name__ == "__main__":
-#     menu = menuManage()
+if __name__ == "__main__":
+    menu = menuManage()

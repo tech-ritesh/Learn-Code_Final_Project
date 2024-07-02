@@ -1,11 +1,13 @@
 from Database import connection
 from datetime import datetime
-class recommendation() :
+
+
+class recommendation:
     def add_recommendation():
         conn = connection.get_connection()
         if conn:
             try:
-                
+
                 with conn.cursor() as cur:
                     sql = """INSERT INTO Recommendations (menuId, itemName, mealType, recommendationDate)
                                 SELECT DISTINCT m.id, m.itemName, m.mealType, DATEADD(day, 1, GETDATE())
@@ -21,14 +23,11 @@ class recommendation() :
                                 );
                                 """
                     cur.execute(sql)
-                    
-                    
+
             except ConnectionError as err:
                 print(f"Error inserting recommendations: {err}")
             finally:
                 cur.close()
-    
-                
 
     def get_recommendations():
         conn = connection.get_connection()
@@ -38,12 +37,8 @@ class recommendation() :
         WHERE CAST(recommendationDate AS DATE) = CAST(DATEADD(day, 1, GETDATE()) AS DATE);"""
         cur1.execute(sql)
         result = cur1.fetchall()
-        if result :
-            return result
-        else :
-            date = datetime.now()
-            return f'No recommendation for food today! {date}'
+        return result
 
-if __name__ == "__main__" :
+
+if __name__ == "__main__":
     recommendation = recommendation()
-    

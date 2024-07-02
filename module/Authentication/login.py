@@ -1,9 +1,10 @@
 from Database import connection
 
+
 class Login:
     def __init__(self) -> None:
         pass
-    
+
     def authenticate(self, employee_id, name):
         try:
             conn = connection.get_connection()
@@ -17,8 +18,7 @@ class Login:
         except Exception as e:
             print(f"An error occurred: {str(e)}")
             return None
-        
-if __name__ == "__main__" :
-    login = Login()
-            
 
+
+if __name__ == "__main__":
+    login = Login()
