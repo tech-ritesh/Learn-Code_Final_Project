@@ -59,9 +59,7 @@ class CafeteriaClient:
                 menu.add_menu_item(
                     itemName, price, availabilityStatus, mealType, specialty
                 )
-                # input = "New item {itemName} added today!!"
                 notifications.insert_notification(f"New item {itemName} added today!!")
-                # self.send_message(f"add_menu_item|{itemName}|{price}|{availabilityStatus}|{mealType}|{specialty}")
 
             elif choice == 2:
                 itemName = input("Enter item name for modification: ")
