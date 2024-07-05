@@ -1,4 +1,8 @@
 # server.py
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'module')))
+
 import socket
 import threading
 from datetime import datetime
@@ -19,7 +23,7 @@ from user_preference.feedback_request import Feedback_request
 from logistics.feedback import get_feedback
 import logging
 
-# Configure logging
+
 logging.basicConfig(
     filename='C:\L_C_ITT\Learn-Code_Final_Project\module\server_logs.log',  
     level=logging.INFO,
@@ -59,7 +63,7 @@ class CafeteriaServer:
                 user_login = Login()
                 user = user_login.authenticate(employee_id, name)
                 if user :
-                    logging.info(f"User {employee_id} logged in at {datetime.now()}")
+                    logging.info(f"User with id: {employee_id}, name: {name} logged in at {datetime.now()}")
                     return 'authenticated'
                 else :
                     logging.info(f"Failed login attempt for User ID: {employee_id} at {datetime.now()}")
@@ -78,8 +82,6 @@ class CafeteriaServer:
                 menuManage.add_menu_item(
                     itemName, price, availabilityStatus, mealType, specialty
                 )
-                employee_id = parts[0]
-                logging.info(f"User logged in at {datetime.now()} and action he performed is {action}")
                 return "menu_item_added"
             elif action == "update_menu_item":
                 itemName, price, id, availabilityStatus, mealType, specialty = (
@@ -93,22 +95,18 @@ class CafeteriaServer:
                 menuManage.update_menu_item(
                     itemName, price, id, availabilityStatus, mealType, specialty
                 )
-                logging.info(f"User {employee_id} logged in at {datetime.now()} and action he performed is {action}")
                 return "menu_item_updated"
 
             elif action == "delete_menu_item":
                 menuManage.delete_menu_item(id)
-                logging.info(f"User {employee_id} logged in at {datetime.now()} and action he performed is {action}")
                 return "menu_item_deleted"
 
             elif action == "get_menu":
                 menu_items = menuManage.get_menu()
-                logging.info(f"User {employee_id} logged in at {datetime.now()} and action he performed is {action}")
                 return "\n".join(str(item) for item in menu_items)
 
             elif action == "discard_list":
                 discard_menu_items = discard_menu_item_list.discard_list()
-                logging.info(f"User {employee_id} logged in at {datetime.now()} and action he performed is {action}")
                 return "\n".join(str(item) for item in discard_menu_items)
 
             elif action == "delete_discarded":

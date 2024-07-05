@@ -1,4 +1,11 @@
 # client.py
+import sys
+import os
+
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "module"))
+)
+
 import socket
 import sys
 from Database import connection
@@ -194,9 +201,7 @@ class CafeteriaClient:
                 self.send_message(f"user_preference|{employee_id}")
 
             elif choice == 7:
-                feedback_request = Feedback_request.feedback_request()
-                for iterator in range(len(feedback_request)):
-                    print(f"{iterator}" + " " + str(feedback_request[iterator][1]))
+                self.send_message("feedback_request")
 
             elif choice == 8:
                 print("Thanks for visistng Cafeteria!! Good Bye!")
