@@ -17,6 +17,15 @@ from user_preference.preference import user_preference
 from logistics.feedback import Feedback
 from user_preference.feedback_request import Feedback_request
 from logistics.feedback import get_feedback
+import logging
+
+# Configure logging
+logging.basicConfig(
+    filename='C:\L_C_ITT\Learn-Code_Final_Project\module\server_logs.log',  
+    level=logging.INFO,
+    format='%(asctime)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S'
+)
 
 class CafeteriaServer:
     def __init__(self, host="localhost", port=9999):
@@ -25,7 +34,7 @@ class CafeteriaServer:
         self.server_socket.bind(self.server_address)
         self.server_socket.listen(5)
         print(f"Server started at {host}:{port}")
-
+        
     def handle_client(self, client_socket):
         while True:
             try:
@@ -49,7 +58,13 @@ class CafeteriaServer:
                 employee_id, name = parts[1], parts[2]
                 user_login = Login()
                 user = user_login.authenticate(employee_id, name)
-                return "authenticated" if user else "authentication_failed"
+                if user :
+                    logging.info(f"User {employee_id} logged in at {datetime.now()}")
+                    return 'authenticated'
+                else :
+                    logging.info(f"Failed login attempt for User ID: {employee_id} at {datetime.now()}")
+                    return "authentication_failed"
+                
             elif action == "add_menu_item":
                 if len(parts) < 6:
                     return "Error: Missing arguments for adding menu item"
@@ -63,6 +78,8 @@ class CafeteriaServer:
                 menuManage.add_menu_item(
                     itemName, price, availabilityStatus, mealType, specialty
                 )
+                employee_id = parts[0]
+                logging.info(f"User logged in at {datetime.now()} and action he performed is {action}")
                 return "menu_item_added"
             elif action == "update_menu_item":
                 itemName, price, id, availabilityStatus, mealType, specialty = (
@@ -76,18 +93,22 @@ class CafeteriaServer:
                 menuManage.update_menu_item(
                     itemName, price, id, availabilityStatus, mealType, specialty
                 )
+                logging.info(f"User {employee_id} logged in at {datetime.now()} and action he performed is {action}")
                 return "menu_item_updated"
 
             elif action == "delete_menu_item":
                 menuManage.delete_menu_item(id)
+                logging.info(f"User {employee_id} logged in at {datetime.now()} and action he performed is {action}")
                 return "menu_item_deleted"
 
             elif action == "get_menu":
                 menu_items = menuManage.get_menu()
+                logging.info(f"User {employee_id} logged in at {datetime.now()} and action he performed is {action}")
                 return "\n".join(str(item) for item in menu_items)
 
             elif action == "discard_list":
                 discard_menu_items = discard_menu_item_list.discard_list()
+                logging.info(f"User {employee_id} logged in at {datetime.now()} and action he performed is {action}")
                 return "\n".join(str(item) for item in discard_menu_items)
 
             elif action == "delete_discarded":
