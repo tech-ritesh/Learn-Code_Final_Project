@@ -16,7 +16,7 @@ from user_profile_and_prefernce.update_profile import update_profile
 from user_preference.preference import user_preference
 from logistics.feedback import Feedback
 from user_preference.feedback_request import Feedback_request
-
+from logistics.feedback import get_feedback
 
 class CafeteriaServer:
     def __init__(self, host="localhost", port=9999):
@@ -113,7 +113,7 @@ class CafeteriaServer:
                 recommendations = recommendation.recommendation.get_recommendations()
                 if len(recommendations) != 0:
                     return "\n".join(
-                        f"The recommendtaion for tomorrows food items are {str(item)}\n"
+                        f"The recommendtaion for tomorrows food items are: {str(item).replace(",","").replace("(","").replace(")","")}\n"
                         for item in recommendations
                     )
                 else:
@@ -128,9 +128,14 @@ class CafeteriaServer:
                     parts[4],
                 )
                 d = datetime.now()
-                Feedback.add_feedback(user_id, menu_id, rating, comment, d)
+                feedback = Feedback(user_id, menu_id, rating, comment, d)
+                feedback.add_feedback()
                 return "feedback_added"
-
+            
+            elif action == "get_feedback" :
+                feedback_list = get_feedback()
+                return "\n".join(str(fb) for fb in feedback_list)
+            
             elif action == "order":
                 user_id, MenuId, Quantity = int(parts[1]), int(parts[2]), int(parts[3])
                 conn = connection.connect()
@@ -159,8 +164,10 @@ class CafeteriaServer:
                 )
 
             elif action == "user_preference":
+                employee_id = parts[1]
                 preferences = user_preference.user_prefernce(employee_id)
-                return "\n".join(str(pref) for pref in preferences)
+                return "\n".join(f"The preferred food item for you is : {str(pref).replace(",","").replace("(","").replace(")","")}" for pref in preferences)
+
 
             elif action == "feedback_request":
                 result = Feedback_request.feedback_request()

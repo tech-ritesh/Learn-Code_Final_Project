@@ -32,7 +32,7 @@ class recommendation:
     def get_recommendations():
         conn = connection.get_connection()
         cur1 = conn.cursor()
-        sql = """SELECT menuId, itemName, mealType
+        sql = """SELECT itemName
         FROM Recommendations
         WHERE CAST(recommendationDate AS DATE) = CAST(DATEADD(day, 1, GETDATE()) AS DATE);"""
         cur1.execute(sql)
