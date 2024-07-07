@@ -27,6 +27,7 @@ class menuManage:
             )
             cur1.commit()
             cur1.close()
+            
             print("Menu item added successfully!")
         except MenuItemError:
             MenuItemError.add_note("Menu Item Not Added Succesfully")

@@ -1,16 +1,25 @@
 # client.py
+import sys
+import os
+
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "module"))
+)
+
 import socket
 import sys
 from Database import connection
 from Authentication.login import Login
 from logistics.menu import menuManage
-from logistics import notifications
+from logistics.notifications import Notification
 from discard_items import discard_menu_item_list
 from exceptions.exceptions import InvalidInputError
 from logistics import notifications
 from user_preference.preference import user_preference
 from logistics import recommendation
 from user_preference.feedback_request import Feedback_request
+from datetime import datetime
+from logistics.feedback import Feedback
 
 
 class CafeteriaClient:
@@ -59,9 +68,8 @@ class CafeteriaClient:
                 menu.add_menu_item(
                     itemName, price, availabilityStatus, mealType, specialty
                 )
-                # input = "New item {itemName} added today!!"
+                notifications = Notification()
                 notifications.insert_notification(f"New item {itemName} added today!!")
-                # self.send_message(f"add_menu_item|{itemName}|{price}|{availabilityStatus}|{mealType}|{specialty}")
 
             elif choice == 2:
                 itemName = input("Enter item name for modification: ")
@@ -114,19 +122,26 @@ class CafeteriaClient:
             choice = int(input("Enter your choice: "))
             if choice == 1:
                 response = self.send_message("monthly_feedback_report")
-                print(response)
+
             elif choice == 2:
                 self.send_message("add_recommendation")
             elif choice == 3:
                 response = self.send_message("get_recommendations")
-                print("Recommendations")
+                if len(response) != 0:
+                    return "\n".join(
+                        f"The recommendtaion for tomorrows food items are {str(item)}\n"
+                        for item in response
+                    )
+                else:
+                    date = datetime.now()
+                    return f"No recommendation for food today! {date}"
 
             elif choice == 4:
                 print("Thanks for visiting Cafeteria! Good Bye!!")
                 break
 
     def employee_menu(self):
-        res = notifications.get_notification()
+        res = Notification.get_notification()
         if res:
             print("Notifications!! :\n")
             print("\n".join(f"{str(item)}" for item in res))
@@ -135,7 +150,7 @@ class CafeteriaClient:
 
         while True:
             print(
-                "\n1. Give Feedback\n2. View Menu\n3. View Recommendations\n4. Update Profile\n5. Preference\n6. feedback_request"
+                "\n1. Give Feedback\n2. View Menu\n3. View Feedback\n4. View Recommendations\n5. Update Profile\n6. Preference\n7. feedback_request\n8. Logout"
             )
             choice = int(input("Enter your choice: "))
             if choice == 1:
@@ -150,12 +165,13 @@ class CafeteriaClient:
                 response = self.send_message("get_menu")
                 print("Menu items:\n" + response)
             elif choice == 3:
-                recommendations = recommendation.recommendation.get_recommendations()
-                if len(recommendations) == 0:
-                    print("No recommendation for today!!")
-                else:
-                    print(recommendations)
+                print("\n")
+                self.send_message("get_feedback")
+
             elif choice == 4:
+                self.send_message("get_recommendations")
+
+            elif choice == 5:
                 print("Please suggest the below prefernces of yours : \n")
                 employee_id = int(input("enter employee id : "))
                 name = input("enter your name : ")
@@ -180,22 +196,16 @@ class CafeteriaClient:
                 self.send_message(
                     f"update_profile|{employee_id}|{dietary_preference}|{spice_level}|{preferred_cuisine}|{sweet_tooth}"
                 )
-            elif choice == 5:
-                employee_id = int(input("enter employee id : "))
-                result = user_preference.user_prefernce(employee_id)
-                if result:
-                    print("The preference for your's food item are :\n")
-                    for preference in result:
-                        print("1:" + str(preference))
-                        print("\n")
-
-                else:
-                    print("No prefernce for you!! Add your prefernce first.")
-
             elif choice == 6:
-                feedback_request = Feedback_request.feedback_request()
-                for iterator in range(len(feedback_request)):
-                    print(f"{iterator}" + " " + str(feedback_request[iterator][1]))
+                employee_id = int(input("enter employee id : "))
+                self.send_message(f"user_preference|{employee_id}")
+
+            elif choice == 7:
+                self.send_message("feedback_request")
+
+            elif choice == 8:
+                print("Thanks for visistng Cafeteria!! Good Bye!")
+                break
 
     def main(self):
         self.authenticate_user()
