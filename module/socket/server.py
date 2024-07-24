@@ -4,12 +4,15 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'module')))
 
 import socket
+import json
+import ast
 import threading
 from datetime import datetime
-from logistics import feedback
+from logistics.feedback import Feedback
 from logistics.menu import menuManage
 from logistics import notifications
-from logistics import recommendation
+from logistics.recommendation import get_recommendations
+from logistics.recommendation import recommendation
 from logistics import report
 from Authentication.login import Login
 from discard_items import discard_menu_item_list
@@ -21,6 +24,7 @@ from user_preference.preference import user_preference
 from logistics.feedback import Feedback
 from user_preference.feedback_request import Feedback_request
 from logistics.feedback import get_feedback
+from logistics.order import order, validate_order_feedback
 import logging
 
 
@@ -99,45 +103,63 @@ class CafeteriaServer:
 
             elif action == "delete_menu_item":
                 menuManage.delete_menu_item(id)
-                return "menu_item_deleted"
+                return f"menu_item_deleted with menu id {id}"
 
             elif action == "get_menu":
                 menu_items = menuManage.get_menu()
-                return "\n".join(str(item) for item in menu_items)
+                return str(menu_items)
 
             elif action == "discard_list":
-                discard_menu_items = discard_menu_item_list.discard_list()
-                return "\n".join(str(item) for item in discard_menu_items)
+                # li = discard_menu_item()
+                discard_menu_items = discard_menu_item_list.discard_menu_item.discard_list()
+                return str(discard_menu_items)
 
             elif action == "delete_discarded":
-                discard_menu_items = discard_menu_item_list.discard_list()
+                # li = discard_menu_item_list.discard_menu_item.discard_list()
+                discard_menu_items = discard_menu_item_list.discard_menu_item.discard_list()
                 delete_discarded.delete_discarded_menuItem(discard_menu_items)
+                for item in discard_menu_item_list :
 
-                return "discarded_menu_items_deleted"
+                    return f"Food Item deleted successfully from Menu {item[1]}"
 
             elif action == "request_feedback":
-                discard_menu_items = discard_menu_item_list.discard_list()
-                requset.add_feedback_requst(discard_menu_items)
-                return "feedback_requested"
-
+                if message.startswith("request_feedback|"):
+                    parts = message.split("|", 3)  # Split into 4 parts to capture all data
+                    print(f'the parts is {parts}')
+                    if len(parts) == 4:
+                        itemName = parts[1]
+                        menuId = int(parts[2])
+                        question = parts[3]
+                        formatted_question = question.replace("{itemName}", itemName)  # Replace the placeholder
+                        print(formatted_question, itemName, menuId)
+                        requset.add_feedback_requst(menuId, formatted_question)
+                        return f"feedback requested for {itemName}"
+                    else:
+                        print("Improperly formatted request.")
+                        return "improper_format"
+                
+            
             elif action == "monthly_feedback_report":
                 feedback_report = report.report.monthly_feedback_report()
                 return feedback_report
 
+            elif action == "roll_out":
+                output = get_recommendations()
+                return str(output)
+            
             elif action == "add_recommendation":
-                recommendation.recommendation.add_recommendation()
-                return "recommendation_added"
+                menuId = int(parts[1])
+                
+                try:
+                    recommendation.add_recommendation(menuId)
+                    return f'Recommendation added successfully for menuId: {menuId}'
+                except Exception as e:
+                    return f'Error adding recommendation for menuId: {menuId}, {str(e)}'
 
+            
             elif action == "get_recommendations":
-                recommendations = recommendation.recommendation.get_recommendations()
-                if len(recommendations) != 0:
-                    return "\n".join(
-                        f"The recommendtaion for tomorrows food items are: {str(item).replace(",","").replace("(","").replace(")","")}\n"
-                        for item in recommendations
-                    )
-                else:
-                    date = datetime.now()
-                    return f"No recommendation for food today! {date}"
+                output = get_recommendations()
+                return str(output)
 
             elif action == "add_feedback":
                 user_id, menu_id, rating, comment = (
@@ -149,21 +171,12 @@ class CafeteriaServer:
                 d = datetime.now()
                 feedback = Feedback(user_id, menu_id, rating, comment, d)
                 feedback.add_feedback()
-                return "feedback_added"
+                return f"Feedback added for menu ID : {menu_id}"
             
             elif action == "get_feedback" :
                 feedback_list = get_feedback()
-                return "\n".join(str(fb) for fb in feedback_list)
+                return str(feedback_list)
             
-            elif action == "order":
-                user_id, MenuId, Quantity = int(parts[1]), int(parts[2]), int(parts[3])
-                conn = connection.connect()
-                cur = conn.cursor()
-                order_date = datetime.now()
-                insert_order_query = "insert into orders (UserId, MenuId, Quantity, OrderDate) values (?, ?, ?, ?)"
-                cur.execute(insert_order_query, (user_id, MenuId, Quantity, order_date))
-                cur.close()
-                return "order_placed"
 
             elif action == "update_profile":
                 (
@@ -194,7 +207,20 @@ class CafeteriaServer:
 
             elif action == "Logout":
                 return "Thanks for visiting Cafeteria! Good Bye!!"
-
+            
+            elif action == "order" :
+                menuId = int(parts[1])
+                user_id = int(parts[2])
+                item_name = parts[3]
+                order(menuId, user_id, item_name)
+            elif action =="validate_feedback":
+                menuId = int(parts[1])
+                userId = int(parts[2])
+                output = validate_order_feedback(menuId,userId)
+                if output is None:
+                    return f"Alert!!\nNo matching order found for menuID {menuId}. Please place an order first."
+                else:
+                    return "Order found. You can now add feedback."
             else:
                 return "invalid_action"
 
