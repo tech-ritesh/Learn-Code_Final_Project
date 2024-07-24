@@ -5,7 +5,8 @@ class discard_menu_item:
 
     def __init__(self) -> None:
         pass
-
+    
+    @staticmethod
     def discard_list():
         conn = connection.get_connection()
         cur = conn.cursor()
@@ -32,19 +33,15 @@ class discard_menu_item:
         rows = cur.fetchall()
         cur.close()
         conn.close()
-        discard_list = [
-            {
-                "itemName": row[0],
-                "menuId": row[1],
-                "avg_rating": row[2],
-                "total_feedbacks": row[3],
-                "negative_comments": row[4],
-            }
-            for row in rows
-        ]
 
-        return discard_list
+        return rows
 
+    @staticmethod
+    def fetch_user_feedback_for_discarded_items():
+        conn = connection.get_connection()
+        cur = conn.cursor()
+        sql = "select distinct  user_input, user_id, item_name from requested_feedback"
+        cur.execute(sql)
+        result = cur.fetchall()
+        return result
 
-if __name__ == "__main__":
-    discard_list = discard_menu_item()

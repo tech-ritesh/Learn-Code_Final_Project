@@ -1,4 +1,5 @@
 from Database import connection
+import ast
 
 
 class delete_discarded:
@@ -9,19 +10,25 @@ class delete_discarded:
         try:
             conn = connection.get_connection()
             cur = conn.cursor()
-            sql = "UPDATE menu SET is_deleted = 0 WHERE id = ?"
 
+            if isinstance(discard_menu_items, str):
+                discard_menu_items = ast.literal_eval(discard_menu_items)
+
+            sql = "UPDATE menu SET is_deleted = 1 WHERE id = ?"
+            
             for item in discard_menu_items:
-                menu_id = item["menuId"]
+                menu_id = item[1]  
                 print(f"Updating menu ID: {menu_id}")
                 cur.execute(sql, (menu_id,))
-                conn.commit()
-                print(f"Menu ID {menu_id} updated successfully")
+
+            conn.commit()
+            print("All menu items updated successfully")
 
         except Exception as e:
             print(f"An error occurred: {e}")
         finally:
             cur.close()
+            conn.close()
 
 
 if __name__ == "__main__":
