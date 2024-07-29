@@ -5,7 +5,7 @@ class discard_menu_item:
 
     def __init__(self) -> None:
         pass
-    
+
     @staticmethod
     def discard_list():
         conn = connection.get_connection()
@@ -44,4 +44,3 @@ class discard_menu_item:
         cur.execute(sql)
         result = cur.fetchall()
         return result
-

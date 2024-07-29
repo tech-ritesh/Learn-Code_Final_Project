@@ -6,6 +6,7 @@ class delete_discarded:
     def __init__(self) -> None:
         pass
 
+    @staticmethod
     def delete_discarded_menuItem(discard_menu_items):
         try:
             conn = connection.get_connection()
@@ -15,9 +16,9 @@ class delete_discarded:
                 discard_menu_items = ast.literal_eval(discard_menu_items)
 
             sql = "UPDATE menu SET is_deleted = 1 WHERE id = ?"
-            
+
             for item in discard_menu_items:
-                menu_id = item[1]  
+                menu_id = item[1]
                 print(f"Updating menu ID: {menu_id}")
                 cur.execute(sql, (menu_id,))
 

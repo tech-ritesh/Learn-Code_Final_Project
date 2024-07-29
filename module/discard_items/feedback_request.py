@@ -14,8 +14,6 @@ class requset:
             try:
                 cur = conn.cursor()
                 sql = "INSERT INTO discard_feedback (feedback_request, menuId) VALUES (?, ?)"
-                
-                # formatted_question = question.replace("{itemName}", itemName)
                 cur.execute(sql, (formatted_question,menuId))
                 
                 conn.commit()
@@ -53,32 +51,12 @@ class requset:
     
     @staticmethod
     def user_feedback_request(user_input, user_id, item_name):
-        default_questions = [
-            "What didn’t you like about {item_name}?",
-            "How would you like {item_name} to taste?",
-            "Share your mom’s recipe for {item_name}"
-        ]
-
         conn = connection.get_connection()
         if conn:
             try:
                 cur = conn.cursor()
-
-                formatted_question1 = default_questions[0].replace("{item_name}", item_name)
-                formatted_question1 = formatted_question1 + f": {user_input}"
                 default_feedback_sql = "INSERT INTO requested_feedback (user_input, user_id, item_name) VALUES (?, ?, ?)"
-                cur.execute(default_feedback_sql, (formatted_question1, user_id, item_name))
-                
-                formatted_question2 = default_questions[1].replace("{item_name}", item_name)
-                formatted_question2 = formatted_question2 + f": {user_input}"
-                default_feedback_sql = "INSERT INTO requested_feedback (user_input, user_id, item_name) VALUES (?, ?, ?)"
-                cur.execute(default_feedback_sql, (formatted_question2, user_id, item_name))
-                
-                formatted_question3 = default_questions[2].replace("{item_name}", item_name)
-                formatted_question3 = formatted_question3 + f": {user_input}"
-                default_feedback_sql = "INSERT INTO requested_feedback (user_input, user_id, item_name) VALUES (?, ?, ?)"
-                cur.execute(default_feedback_sql, (formatted_question3, user_id, item_name))
-
+                cur.execute(default_feedback_sql, (user_input, user_id, item_name))
                 conn.commit()
                 print("Feedback request inserted successfully.")
             except Exception as e:

@@ -25,7 +25,12 @@ def get_feedback():
     conn = connection.get_connection()
     cur1 = conn.cursor()
 
-    sql = "select f.id, f.userId, f.menuId, m.itemName , f.Rating, f.Comment from Feedback f join menu m on f.menuId=m.id;"
+    sql = """SELECT TOP 15 * 
+    FROM (
+        SELECT f.id, f.userId, f.menuId, m.itemName, f.Rating, f.Comment 
+        FROM Feedback f 
+        JOIN menu m ON f.menuId = m.id
+    ) AS subquery"""
     cur1.execute(sql)
     result = cur1.fetchall()
     return result
