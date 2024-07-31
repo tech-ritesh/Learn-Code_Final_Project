@@ -1,5 +1,6 @@
 from Database import connection
 from datetime import datetime
+from tabulate import tabulate
 
 class recommendation:
     def __init__(self) -> None:
@@ -84,4 +85,42 @@ class recommendation:
         result = cur1.fetchall()
         return result
 
+    def add_final_recommendation(menuId):
+        cursor = connection.get_connection().cursor()
+        try:
+            query = """
+            INSERT INTO final_recommendation (menuId, recommendationDate)
+            VALUES (?, CAST(GETDATE() + 1 AS DATE))
+            """
+            cursor.execute(query, (menuId,))
+            cursor.commit()
+            return f"Successfully added final recommendation for Menu ID: {menuId} for tomorrow."
+        except Exception as e:
+            return f"Error adding recommendation: {e}"
+        finally:
+            cursor.close()
+    
+    def view_today_recommendation(self):
         
+        cursor = connection.get_connection().cursor()
+        try:
+            query = """
+            SELECT select m.id, m.itemName, m.price, m.availabilityStatus, m.mealType from menu m, r.recommendationDate
+            FROM final_recommendation r
+            JOIN Menu m ON r.menuId = m.id
+            WHERE r.recommendationDate = CAST(GETDATE() AS DATE)
+            """
+            
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            
+            if rows:
+                headers = ["MenuID", "ItemName", "Price", "AvailabilityStatus", "MealType"]
+                table = [list(row) for row in rows]
+                print(tabulate(table, headers=headers, tablefmt="grid"))
+            else:
+                print("No recommendations available for today.")
+        except Exception as e:
+            print(f"Error retrieving recommendations: {e}")
+        finally:
+            cursor.close()

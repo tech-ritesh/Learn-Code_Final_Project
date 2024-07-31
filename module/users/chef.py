@@ -26,7 +26,7 @@ class Chef(UserInterface):
     def authenticate_user(self, user):
         try:
             self.user = user
-            print(Fore.CYAN + "================== Authentication ==================")
+            print(Fore.CYAN + "\n================== Authentication ==================\n")
             employee_id = int(input(f"Enter {self.user} employee ID: "))
             name = input(f"Enter {self.user} name: ")
             login = Login()
@@ -35,7 +35,7 @@ class Chef(UserInterface):
                 logging.info(
                     f"{self.user} authentication successful for ID {employee_id}"
                 )
-                print(Fore.GREEN + f"{self.user} authentication successful")
+                print(Fore.GREEN + f"\n{self.user} authentication successful")
             else:
                 logging.warning(
                     f"{self.user} authentication failed for ID {employee_id}"
@@ -49,8 +49,9 @@ class Chef(UserInterface):
     def main_menu(self):
         try:
             while True:
+                print(Fore.LIGHTRED_EX + "================== Chef Section ==================\n")
                 print(
-                    f"\n{Fore.CYAN}1. View Feedback Report\n2. Roll Out Menu Items\n3. View Menu\n4. Add Menu Item\n5. Update Menu Item\n6. Delete Menu Item\n7. Exit{Style.RESET_ALL}"
+                    f"\n{Fore.CYAN}1. View Feedback Report\n2. Roll Out Menu Items\n3. View Menu\n4. Add Menu Item\n5. Update Menu Item\n6. Delete Menu Item\n7. View Employees Votes\n8. Final Recommednation\n9. Exit{Style.RESET_ALL}"
                 )
                 choice = int(input(f"{Fore.YELLOW}Enter your choice: {Style.RESET_ALL}"))
                 if choice == 1:
@@ -66,6 +67,10 @@ class Chef(UserInterface):
                 elif choice == 6:
                     self.delete_menu_item()
                 elif choice == 7:
+                    self.view_employee_votes()
+                elif choice == 8:
+                    self.add_final_recommendation()
+                elif choice == 9:
                     print(f"{Fore.GREEN}Thanks for visiting Cafeteria! Good Bye!!{Style.RESET_ALL}")
                     break
         except Exception as e:
@@ -248,3 +253,20 @@ class Chef(UserInterface):
         except Exception as e:
             print(f"{Fore.RED}An error occurred while viewing the menu: {e}{Style.RESET_ALL}")
 
+    def view_employee_votes(self):
+        try:
+            response = self.client.send_message("view_employee_votes")
+            print(Fore.LIGHTMAGENTA_EX + "\nVoting list by employee for next dat recommendation for menu items are : \n")
+            print(Fore.GREEN + response)
+        except Exception as e:
+            print(Fore.RED + f"Error retrieving votes: {e}")
+    
+    def add_final_recommendation(self) :
+        try:
+            num_of_recommendation = int(input("Enter the number of recommendation you want to recommend for tommorow : "))
+            for iterator in range(num_of_recommendation) :
+                menu_id = int(input(Fore.CYAN + 'Enter the menuID to recommend for tomorrow: '))
+                response = self.client.send_message(f"add_final_recommendation|{menu_id}")
+                print(Fore.GREEN + response)
+        except Exception as e:
+            print(Fore.RED + f"Error adding recommendation: {e}")

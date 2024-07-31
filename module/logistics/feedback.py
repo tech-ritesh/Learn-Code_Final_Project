@@ -20,18 +20,18 @@ class Feedback:
         )
         cur1.commit()
 
+    @staticmethod
+    def get_feedback():
+        conn = connection.get_connection()
+        cur1 = conn.cursor()
 
-def get_feedback():
-    conn = connection.get_connection()
-    cur1 = conn.cursor()
-
-    sql = """SELECT TOP 15 * 
-    FROM (
-        SELECT f.id, f.userId, f.menuId, m.itemName, f.Rating, f.Comment 
-        FROM Feedback f 
-        JOIN menu m ON f.menuId = m.id
-    ) AS subquery"""
-    cur1.execute(sql)
-    result = cur1.fetchall()
-    return result
+        sql = """SELECT TOP 15 * 
+        FROM (
+            SELECT f.id, f.userId, f.menuId, m.itemName, f.Rating, f.Comment 
+            FROM Feedback f 
+            JOIN menu m ON f.menuId = m.id
+        ) AS subquery"""
+        cur1.execute(sql)
+        result = cur1.fetchall()
+        return result
 

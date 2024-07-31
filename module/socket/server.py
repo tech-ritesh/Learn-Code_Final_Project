@@ -25,7 +25,8 @@ from user_preference.preference import UserPreference
 from logistics.feedback import Feedback
 from logistics.notifications import Notification
 from user_preference.feedback_request import Feedback_request
-from logistics.feedback import get_feedback
+from logistics.employee_voting import Voting
+from logistics.feedback import Feedback
 from logistics.order import order, validate_order_feedback
 
 logging.basicConfig(
@@ -219,7 +220,7 @@ class CafeteriaServer:
                 return f"Feedback added for menu ID : {menu_id}"
 
             elif action == "get_feedback":
-                feedback_list = get_feedback()
+                feedback_list = Feedback.get_feedback()
                 return str(feedback_list)
 
             elif action == "update_profile":
@@ -245,7 +246,6 @@ class CafeteriaServer:
                 preferences = UserPreference.user_preference(employee_id)
 
                 return str(preferences)
-                # return "\n".join(f"The preferred food item for you is : {str(pref).replace(",","").replace("(","").replace(")","")}" for pref in preferences)
 
             elif action == "feedback_request":
                 result = Feedback_request.feedback_request()
@@ -273,7 +273,28 @@ class CafeteriaServer:
                 )
                 print(recommendation_for_employee)
                 return str(recommendation_for_employee)
+            
+            elif action == "vote_for_menu_item" :
+                menu_id = parts[1]
+                voting = Voting()
+                voting.vote_for_menu_item(menu_id)
+                return f"Successfully Voted for Menu Id: {menu_id}"
+            
+            elif action == "view_employee_votes" :
+                voting = Voting()
+                employee_votes = voting.view_employee_votes()
+                return str(employee_votes)
+            
+            elif action == "add_final_recommendation" :
+                menu_id = parts[1]
+                recommendation.add_final_recommendation(menu_id)
+                return f'Final recommendation added for tommorrow: (menuID) = {menu_id}'
 
+            elif action == "view_today_recommendation" :
+                view_recommendation = recommendation()
+                current_recommendation = view_recommendation.view_today_recommendation()
+                return str(current_recommendation)
+            
             else:
                 return "invalid_action"
 

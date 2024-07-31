@@ -29,7 +29,7 @@ class Employee(UserInterface):
     def authenticate_user(self, user):
         try:
             self.user = user
-            print(Fore.CYAN + "================== Authentication ==================")
+            print(Fore.CYAN + "\n================== Authentication ==================\n")
             employee_id = int(input(f"Enter {self.user} employee ID: "))
             name = input(f"Enter {self.user} name: ")
             login = Login()
@@ -38,7 +38,7 @@ class Employee(UserInterface):
                 logging.info(
                     f"{self.user} authentication successful for ID {employee_id}"
                 )
-                print(Fore.GREEN + f"{self.user} authentication successful")
+                print(Fore.GREEN + f"\n{self.user} authentication successful")
             else:
                 logging.warning(
                     f"{self.user} authentication failed for ID {employee_id}"
@@ -59,8 +59,9 @@ class Employee(UserInterface):
                 print(Fore.CYAN + "No new notifications for today!!")
 
             while True:
+                print(Fore.LIGHTRED_EX + "================== Employee Section ==================\n")
                 print(
-                    Fore.MAGENTA + "\n1. Give Feedback\n2. View Menu\n3. View Feedback\n4. View Recommendations\n5. Update Profile\n6. Preference\n7. Order\n8. Answer Feedback Questions\n9. Logout"
+                    Fore.MAGENTA + "\n1. Give Feedback\n2. View Menu\n3. View Feedback\n4. View Recommended Menu items for tommorrow\n5. Update Profile\n6. Preference\n7. Order\n8. Answer Feedback Questions\n9. Vote for next day item\n10. View today's recommendation\n11. Exit"
                 )
                 choice = int(input("Enter your choice: "))
                 if choice == 1:
@@ -80,6 +81,10 @@ class Employee(UserInterface):
                 elif choice == 8:
                     self.answer_feedback_questions()
                 elif choice == 9:
+                    self.vote_for_menu_item()
+                elif choice == 10:
+                    self.view_today_recommendation()
+                elif choice == 11:
                     print(Fore.GREEN + "Thanks for visiting Cafeteria! Good Bye!")
                     break
                 else:
@@ -119,7 +124,7 @@ class Employee(UserInterface):
                 )
                 for item in li
             ]
-            print(tabulate(adjusted_menu, headers=headers, tablefmt="grid"))
+            print(f"{Fore.CYAN}{tabulate(adjusted_menu, headers=headers, tablefmt='grid')}{Style.RESET_ALL}")
         except Exception as e:
             print(Fore.RED + f"Error viewing menu: {e}")
 
@@ -130,7 +135,7 @@ class Employee(UserInterface):
             res = self.client.send_message(f"validate_feedback|{menuId}|{userId}")
 
             if "No" in res:
-                print(Fore.RED + res)
+                print(Fore.RED + "❌ " + res + Style.RESET_ALL)
             else:
                 rating = input("Enter the rating (1-5): ")
                 comment = input(
@@ -139,16 +144,16 @@ class Employee(UserInterface):
                 result = self.client.send_message(
                     f"add_feedback|{userId}|{menuId}|{rating}|{comment}"
                 )
-                print(Fore.GREEN + result)
+                print(Fore.GREEN + "✅ " + result + Style.RESET_ALL)
         except Exception as e:
-            print(Fore.RED + f"Error giving feedback: {e}")
+            print(Fore.RED + f"❌ Error giving feedback: {e}" + Style.RESET_ALL)
 
     def view_feedback(self):
         try:
             print("\n")
             feedback_str = self.client.send_message("get_feedback")
 
-            print(Fore.YELLOW + "The Feedback list is : \n")
+            print(Fore.YELLOW + "Feedback from Users : \n")
 
             try:
                 feedback = ast.literal_eval(feedback_str)
@@ -169,7 +174,8 @@ class Employee(UserInterface):
             ]
 
             columns = ["id", "userId", "menuId", "itemName", "Rating", "Comment"]
-            print(tabulate(feedback_formatted, headers=columns, tablefmt="grid"))
+            print((f"{Fore.CYAN}{tabulate(feedback_formatted, headers=columns, tablefmt='grid')}{Style.RESET_ALL}"))
+            
         except Exception as e:
             print(Fore.RED + f"Error viewing feedback: {e}")
 
@@ -188,9 +194,9 @@ class Employee(UserInterface):
                 ]
 
                 for meal_type, rows in employee_recommendation.items():
-                    print(Fore.BLUE + f"\n{meal_type} Recommendations:\n")
+                    print(Fore.LIGHTMAGENTA_EX + f"\n{meal_type} Recommendations:\n")
                     if rows:
-                        print(tabulate(rows, headers=columns, tablefmt="grid"))
+                        print(f"{Fore.CYAN}{tabulate(rows, headers=columns, tablefmt='grid')}{Style.RESET_ALL}")
                     else:
                         print(Fore.CYAN + "No recommendations available.")
             except (ValueError, SyntaxError) as e:
@@ -246,7 +252,8 @@ class Employee(UserInterface):
                 for meal_type, rows in user_preference.items():
                     print(Fore.BLUE + f"\n{meal_type} Recommendations:\n")
                     if rows:
-                        print(tabulate(rows, headers=columns, tablefmt="grid"))
+                        print(f"{Fore.CYAN}{tabulate(rows, headers=columns, tablefmt='grid')}{Style.RESET_ALL}")
+                        
                     else:
                         print(Fore.CYAN + "No recommendations available.")
             except (ValueError, SyntaxError) as e:
@@ -290,3 +297,24 @@ class Employee(UserInterface):
                 print(Fore.CYAN + "No feedback questions available.")
         except Exception as e:
             print(Fore.RED + f"Error answering feedback questions: {e}")
+    
+    def vote_for_menu_item(self):
+        try:
+            inp = int(input(Fore.YELLOW + 'Enter the number of menu items you want to vote for: '))
+            for iterator in range(inp):
+                menu_id = int(input(Fore.CYAN + 'Enter the menuID: '))
+                response = self.client.send_message(f"vote_for_menu_item|{menu_id}")
+                print(Fore.GREEN + response)
+        except Exception as e:
+            print(Fore.RED + f"Error processing request: {e}")
+    
+    def view_today_recommendation(self):
+        try:
+            response = self.client.send_message("view_today_recommendation")
+
+            if response is not None and response.strip() and response != "None":
+                print(Fore.GREEN + "Today's Recommendations:\n" + Style.RESET_ALL + Fore.GREEN + response + Style.RESET_ALL)
+            else:
+                print(Fore.RED + "❌  No recommendations for today!!" + Style.RESET_ALL)
+        except Exception as e:
+            print(Fore.RED + f"Error retrieving today's recommendation: {e}" + Style.RESET_ALL)

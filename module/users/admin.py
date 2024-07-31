@@ -27,7 +27,7 @@ class Admin(UserInterface):
     def authenticate_user(self, user):
         try:
             self.user = user
-            print(Fore.CYAN + "================== Authentication ==================")
+            print(Fore.CYAN + "\n================== Authentication ==================\n")
             employee_id = int(input(f"Enter {self.user} employee ID: "))
             name = input(f"Enter {self.user} name: ")
             login = Login()
@@ -36,7 +36,7 @@ class Admin(UserInterface):
                 logging.info(
                     f"{self.user} authentication successful for ID {employee_id}"
                 )
-                print(Fore.GREEN + f"{self.user} authentication successful")
+                print(Fore.GREEN + f"\n{self.user} authentication successful")
             else:
                 logging.warning(
                     f"{self.user} authentication failed for ID {employee_id}"
@@ -50,7 +50,7 @@ class Admin(UserInterface):
     def main_menu(self):
         try:
             while True:
-                print(Fore.CYAN + "================== Main Menu ==================")
+                print(Fore.LIGHTRED_EX + "================== Admin Section ==================")
                 print(
                     Fore.YELLOW
                     + "\n1. Add Menu Item\n2. Update Menu Item\n3. Delete Menu Item\n4. View Menu\n5. Discard Menu Items List\n6. Exit"
