@@ -26,7 +26,7 @@ class Notification:
         try:
             conn = connection.get_connection()
             cur1 = conn.cursor()
-            sql = """SELECT message
+            sql = """SELECT message, date_of_notification
                     FROM Notification
                     WHERE CAST(date_of_notification AS DATE) = CAST(GETDATE() AS DATE);"""
             cur1.execute(sql)

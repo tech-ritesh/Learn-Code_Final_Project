@@ -1,6 +1,5 @@
 from Database import connection
 
-
 class update_profile:
     def __init__(self) -> None:
         pass

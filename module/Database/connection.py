@@ -1,5 +1,6 @@
 import pyodbc as odbccon
 
+
 def get_connection():
     conn = odbccon.connect(
         r"DRIVER={SQL Server};"
@@ -7,7 +8,6 @@ def get_connection():
         r"DATABASE=Cafeteria;"
         r"Trusted_Connection=yes;"
     )
-
     return conn
 
 

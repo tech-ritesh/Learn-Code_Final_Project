@@ -2,6 +2,10 @@ from Database import connection
 
 
 class report:
+    def __init__(self) -> None:
+        pass
+    
+    @staticmethod
     def monthly_feedback_report():
         conn = connection.get_connection()
         cur = conn.cursor()
