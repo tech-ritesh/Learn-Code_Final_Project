@@ -1,6 +1,5 @@
 from Database import connection
 
-
 class Feedback:
 
     def __init__(self, user_id, menu_id, rating, comment, date) -> None:

@@ -1,6 +1,7 @@
 from Database import connection
 from datetime import datetime
 from tabulate import tabulate
+from exceptions.exceptions import RecommendationError
 
 class recommendation:
     def __init__(self) -> None:
@@ -34,56 +35,66 @@ class recommendation:
                     conn.commit()
                     print(f"Recommendation added for menuId: {menuId}")
 
-            except Exception as err:
-                print(f"Error inserting recommendations: {err}")
-                raise
+            except RecommendationError :
+                return RecommendationError(message="Recommendation error")
             finally:
-                conn.close()
+                cur.close()
     
     @staticmethod
     def employee_view_recommendation():
-        meal_types = ['Breakfast', 'Lunch', 'Dinner']
-        results = {}
-        conn = connection.get_connection()
-        cur = conn.cursor()
-        
-        for meal_type in meal_types:
-            sql = f"""SELECT distinct menuId, itemName, mealType, recommendationDate, averageRating
-                    FROM Recommendations 
-                    WHERE recommendationDate = DATEADD(DAY, 1, CAST(GETDATE() AS DATE))
-                    AND mealType = '{meal_type}';"""
-            cur.execute(sql)
-            result = cur.fetchall()
-            results[meal_type] = result
-        
-        return results
+        try :
+            meal_types = ['Breakfast', 'Lunch', 'Dinner']
+            results = {}
+            conn = connection.get_connection()
+            cur = conn.cursor()
+            
+            for meal_type in meal_types:
+                sql = f"""SELECT distinct menuId, itemName, mealType, recommendationDate, averageRating
+                        FROM Recommendations 
+                        WHERE recommendationDate = DATEADD(DAY, 1, CAST(GETDATE() AS DATE))
+                        AND mealType = '{meal_type}';"""
+                cur.execute(sql)
+                result = cur.fetchall()
+                results[meal_type] = result
+            
+            return results
+        except RecommendationError :
+            return RecommendationError(message="Recommendation error")
+        finally:
+            cur.close()
+
 
     @staticmethod
     def get_recommendations():
-        conn = connection.get_connection()
-        cur1 = conn.cursor()
-        sql = """SELECT distinct TOP 15 *
-                    FROM (
-                        SELECT distinct
-                            fed.menuId, 
-                            men.itemName, 
-                            fed.rating, 
-                            fed.comment, 
-                            men.mealType, 
-                            men.specialty 
-                        FROM 
-                            Feedback fed 
-                        JOIN 
-                            menu men 
-                        ON 
-                            fed.menuId = men.id
-                        WHERE 
-                            fed.rating >= 3 
-                            AND fed.comment IN ('delicious', 'nice taste') 
-                    ) AS subquery;"""
-        cur1.execute(sql)
-        result = cur1.fetchall()
-        return result
+        try:
+            conn = connection.get_connection()
+            cur1 = conn.cursor()
+            sql = """SELECT distinct TOP 15 *
+                        FROM (
+                            SELECT distinct
+                                fed.menuId, 
+                                men.itemName, 
+                                fed.rating, 
+                                fed.comment, 
+                                men.mealType, 
+                                men.specialty 
+                            FROM 
+                                Feedback fed 
+                            JOIN 
+                                menu men 
+                            ON 
+                                fed.menuId = men.id
+                            WHERE 
+                                fed.rating >= 3 
+                                AND fed.comment IN ('delicious', 'nice taste') 
+                        ) AS subquery;"""
+            cur1.execute(sql)
+            result = cur1.fetchall()
+            return result
+        except RecommendationError :
+            return RecommendationError(message="Recommendation error")
+        finally:
+            cur1.close()
 
     def add_final_recommendation(menuId):
         cursor = connection.get_connection().cursor()
@@ -95,32 +106,31 @@ class recommendation:
             cursor.execute(query, (menuId,))
             cursor.commit()
             return f"Successfully added final recommendation for Menu ID: {menuId} for tomorrow."
-        except Exception as e:
-            return f"Error adding recommendation: {e}"
+        except RecommendationError :
+            return RecommendationError(message="Recommendation error")
         finally:
             cursor.close()
     
     def view_today_recommendation(self):
-        
-        cursor = connection.get_connection().cursor()
-        try:
-            query = """
-            SELECT select m.id, m.itemName, m.price, m.availabilityStatus, m.mealType from menu m, r.recommendationDate
-            FROM final_recommendation r
-            JOIN Menu m ON r.menuId = m.id
-            WHERE r.recommendationDate = CAST(GETDATE() AS DATE)
-            """
+        try :
+            meal_types = ['Breakfast', 'Lunch', 'Dinner']
+            results = {}
+            conn = connection.get_connection()
+            cur = conn.cursor()
+            for meal_type in meal_types:
+                sql = f"""
+                select m.id, m.itemName, m.price, m.availabilityStatus, m.mealType, r.recommendationDate
+                FROM final_recommendation r
+                JOIN Menu m ON r.menuId = m.id
+                WHERE r.recommendationDate = CAST(GETDATE() AS DATE) AND mealType = '{meal_type}';
+                """
             
-            cursor.execute(query)
-            rows = cursor.fetchall()
+                cur.execute(sql)
+                result = cur.fetchall()
+                results[meal_type] = result
             
-            if rows:
-                headers = ["MenuID", "ItemName", "Price", "AvailabilityStatus", "MealType"]
-                table = [list(row) for row in rows]
-                print(tabulate(table, headers=headers, tablefmt="grid"))
-            else:
-                print("No recommendations available for today.")
-        except Exception as e:
-            print(f"Error retrieving recommendations: {e}")
+            return results
+        except RecommendationError :
+            return RecommendationError(message="Recommendation error")
         finally:
-            cursor.close()
+            cur.close()

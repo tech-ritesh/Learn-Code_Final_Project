@@ -605,3 +605,450 @@ No matching order found for menuID 22. Please place an order first.
 2024-07-30 01:19:53 - INFO - Sent message: add_feedback|103|15|4|delicious
 2024-07-30 01:19:53 - INFO - Received response: Feedback added for menu ID : 15
 2024-07-30 01:31:31 - INFO - Connected to server at localhost:9999
+2024-07-30 01:32:24 - INFO - Connected to server at localhost:9999
+2024-07-30 01:32:31 - INFO - admin authentication successful for ID 101
+2024-07-31 15:05:18 - INFO - Connected to server at localhost:9999
+2024-07-31 15:05:26 - INFO - admin authentication successful for ID 101
+2024-07-31 15:05:29 - INFO - Sent message: discard_list
+2024-07-31 15:05:29 - INFO - Received response: [('Upma', 2, 2, 2, 'Tasteless'), ('Samosa', 4, 3, 1, 'Tasteless'), ('rasam', 22, 1, 1, 'Tasteless')]
+2024-07-31 15:08:45 - INFO - Connected to server at localhost:9999
+2024-07-31 15:08:54 - INFO - chef authentication successful for ID 102
+2024-07-31 15:08:57 - INFO - Sent message: roll_out
+2024-07-31 15:08:57 - INFO - Received response: [(1, 'Kheer', 3, 'delicious', 'Lunch', 'Authentic'), (2, 'Upma', 3, 'delicious', 'BreakFast', 'made with grained rice'), (4, 'Samosa', 3, 'nice taste', 'BreakFast', 'Available with chola'), (7, 'Oats Meal', 4, 'nice taste', 'BreakFast', 'Good for health'), (8, 'Medu Vada', 5, 'delicious', 'BreakFast', 'Available with Special Sambhar'), (9, 'Chicken Meal', 4, 'nice taste', 'Lunch', 'Can be shared with 2 person easily'), (15, 'Rice Bowl', 3, 'delicious', 'Lunch', 'Available with curry'), (15, 'Rice Bowl', 4, 'delicious', 'Lunch', 'Available with curry'), (16, 'Chowmein Platter', 3, 'delicious', 'Lunch', 'Options with manchurian or paneer curry'), (17, 'Panner butter Masala', 4, 'nice taste', 'Lunch', 'North Style Special'), (20, 'Biryani', 4, 'nice taste', 'Lunch', 'Luncknawi Style'), (31, 'Dal', 4, 'delicious', 'Lunch', 'Fried'), (31, 'Dal', 4, 'nice taste', 'Lunch', 'Fried'), (36, 'Momos', 4, 'nice taste', 'Brunch', 'Spicy in taste'), (45, 'Chilli paneer', 3, 'delicious', 'Lunch', 'Spicy')]
+2024-07-31 15:10:09 - INFO - Connected to server at localhost:9999
+2024-07-31 15:10:17 - INFO - chef authentication successful for ID 102
+2024-07-31 15:10:33 - INFO - Sent message: roll_out
+2024-07-31 15:10:33 - INFO - Received response: [(1, 'Kheer', 3, 'delicious', 'Lunch', 'Authentic'), (2, 'Upma', 3, 'delicious', 'BreakFast', 'made with grained rice'), (4, 'Samosa', 3, 'nice taste', 'BreakFast', 'Available with chola'), (7, 'Oats Meal', 4, 'nice taste', 'BreakFast', 'Good for health'), (8, 'Medu Vada', 5, 'delicious', 'BreakFast', 'Available with Special Sambhar'), (9, 'Chicken Meal', 4, 'nice taste', 'Lunch', 'Can be shared with 2 person easily'), (15, 'Rice Bowl', 3, 'delicious', 'Lunch', 'Available with curry'), (15, 'Rice Bowl', 4, 'delicious', 'Lunch', 'Available with curry'), (16, 'Chowmein Platter', 3, 'delicious', 'Lunch', 'Options with manchurian or paneer curry'), (17, 'Panner butter Masala', 4, 'nice taste', 'Lunch', 'North Style Special'), (20, 'Biryani', 4, 'nice taste', 'Lunch', 'Luncknawi Style'), (31, 'Dal', 4, 'delicious', 'Lunch', 'Fried'), (31, 'Dal', 4, 'nice taste', 'Lunch', 'Fried'), (36, 'Momos', 4, 'nice taste', 'Brunch', 'Spicy in taste'), (45, 'Chilli paneer', 3, 'delicious', 'Lunch', 'Spicy')]
+2024-07-31 15:10:45 - INFO - Sent message: add_recommendation|20
+2024-07-31 15:10:45 - INFO - Received response: Recommendation added successfully for menuId: 20
+2024-07-31 15:10:49 - INFO - Sent message: add_recommendation|31
+2024-07-31 15:10:49 - INFO - Received response: Recommendation added successfully for menuId: 31
+2024-07-31 15:10:52 - INFO - Sent message: add_recommendation|45
+2024-07-31 15:10:52 - INFO - Received response: Recommendation added successfully for menuId: 45
+2024-07-31 15:11:08 - INFO - Sent message: view_employee_votes
+2024-07-31 15:11:08 - INFO - Received response: +-----------+--------------+--------------+
+|   Menu ID | Item Name    |   Vote Count |
++===========+==============+==============+
+|         1 | Kheer        |            1 |
++-----------+--------------+--------------+
+|         9 | Chicken Meal |            1 |
++-----------+--------------+--------------+
+|        31 | Dal          |            1 |
++-----------+--------------+--------------+
+2024-07-31 15:13:23 - INFO - Connection closed
+2024-07-31 15:13:28 - INFO - Connected to server at localhost:9999
+2024-07-31 15:13:41 - INFO - employee authentication successful for ID 103
+2024-07-31 15:13:44 - INFO - Sent message: employee_view_recommendation
+2024-07-31 15:13:44 - INFO - Received response: {'Breakfast': [], 'Lunch': [(20, 'Biryani', 'Lunch', '2024-08-01', 4.0), (31, 'Dal', 'Lunch', '2024-08-01', 4.0), (45, 'Chilli paneer', 'Lunch', '2024-08-01', 3.0)], 'Dinner': []}
+2024-07-31 15:14:10 - INFO - Sent message: view_today_recommendation
+2024-07-31 15:14:10 - INFO - Received response: None
+2024-07-31 15:16:31 - INFO - Sent message: employee_view_recommendation
+2024-07-31 15:16:31 - INFO - Received response: {'Breakfast': [], 'Lunch': [(20, 'Biryani', 'Lunch', '2024-08-01', 4.0), (31, 'Dal', 'Lunch', '2024-08-01', 4.0), (45, 'Chilli paneer', 'Lunch', '2024-08-01', 3.0)], 'Dinner': []}
+2024-07-31 15:17:28 - INFO - Connection closed
+2024-07-31 15:17:32 - INFO - Connected to server at localhost:9999
+2024-07-31 15:17:38 - INFO - chef authentication successful for ID 102
+2024-07-31 15:17:50 - INFO - Sent message: roll_out
+2024-07-31 15:17:50 - INFO - Received response: [(1, 'Kheer', 3, 'delicious', 'Lunch', 'Authentic'), (2, 'Upma', 3, 'delicious', 'BreakFast', 'made with grained rice'), (4, 'Samosa', 3, 'nice taste', 'BreakFast', 'Available with chola'), (7, 'Oats Meal', 4, 'nice taste', 'BreakFast', 'Good for health'), (8, 'Medu Vada', 5, 'delicious', 'BreakFast', 'Available with Special Sambhar'), (9, 'Chicken Meal', 4, 'nice taste', 'Lunch', 'Can be shared with 2 person easily'), (15, 'Rice Bowl', 3, 'delicious', 'Lunch', 'Available with curry'), (15, 'Rice Bowl', 4, 'delicious', 'Lunch', 'Available with curry'), (16, 'Chowmein Platter', 3, 'delicious', 'Lunch', 'Options with manchurian or paneer curry'), (17, 'Panner butter Masala', 4, 'nice taste', 'Lunch', 'North Style Special'), (20, 'Biryani', 4, 'nice taste', 'Lunch', 'Luncknawi Style'), (31, 'Dal', 4, 'delicious', 'Lunch', 'Fried'), (31, 'Dal', 4, 'nice taste', 'Lunch', 'Fried'), (36, 'Momos', 4, 'nice taste', 'Brunch', 'Spicy in taste'), (45, 'Chilli paneer', 3, 'delicious', 'Lunch', 'Spicy')]
+2024-07-31 15:19:34 - INFO - Connected to server at localhost:9999
+2024-07-31 15:19:48 - INFO - employee authentication successful for ID 103
+2024-07-31 15:19:51 - INFO - Sent message: employee_view_recommendation
+2024-07-31 15:19:51 - INFO - Received response: {'Breakfast': [], 'Lunch': [(20, 'Biryani', 'Lunch', '2024-08-01', 4.0), (31, 'Dal', 'Lunch', '2024-08-01', 4.0), (45, 'Chilli paneer', 'Lunch', '2024-08-01', 3.0)], 'Dinner': []}
+2024-07-31 15:20:06 - INFO - Sent message: view_today_recommendation
+2024-07-31 15:20:06 - INFO - Received response: None
+2024-07-31 15:23:42 - INFO - Connected to server at localhost:9999
+2024-07-31 15:23:50 - INFO - Connected to server at localhost:9999
+2024-07-31 15:24:01 - INFO - Connected to server at localhost:9999
+2024-07-31 15:24:15 - INFO - chef authentication successful for ID 102
+2024-07-31 15:24:17 - INFO - Sent message: roll_out
+2024-07-31 15:24:17 - INFO - Received response: [(1, 'Kheer', 3, 'delicious', 'Lunch', 'Authentic'), (2, 'Upma', 3, 'delicious', 'BreakFast', 'made with grained rice'), (4, 'Samosa', 3, 'nice taste', 'BreakFast', 'Available with chola'), (7, 'Oats Meal', 4, 'nice taste', 'BreakFast', 'Good for health'), (8, 'Medu Vada', 5, 'delicious', 'BreakFast', 'Available with Special Sambhar'), (9, 'Chicken Meal', 4, 'nice taste', 'Lunch', 'Can be shared with 2 person easily'), (15, 'Rice Bowl', 3, 'delicious', 'Lunch', 'Available with curry'), (15, 'Rice Bowl', 4, 'delicious', 'Lunch', 'Available with curry'), (16, 'Chowmein Platter', 3, 'delicious', 'Lunch', 'Options with manchurian or paneer curry'), (17, 'Panner butter Masala', 4, 'nice taste', 'Lunch', 'North Style Special'), (20, 'Biryani', 4, 'nice taste', 'Lunch', 'Luncknawi Style'), (31, 'Dal', 4, 'delicious', 'Lunch', 'Fried'), (31, 'Dal', 4, 'nice taste', 'Lunch', 'Fried'), (36, 'Momos', 4, 'nice taste', 'Brunch', 'Spicy in taste'), (45, 'Chilli paneer', 3, 'delicious', 'Lunch', 'Spicy')]
+2024-07-31 15:24:30 - INFO - Connected to server at localhost:9999
+2024-07-31 15:24:44 - INFO - chef authentication successful for ID 102
+2024-07-31 15:24:45 - INFO - Connection closed
+2024-07-31 15:24:56 - INFO - Connected to server at localhost:9999
+2024-07-31 15:25:11 - INFO - chef authentication successful for ID 102
+2024-07-31 15:25:14 - INFO - Sent message: roll_out
+2024-07-31 15:25:14 - INFO - Received response: [(1, 'Kheer', 3, 'delicious', 'Lunch', 'Authentic'), (2, 'Upma', 3, 'delicious', 'BreakFast', 'made with grained rice'), (4, 'Samosa', 3, 'nice taste', 'BreakFast', 'Available with chola'), (7, 'Oats Meal', 4, 'nice taste', 'BreakFast', 'Good for health'), (8, 'Medu Vada', 5, 'delicious', 'BreakFast', 'Available with Special Sambhar'), (9, 'Chicken Meal', 4, 'nice taste', 'Lunch', 'Can be shared with 2 person easily'), (15, 'Rice Bowl', 3, 'delicious', 'Lunch', 'Available with curry'), (15, 'Rice Bowl', 4, 'delicious', 'Lunch', 'Available with curry'), (16, 'Chowmein Platter', 3, 'delicious', 'Lunch', 'Options with manchurian or paneer curry'), (17, 'Panner butter Masala', 4, 'nice taste', 'Lunch', 'North Style Special'), (20, 'Biryani', 4, 'nice taste', 'Lunch', 'Luncknawi Style'), (31, 'Dal', 4, 'delicious', 'Lunch', 'Fried'), (31, 'Dal', 4, 'nice taste', 'Lunch', 'Fried'), (36, 'Momos', 4, 'nice taste', 'Brunch', 'Spicy in taste'), (45, 'Chilli paneer', 3, 'delicious', 'Lunch', 'Spicy')]
+2024-07-31 15:25:20 - INFO - Sent message: add_recommendation|16
+2024-07-31 15:25:20 - INFO - Received response: Recommendation added successfully for menuId: 16
+2024-07-31 15:25:33 - INFO - employee authentication successful for ID 103
+2024-07-31 15:25:39 - INFO - Sent message: employee_view_recommendation
+2024-07-31 15:25:39 - INFO - Received response: {'Breakfast': [], 'Lunch': [(16, 'Chowmein Platter', 'Lunch', '2024-08-01', 3.0), (20, 'Biryani', 'Lunch', '2024-08-01', 4.0), (31, 'Dal', 'Lunch', '2024-08-01', 4.0), (45, 'Chilli paneer', 'Lunch', '2024-08-01', 3.0)], 'Dinner': []}
+2024-07-31 15:39:00 - INFO - Sent message: get_feedback
+2024-07-31 15:39:00 - INFO - Received response: [(11, 103, 31, 'Dal', 4, 'nice taste'), (12, 103, 4, 'Samosa', 1, 'Tasteless'), (16, 103, 2, 'Upma', 5, 'extremely_bad'), (19, 112, 1, 'Kheer', 1, 'Tasteless'), (20, 103, 1, 'Kheer', 1, 'de'), (21, 103, 45, 'Chilli paneer', 3, 'delicious'), (22, 103, 1, 'Kheer', 3, 'delicious'), (23, 103, 1, 'Kheer', 3, 'delicious'), (24, 103, 16, 'Chowmein Platter', 3, 'delicious'), (25, 103, 2, 'Upma', 3, 'delicious'), (26, 112, 2079, 'Jalebi', 3, 'delicious'), (27, 103, 7, 'Oats Meal', 4, 'nice taste'), (28, 107, 4, 'Samosa', 3, 'nice taste'), (29, 107, 8, 'Medu Vada', 5, 'delicious'), (30, 107, 9, 'Chicken Meal', 4, 'nice taste')]
+2024-07-31 16:22:27 - INFO - Sent message: employee_view_recommendation
+2024-07-31 16:22:27 - INFO - Received response: {'Breakfast': [], 'Lunch': [(16, 'Chowmein Platter', 'Lunch', '2024-08-01', 3.0), (20, 'Biryani', 'Lunch', '2024-08-01', 4.0), (31, 'Dal', 'Lunch', '2024-08-01', 4.0), (45, 'Chilli paneer', 'Lunch', '2024-08-01', 3.0)], 'Dinner': []}
+2024-07-31 16:23:19 - INFO - Connected to server at localhost:9999
+2024-07-31 16:23:28 - INFO - employee authentication successful for ID 103
+2024-07-31 16:23:35 - INFO - Sent message: vote_for_menu_item|16
+2024-07-31 16:23:35 - INFO - Received response: Successfully Voted for Menu Id: 16
+2024-07-31 16:23:45 - INFO - Sent message: view_employee_votes
+2024-07-31 16:23:45 - INFO - Received response: +-----------+------------------+--------------+
+|   Menu ID | Item Name        |   Vote Count |
++===========+==================+==============+
+|         1 | Kheer            |            1 |
++-----------+------------------+--------------+
+|         9 | Chicken Meal     |            1 |
++-----------+------------------+--------------+
+|        16 | Chowmein Platter |            1 |
++-----------+------------------+--------------+
+|        31 | Dal              |            1 |
++-----------+------------------+--------------+
+2024-07-31 16:24:23 - INFO - Sent message: add_final_recommendation|1
+2024-07-31 16:24:23 - INFO - Received response: Final recommendation added for tommorrow: (menuID) = 1
+2024-07-31 16:24:37 - INFO - Sent message: employee_view_recommendation
+2024-07-31 16:24:37 - INFO - Received response: {'Breakfast': [], 'Lunch': [(16, 'Chowmein Platter', 'Lunch', '2024-08-01', 3.0), (20, 'Biryani', 'Lunch', '2024-08-01', 4.0), (31, 'Dal', 'Lunch', '2024-08-01', 4.0), (45, 'Chilli paneer', 'Lunch', '2024-08-01', 3.0)], 'Dinner': []}
+2024-07-31 16:24:45 - INFO - Sent message: view_today_recommendation
+2024-07-31 16:24:45 - INFO - Received response: None
+2024-07-31 16:28:56 - INFO - Sent message: get_feedback
+2024-07-31 16:28:56 - INFO - Received response: [(11, 103, 31, 'Dal', 4, 'nice taste'), (12, 103, 4, 'Samosa', 1, 'Tasteless'), (16, 103, 2, 'Upma', 5, 'extremely_bad'), (19, 112, 1, 'Kheer', 1, 'Tasteless'), (20, 103, 1, 'Kheer', 1, 'de'), (21, 103, 45, 'Chilli paneer', 3, 'delicious'), (22, 103, 1, 'Kheer', 3, 'delicious'), (23, 103, 1, 'Kheer', 3, 'delicious'), (24, 103, 16, 'Chowmein Platter', 3, 'delicious'), (25, 103, 2, 'Upma', 3, 'delicious'), (26, 112, 2079, 'Jalebi', 3, 'delicious'), (27, 103, 7, 'Oats Meal', 4, 'nice taste'), (28, 107, 4, 'Samosa', 3, 'nice taste'), (29, 107, 8, 'Medu Vada', 5, 'delicious'), (30, 107, 9, 'Chicken Meal', 4, 'nice taste')]
+2024-07-31 16:30:31 - INFO - Sent message: get_feedback
+2024-07-31 16:30:31 - INFO - Received response: [(11, 103, 31, 'Dal', 4, 'nice taste'), (12, 103, 4, 'Samosa', 1, 'Tasteless'), (16, 103, 2, 'Upma', 5, 'extremely_bad'), (19, 112, 1, 'Kheer', 1, 'Tasteless'), (20, 103, 1, 'Kheer', 1, 'de'), (21, 103, 45, 'Chilli paneer', 3, 'delicious'), (22, 103, 1, 'Kheer', 3, 'delicious'), (23, 103, 1, 'Kheer', 3, 'delicious'), (24, 103, 16, 'Chowmein Platter', 3, 'delicious'), (25, 103, 2, 'Upma', 3, 'delicious'), (26, 112, 2079, 'Jalebi', 3, 'delicious'), (27, 103, 7, 'Oats Meal', 4, 'nice taste'), (28, 107, 4, 'Samosa', 3, 'nice taste'), (29, 107, 8, 'Medu Vada', 5, 'delicious'), (30, 107, 9, 'Chicken Meal', 4, 'nice taste')]
+2024-07-31 16:32:47 - INFO - Sent message: validate_feedback|30|103
+2024-07-31 16:32:47 - INFO - Received response: Alert!!
+No matching order found for menuID 30. Please place an order first.
+2024-08-02 09:21:20 - INFO - Connected to server at localhost:9999
+2024-08-02 09:21:29 - INFO - chef authentication successful for ID 102
+2024-08-02 09:21:46 - INFO - Sent message: roll_out
+2024-08-02 09:21:46 - INFO - Received response: [(1, 'Kheer', 3, 'delicious', 'Lunch', 'Authentic'), (2, 'Upma', 3, 'delicious', 'BreakFast', 'made with grained rice'), (4, 'Samosa', 3, 'nice taste', 'BreakFast', 'Available with chola'), (7, 'Oats Meal', 4, 'nice taste', 'BreakFast', 'Good for health'), (8, 'Medu Vada', 5, 'delicious', 'BreakFast', 'Available with Special Sambhar'), (9, 'Chicken Meal', 4, 'nice taste', 'Lunch', 'Can be shared with 2 person easily'), (15, 'Rice Bowl', 3, 'delicious', 'Lunch', 'Available with curry'), (15, 'Rice Bowl', 4, 'delicious', 'Lunch', 'Available with curry'), (16, 'Chowmein Platter', 3, 'delicious', 'Lunch', 'Options with manchurian or paneer curry'), (17, 'Panner butter Masala', 4, 'nice taste', 'Lunch', 'North Style Special'), (20, 'Biryani', 4, 'nice taste', 'Lunch', 'Luncknawi Style'), (31, 'Dal', 4, 'delicious', 'Lunch', 'Fried'), (31, 'Dal', 4, 'nice taste', 'Lunch', 'Fried'), (36, 'Momos', 4, 'nice taste', 'Brunch', 'Spicy in taste'), (45, 'Chilli paneer', 3, 'delicious', 'Lunch', 'Spicy')]
+2024-08-02 09:21:57 - INFO - Sent message: add_recommendation|15
+2024-08-02 09:21:57 - INFO - Received response: Recommendation added successfully for menuId: 15
+2024-08-02 09:21:58 - INFO - Sent message: add_recommendation|16
+2024-08-02 09:21:58 - INFO - Received response: Recommendation added successfully for menuId: 16
+2024-08-02 09:22:13 - INFO - Sent message: add_final_recommendation|15
+2024-08-02 09:22:13 - INFO - Received response: Final recommendation added for tommorrow: (menuID) = 15
+2024-08-02 09:22:15 - INFO - Sent message: add_final_recommendation|16
+2024-08-02 09:22:15 - INFO - Received response: Final recommendation added for tommorrow: (menuID) = 16
+2024-08-02 09:22:18 - INFO - Connection closed
+2024-08-02 09:22:21 - INFO - Connected to server at localhost:9999
+2024-08-02 09:22:28 - INFO - employee authentication successful for ID 103
+2024-08-02 09:22:37 - INFO - Sent message: view_today_recommendation
+2024-08-02 09:22:37 - INFO - Received response: None
+2024-08-02 09:22:46 - INFO - Sent message: employee_view_recommendation
+2024-08-02 09:22:46 - INFO - Received response: {'Breakfast': [], 'Lunch': [(15, 'Rice Bowl', 'Lunch', '2024-08-03', 3.0), (16, 'Chowmein Platter', 'Lunch', '2024-08-03', 3.0)], 'Dinner': []}
+2024-08-02 09:28:55 - INFO - Connected to server at localhost:9999
+2024-08-02 09:29:02 - INFO - employee authentication successful for ID 103
+2024-08-02 09:29:05 - INFO - Sent message: view_today_recommendation
+2024-08-02 09:29:05 - INFO - Received response: None
+2024-08-02 09:33:25 - INFO - Connected to server at localhost:9999
+2024-08-02 09:33:32 - INFO - employee authentication successful for ID 103
+2024-08-02 09:33:33 - INFO - Connection closed
+2024-08-02 13:42:47 - INFO - Connected to server at localhost:9999
+2024-08-02 13:42:54 - INFO - employee authentication successful for ID 103
+2024-08-02 13:44:56 - INFO - Connected to server at localhost:9999
+2024-08-02 13:45:02 - INFO - employee authentication successful for ID 103
+2024-08-02 13:45:04 - INFO - Sent message: view_today_recommendation
+2024-08-02 13:45:04 - INFO - Received response: None
+2024-08-02 13:50:01 - INFO - Connected to server at localhost:9999
+2024-08-02 13:50:08 - INFO - employee authentication successful for ID 103
+2024-08-02 13:50:09 - INFO - Sent message: view_today_recommendation
+2024-08-02 13:50:09 - INFO - Received response: [[5, 'Baked Sweet Potato', 110, True, 'BreakFast', '2024-08-02']]
+2024-08-02 13:50:56 - INFO - Connected to server at localhost:9999
+2024-08-02 13:50:59 - INFO - employee authentication successful for ID 103
+2024-08-02 13:51:00 - INFO - Sent message: view_today_recommendation
+2024-08-02 13:51:00 - INFO - Received response: [[5, 'Baked Sweet Potato', 110, True, 'BreakFast', '2024-08-02']]
+2024-08-02 13:51:14 - INFO - Connected to server at localhost:9999
+2024-08-02 13:51:19 - INFO - employee authentication successful for ID 103
+2024-08-02 13:51:25 - INFO - Sent message: view_today_recommendation
+2024-08-02 13:51:25 - INFO - Received response: [[5, 'Baked Sweet Potato', 110, True, 'BreakFast', '2024-08-02']]
+2024-08-03 15:35:57 - INFO - Sent message: view_today_recommendation
+2024-08-03 15:35:57 - INFO - Received response: [[15, 'Rice Bowl', 190, True, 'Lunch', '2024-08-03'], [16, 'Chowmein Platter', 210, True, 'Lunch', '2024-08-03'], [4, 'Samosa', 20, True, 'BreakFast', '2024-08-03']]
+2024-08-03 15:36:16 - INFO - Connected to server at localhost:9999
+2024-08-03 15:36:23 - INFO - employee authentication successful for ID 103
+2024-08-03 15:36:26 - INFO - Sent message: view_today_recommendation
+2024-08-03 15:36:26 - INFO - Received response: [[15, 'Rice Bowl', 190, True, 'Lunch', '2024-08-03'], [16, 'Chowmein Platter', 210, True, 'Lunch', '2024-08-03'], [4, 'Samosa', 20, True, 'BreakFast', '2024-08-03']]
+2024-08-03 15:41:46 - INFO - Connected to server at localhost:9999
+2024-08-03 15:41:56 - INFO - employee authentication successful for ID 103
+2024-08-03 15:41:58 - INFO - Sent message: view_today_recommendation
+2024-08-03 15:41:58 - INFO - Received response: {'Breakfast': [(4, 'Samosa', 20, True, 'BreakFast', '2024-08-03')], 'Lunch': [(15, 'Rice Bowl', 190, True, 'Lunch', '2024-08-03'), (16, 'Chowmein Platter', 210, True, 'Lunch', '2024-08-03')], 'Dinner': []}
+2024-08-03 15:44:53 - INFO - Connected to server at localhost:9999
+2024-08-03 15:45:02 - INFO - employee authentication successful for ID 103
+2024-08-03 15:45:03 - INFO - Sent message: view_today_recommendation
+2024-08-03 15:45:03 - INFO - Received response: {'Breakfast': [(4, 'Samosa', 20, True, 'BreakFast', '2024-08-03')], 'Lunch': [(15, 'Rice Bowl', 190, True, 'Lunch', '2024-08-03'), (16, 'Chowmein Platter', 210, True, 'Lunch', '2024-08-03')], 'Dinner': []}
+2024-08-05 18:16:46 - INFO - Connected to server at localhost:9999
+2024-08-05 18:22:17 - INFO - Connected to server at localhost:9999
+2024-08-05 18:22:34 - INFO - Connected to server at localhost:9999
+2024-08-05 18:22:54 - INFO - Connected to server at localhost:9999
+2024-08-05 18:23:06 - INFO - Connected to server at localhost:9999
+2024-08-05 18:23:24 - INFO - Connected to server at localhost:9999
+2024-08-05 18:23:48 - INFO - Connected to server at localhost:9999
+2024-08-05 18:24:05 - INFO - Connected to server at localhost:9999
+2024-08-05 18:24:17 - INFO - admin authentication successful for ID 101
+2024-08-05 18:24:44 - INFO - Sent message: discard_list
+2024-08-05 18:24:44 - INFO - Received response: [('Upma', 2, 2, 1, 'Tasteless'), ('rasam', 22, 1, 1, 'Tasteless')]
+2024-08-05 18:25:44 - INFO - Sent message: request_feedback|Upma|2|What didn’t you like about Food_Item Upma?
+2024-08-05 18:25:44 - INFO - Received response: feedback requested for Upma from user
+2024-08-05 18:25:44 - INFO - Sent message: request_feedback|Upma|2|How would you like Food_Item to taste Upma?
+2024-08-05 18:25:44 - INFO - Received response: feedback requested for Upma from user
+2024-08-05 18:25:44 - INFO - Sent message: request_feedback|Upma|2|Share your mom’s recipe for Food_Item Upma
+2024-08-05 18:25:44 - INFO - Received response: feedback requested for Upma from user
+2024-08-05 18:25:51 - INFO - Connection closed
+2024-08-05 18:25:55 - INFO - Connected to server at localhost:9999
+2024-08-05 18:26:03 - INFO - employee authentication successful for ID 103
+2024-08-05 18:28:45 - INFO - Connection closed
+2024-08-05 18:28:47 - INFO - Connected to server at localhost:9999
+2024-08-05 18:28:56 - INFO - admin authentication successful for ID 101
+2024-08-05 18:29:01 - INFO - Sent message: discard_list
+2024-08-05 18:29:01 - INFO - Received response: [('Upma', 2, 2, 1, 'Tasteless'), ('rasam', 22, 1, 1, 'Tasteless')]
+2024-08-05 18:29:34 - INFO - Sent message: delete_menu_item|2
+2024-08-05 18:29:34 - INFO - Received response: Menu item deleted with menuId 2 and item name Upma
+2024-08-05 18:29:45 - INFO - Connection closed
+2024-08-05 18:29:47 - INFO - Connected to server at localhost:9999
+2024-08-05 18:29:54 - INFO - employee authentication successful for ID 103
+2024-08-05 18:30:07 - INFO - Sent message: view_today_recommendation
+2024-08-05 18:30:07 - INFO - Received response: {'Breakfast': [], 'Lunch': [], 'Dinner': []}
+2024-08-05 18:30:12 - INFO - Connection closed
+2024-08-05 18:39:41 - INFO - Connected to server at localhost:9999
+2024-08-05 18:39:52 - INFO - chef authentication successful for ID 102
+2024-08-05 18:39:54 - INFO - Sent message: monthly_feedback_report
+2024-08-05 18:39:54 - INFO - Received response: Menu ID: 2, Average Rating: 2, Total Feedbacks: 1
+Menu ID: 15, Average Rating: 3, Total Feedbacks: 4
+Menu ID: 17, Average Rating: 4, Total Feedbacks: 1
+Menu ID: 20, Average Rating: 4, Total Feedbacks: 1
+Menu ID: 22, Average Rating: 1, Total Feedbacks: 1
+Menu ID: 31, Average Rating: 4, Total Feedbacks: 1
+Menu ID: 56, Average Rating: 4, Total Feedbacks: 1
+2024-08-05 18:40:03 - INFO - Sent message: roll_out
+2024-08-05 18:40:03 - INFO - Received response: [(1, 'Kheer', 3, 'delicious', 'Lunch', 'Authentic'), (2, 'Upma', 3, 'delicious', 'BreakFast', 'made with grained rice'), (4, 'Samosa', 3, 'nice taste', 'BreakFast', 'Available with chola'), (7, 'Oats Meal', 4, 'nice taste', 'BreakFast', 'Good for health'), (8, 'Medu Vada', 5, 'delicious', 'BreakFast', 'Available with Special Sambhar'), (9, 'Chicken Meal', 4, 'nice taste', 'Lunch', 'Can be shared with 2 person easily'), (15, 'Rice Bowl', 3, 'delicious', 'Lunch', 'Available with curry'), (15, 'Rice Bowl', 4, 'delicious', 'Lunch', 'Available with curry'), (16, 'Chowmein Platter', 3, 'delicious', 'Lunch', 'Options with manchurian or paneer curry'), (17, 'Panner butter Masala', 4, 'nice taste', 'Lunch', 'North Style Special'), (20, 'Biryani', 4, 'nice taste', 'Lunch', 'Luncknawi Style'), (31, 'Dal', 4, 'delicious', 'Lunch', 'Fried'), (31, 'Dal', 4, 'nice taste', 'Lunch', 'Fried'), (36, 'Momos', 4, 'nice taste', 'Brunch', 'Spicy in taste'), (45, 'Chilli paneer', 3, 'delicious', 'Lunch', 'Spicy')]
+2024-08-05 19:28:41 - INFO - Connected to server at localhost:9999
+2024-08-05 19:29:38 - INFO - admin authentication successful for ID 101
+2024-08-05 19:31:38 - INFO - Sent message: add_menu_item|Noodles|110|1|Lunch|Fried|1|Vegeterian|Medium|North Indian|No
+2024-08-05 19:31:38 - INFO - Received response: Food Item added in Menu : Noodles
+2024-08-05 19:32:53 - INFO - Sent message: update_menu_item|3112|price=120.0
+2024-08-05 19:32:53 - INFO - Received response: Error processing request: menuManage.update_menu_item() missing 1 required positional argument: 'menu_id'
+2024-08-05 19:33:28 - INFO - Sent message: delete_menu_item|3112
+2024-08-05 19:33:28 - INFO - Received response: Menu item deleted with menuId 3112 and item name Noodles
+2024-08-05 19:34:17 - INFO - Sent message: discard_list
+2024-08-05 19:34:17 - INFO - Received response: [('Upma', 2, 2, 1, 'Tasteless'), ('rasam', 22, 1, 1, 'Tasteless')]
+2024-08-05 19:36:12 - INFO - Sent message: delete_menu_item|2
+2024-08-05 19:36:12 - INFO - Received response: Menu item deleted with menuId 2 and item name Upma
+2024-08-05 19:36:23 - INFO - Sent message: discard_list
+2024-08-05 19:36:23 - INFO - Received response: [('Upma', 2, 2, 1, 'Tasteless'), ('rasam', 22, 1, 1, 'Tasteless')]
+2024-08-05 19:37:53 - INFO - Sent message: request_feedback|rasam|22|What didn’t you like about Food_Item rasam?
+2024-08-05 19:37:53 - INFO - Received response: feedback requested for rasam from user
+2024-08-05 19:37:53 - INFO - Sent message: request_feedback|rasam|22|How would you like Food_Item rasam to taste?
+2024-08-05 19:37:53 - INFO - Received response: feedback requested for rasam from user
+2024-08-05 19:37:53 - INFO - Sent message: request_feedback|rasam|22|Share your mom’s recipe for Food_Item rasam
+2024-08-05 19:37:53 - INFO - Received response: feedback requested for rasam from user
+2024-08-05 19:38:11 - INFO - Connection closed
+2024-08-05 19:38:14 - INFO - Connected to server at localhost:9999
+2024-08-05 19:38:23 - INFO - chef authentication successful for ID 102
+2024-08-05 19:38:59 - INFO - Sent message: monthly_feedback_report
+2024-08-05 19:38:59 - INFO - Received response: Menu ID: 2, Average Rating: 2, Total Feedbacks: 1
+Menu ID: 15, Average Rating: 3, Total Feedbacks: 4
+Menu ID: 17, Average Rating: 4, Total Feedbacks: 1
+Menu ID: 20, Average Rating: 4, Total Feedbacks: 1
+Menu ID: 22, Average Rating: 1, Total Feedbacks: 1
+Menu ID: 31, Average Rating: 4, Total Feedbacks: 1
+Menu ID: 56, Average Rating: 4, Total Feedbacks: 1
+2024-08-05 19:39:20 - INFO - Sent message: get_menu
+2024-08-05 19:39:20 - INFO - Received response: 1|Kheer|55|True|Lunch|Authentic|True|Vegeterian|Medium|North Indian|Yes
+2|Upma|75|True|BreakFast|made with grained rice|True|Vegeterian|Low|South Indian|Yes
+3|Idli|50|True|BreakFast|Available with special sambhar|True|Vegeterian|Low|South Indian|Yes
+4|Samosa|20|True|BreakFast|Available with chola|True|Vegetarian|Medium|North Indian|No
+5|Baked Sweet Potato|110|True|BreakFast|With Peanut Butter|False|Vegetarian|Low|Mexican|Yes
+6|Alloo Paratha|80|True|BreakFast|fine grain wheat|False|Vegetarian|Medium|North Indian|No
+7|Oats Meal|90|True|BreakFast|Good for health|False|Vegeterian|Low|Italian|Yes
+8|Medu Vada|95|True|BreakFast|Available with Special Sambhar|False|Vegeterian|Medium|South Indian|No
+9|Chicken Meal|150|True|Lunch|Can be shared with 2 person easily|False|Non Vegeterian|High|South Indian|No
+13|Chole Bhature|160|True|Lunch|North India Style|False|Vegeterian|High|North Indian|No
+14|Veg Fired Rice|150|True|Lunch|Noth East Style|False|Vegetarian|Medium|Chinese|No
+15|Rice Bowl|190|True|Lunch|Available with cu
+2024-08-05 19:39:43 - INFO - Sent message: view_employee_votes
+2024-08-05 19:39:43 - INFO - Received response: rry|False|Vegetarian|Low|Russian|No
+16|Chowmein Platter|210|True|Lunch|Options with manchurian or paneer curry|False|Vegetarian|High|Chinese|No
+17|Panner butter Masala|120|True|Lunch|North Style Special|False|Vegeterian|Medium|North Indian|No
+19|Mutton Masala|210|True|Lunch|Awadh Style|False|Non Vegeterian|High|North Indian|No
+20|Biryani|255|True|Lunch|Luncknawi Style|False|Non Vegeterian|High|North Indian|No
+21|Sag Aloo|120|True|Dinner|Plenty of sag good for health|False|Vegeterian|Medium|North Indian|No
+22|rasam|22|False|diet|pure|True|Vegetarian|Medium|South Indian|No
+23|Red lentis curry|130|True|Dinner|Creamy dish|False|Vegetarian|High|Italian|No
+24|Ghobi Parantha|100|True|Dinner|Crispy Parantha with cauliflower|False|Vegetarian|Medium|North Indian|No
+25|Palak Paneer|140|True|Dinner|Enrich with Iron|False|Vegeterian|Medium|North Indian|No
+26|curd rice|76|True|Dinner|good in protein|False|Vegeterian|Low|South Indian|Yes
+27|Mushroom masala|180|True|Dinner|Cooked with fined grained masala|False|Vegeterian|Hi
+2024-08-05 19:40:20 - INFO - Sent message: roll_out
+2024-08-05 19:40:20 - INFO - Received response: gh|North Indian|No
+29|Rajma Chawal|135|True|Dinner|Enrich with Protein|False|Vegeterian|High|North Indian|No
+31|Dal|101|True|Lunch|Fried|False|Vegeterian|Medium|North Indian|No
+32|Chilly paneer|150|True|Lunch|Super spicy|True|None|None|None|None
+33|cold drink|20|True|soft drink|refresh|True|None|None|None|None
+34|Masala Vada|38|True|Snacks|Sweet and sour|True|None|None|None|None
+36|Momos|125|True|Brunch|Spicy in taste|True|None|None|None|None
+37|Veg Soup|55|True|Snacks|Hot & Sour|True|None|None|None|None+-----------+------------------+--------------+
+|   Menu ID | Item Name        |   Vote Count |
++===========+==================+==============+
+|         1 | Kheer            |            1 |
++-----------+------------------+--------------+
+|         9 | Chicken Meal     |            1 |
++-----------+------------------+--------------+
+|        16 | Chowmein Platter |            1 |
++-----------+------------------+--------------+
+|        31 | Dal              |            1 |
++-----------+------------------+---
+2024-08-05 19:42:01 - INFO - Sent message: view_employee_votes
+2024-08-05 19:42:01 - INFO - Received response: -----------+[(1, 'Kheer', 3, 'delicious', 'Lunch', 'Authentic'), (2, 'Upma', 3, 'delicious', 'BreakFast', 'made with grained rice'), (4, 'Samosa', 3, 'nice taste', 'BreakFast', 'Available with chola'), (7, 'Oats Meal', 4, 'nice taste', 'BreakFast', 'Good for health'), (8, 'Medu Vada', 5, 'delicious', 'BreakFast', 'Available with Special Sambhar'), (9, 'Chicken Meal', 4, 'nice taste', 'Lunch', 'Can be shared with 2 person easily'), (15, 'Rice Bowl', 3, 'delicious', 'Lunch', 'Available with curry'), (15, 'Rice Bowl', 4, 'delicious', 'Lunch', 'Available with curry'), (16, 'Chowmein Platter', 3, 'delicious', 'Lunch', 'Options with manchurian or paneer curry'), (17, 'Panner butter Masala', 4, 'nice taste', 'Lunch', 'North Style Special'), (20, 'Biryani', 4, 'nice taste', 'Lunch', 'Luncknawi Style'), (31, 'Dal', 4, 'delicious', 'Lunch', 'Fried'), (31, 'Dal', 4, 'nice taste', 'Lunch', 'Fried'), (36, 'Momos', 4, 'nice taste', 'Brunch', 'Spicy in taste'), (45, 'Chilli paneer', 3, 'delicious', 'Lunch', 'Spicy')]
+2024-08-05 19:46:32 - INFO - Connected to server at localhost:9999
+2024-08-05 19:46:39 - INFO - chef authentication successful for ID 102
+2024-08-05 19:47:03 - INFO - Connected to server at localhost:9999
+2024-08-05 19:47:05 - ERROR - Invalid role input
+2024-08-05 19:47:10 - INFO - Connected to server at localhost:9999
+2024-08-05 19:47:16 - ERROR - Invalid role input
+2024-08-05 19:47:19 - INFO - Connected to server at localhost:9999
+2024-08-05 19:47:25 - INFO - chef authentication successful for ID 102
+2024-08-05 19:47:28 - INFO - Sent message: view_employee_votes
+2024-08-05 19:47:28 - INFO - Received response: +-----------+------------------+--------------+
+|   Menu ID | Item Name        |   Vote Count |
++===========+==================+==============+
+|         1 | Kheer            |            1 |
++-----------+------------------+--------------+
+|         9 | Chicken Meal     |            1 |
++-----------+------------------+--------------+
+|        16 | Chowmein Platter |            1 |
++-----------+------------------+--------------+
+|        31 | Dal              |            1 |
++-----------+------------------+--------------+
+2024-08-05 19:47:39 - INFO - Sent message: roll_out
+2024-08-05 19:47:39 - INFO - Received response: [(1, 'Kheer', 3, 'delicious', 'Lunch', 'Authentic'), (2, 'Upma', 3, 'delicious', 'BreakFast', 'made with grained rice'), (4, 'Samosa', 3, 'nice taste', 'BreakFast', 'Available with chola'), (7, 'Oats Meal', 4, 'nice taste', 'BreakFast', 'Good for health'), (8, 'Medu Vada', 5, 'delicious', 'BreakFast', 'Available with Special Sambhar'), (9, 'Chicken Meal', 4, 'nice taste', 'Lunch', 'Can be shared with 2 person easily'), (15, 'Rice Bowl', 3, 'delicious', 'Lunch', 'Available with curry'), (15, 'Rice Bowl', 4, 'delicious', 'Lunch', 'Available with curry'), (16, 'Chowmein Platter', 3, 'delicious', 'Lunch', 'Options with manchurian or paneer curry'), (17, 'Panner butter Masala', 4, 'nice taste', 'Lunch', 'North Style Special'), (20, 'Biryani', 4, 'nice taste', 'Lunch', 'Luncknawi Style'), (31, 'Dal', 4, 'delicious', 'Lunch', 'Fried'), (31, 'Dal', 4, 'nice taste', 'Lunch', 'Fried'), (36, 'Momos', 4, 'nice taste', 'Brunch', 'Spicy in taste'), (45, 'Chilli paneer', 3, 'delicious', 'Lunch', 'Spicy')]
+2024-08-05 19:47:47 - INFO - Connected to server at localhost:9999
+2024-08-05 19:48:04 - INFO - employee authentication successful for ID 102
+2024-08-05 19:48:10 - INFO - Connected to server at localhost:9999
+2024-08-05 19:48:18 - INFO - employee authentication successful for ID 102
+2024-08-05 19:48:31 - INFO - Connected to server at localhost:9999
+2024-08-05 19:48:37 - INFO - chef authentication successful for ID 102
+2024-08-05 19:49:26 - INFO - Connected to server at localhost:9999
+2024-08-05 19:49:33 - INFO - admin authentication successful for ID 101
+2024-08-05 19:49:51 - INFO - Sent message: update_menu_item|3112|mealType=Dinner
+2024-08-05 19:49:51 - INFO - Received response: Error processing request: menuManage.update_menu_item() missing 1 required positional argument: 'menu_id'
+2024-08-05 19:51:24 - INFO - Connection closed
+2024-08-05 19:51:26 - INFO - Connected to server at localhost:9999
+2024-08-05 19:51:32 - INFO - chef authentication successful for ID 102
+2024-08-05 19:51:48 - INFO - Sent message: update_menu_item|3112|mealType=Dinner
+2024-08-05 19:51:48 - INFO - Received response: Error processing request: menuManage.update_menu_item() missing 1 required positional argument: 'menu_id'
+2024-08-05 20:07:39 - INFO - Connected to server at localhost:9999
+2024-08-05 20:08:09 - INFO - admin authentication successful for ID 101
+2024-08-05 20:09:41 - INFO - Sent message: add_menu_item|Idli|55|1|Breakfast|Baked|0|Vegeterian|Low|South Indian|No
+2024-08-05 20:09:41 - INFO - Received response: Food Item added in Menu : Idli
+2024-08-05 20:10:48 - INFO - Sent message: delete_menu_item|3113
+2024-08-05 20:10:48 - INFO - Received response: Menu item deleted with menuId 3113 and item name Idli
+2024-08-05 20:11:30 - INFO - Sent message: discard_list
+2024-08-05 20:11:30 - INFO - Received response: [('Upma', 2, 2, 1, 'Tasteless'), ('rasam', 22, 1, 1, 'Tasteless')]
+2024-08-05 20:13:07 - INFO - Sent message: delete_menu_item|2
+2024-08-05 20:13:07 - INFO - Received response: Menu item deleted with menuId 2 and item name Upma
+2024-08-05 20:13:20 - INFO - Sent message: discard_list
+2024-08-05 20:13:20 - INFO - Received response: [('Upma', 2, 2, 1, 'Tasteless'), ('rasam', 22, 1, 1, 'Tasteless')]
+2024-08-05 20:14:37 - INFO - Sent message: request_feedback|rasam|22|What didn’t you like about Food_Item rasam?
+2024-08-05 20:14:37 - INFO - Received response: feedback requested for rasam from user
+2024-08-05 20:14:37 - INFO - Sent message: request_feedback|rasam|22|How would you like Food_Item rasam to taste?
+2024-08-05 20:14:37 - INFO - Received response: feedback requested for rasam from user
+2024-08-05 20:14:37 - INFO - Sent message: request_feedback|rasam|22|Share your mom’s recipe for Food_Item rasam
+2024-08-05 20:14:37 - INFO - Received response: feedback requested for rasam from user
+2024-08-05 20:15:03 - INFO - Connection closed
+2024-08-05 20:15:09 - INFO - Connected to server at localhost:9999
+2024-08-05 20:15:16 - INFO - chef authentication successful for ID 102
+2024-08-05 20:15:41 - INFO - Sent message: monthly_feedback_report
+2024-08-05 20:15:41 - INFO - Received response: Menu ID: 2, Average Rating: 2, Total Feedbacks: 1
+Menu ID: 15, Average Rating: 3, Total Feedbacks: 4
+Menu ID: 17, Average Rating: 4, Total Feedbacks: 1
+Menu ID: 20, Average Rating: 4, Total Feedbacks: 1
+Menu ID: 22, Average Rating: 1, Total Feedbacks: 1
+Menu ID: 31, Average Rating: 4, Total Feedbacks: 1
+Menu ID: 56, Average Rating: 4, Total Feedbacks: 1
+2024-08-05 20:16:09 - INFO - Sent message: roll_out
+2024-08-05 20:16:09 - INFO - Received response: [(1, 'Kheer', 3, 'delicious', 'Lunch', 'Authentic'), (2, 'Upma', 3, 'delicious', 'BreakFast', 'made with grained rice'), (4, 'Samosa', 3, 'nice taste', 'BreakFast', 'Available with chola'), (7, 'Oats Meal', 4, 'nice taste', 'BreakFast', 'Good for health'), (8, 'Medu Vada', 5, 'delicious', 'BreakFast', 'Available with Special Sambhar'), (9, 'Chicken Meal', 4, 'nice taste', 'Lunch', 'Can be shared with 2 person easily'), (15, 'Rice Bowl', 3, 'delicious', 'Lunch', 'Available with curry'), (15, 'Rice Bowl', 4, 'delicious', 'Lunch', 'Available with curry'), (16, 'Chowmein Platter', 3, 'delicious', 'Lunch', 'Options with manchurian or paneer curry'), (17, 'Panner butter Masala', 4, 'nice taste', 'Lunch', 'North Style Special'), (20, 'Biryani', 4, 'nice taste', 'Lunch', 'Luncknawi Style'), (31, 'Dal', 4, 'delicious', 'Lunch', 'Fried'), (31, 'Dal', 4, 'nice taste', 'Lunch', 'Fried'), (36, 'Momos', 4, 'nice taste', 'Brunch', 'Spicy in taste'), (45, 'Chilli paneer', 3, 'delicious', 'Lunch', 'Spicy')]
+2024-08-05 20:16:48 - INFO - Sent message: add_recommendation|1
+2024-08-05 20:16:48 - INFO - Received response: Recommendation added successfully for menuId: 1
+2024-08-05 20:17:05 - INFO - Sent message: get_menu
+2024-08-05 20:17:05 - INFO - Received response: 1|Kheer|55|True|Lunch|Authentic|True|Vegeterian|Medium|North Indian|Yes
+2|Upma|75|True|BreakFast|made with grained rice|True|Vegeterian|Low|South Indian|Yes
+3|Idli|50|True|BreakFast|Available with special sambhar|True|Vegeterian|Low|South Indian|Yes
+4|Samosa|20|True|BreakFast|Available with chola|True|Vegetarian|Medium|North Indian|No
+5|Baked Sweet Potato|110|True|BreakFast|With Peanut Butter|False|Vegetarian|Low|Mexican|Yes
+6|Alloo Paratha|80|True|BreakFast|fine grain wheat|False|Vegetarian|Medium|North Indian|No
+7|Oats Meal|90|True|BreakFast|Good for health|False|Vegeterian|Low|Italian|Yes
+8|Medu Vada|95|True|BreakFast|Available with Special Sambhar|False|Vegeterian|Medium|South Indian|No
+9|Chicken Meal|150|True|Lunch|Can be shared with 2 person easily|False|Non Vegeterian|High|South Indian|No
+13|Chole Bhature|160|True|Lunch|North India Style|False|Vegeterian|High|North Indian|No
+14|Veg Fired Rice|150|True|Lunch|Noth East Style|False|Vegetarian|Medium|Chinese|No
+15|Rice Bowl|190|True|Lunch|Available with cu
+2024-08-05 20:17:32 - INFO - Sent message: view_employee_votes
+2024-08-05 20:17:32 - INFO - Received response: rry|False|Vegetarian|Low|Russian|No
+16|Chowmein Platter|210|True|Lunch|Options with manchurian or paneer curry|False|Vegetarian|High|Chinese|No
+17|Panner butter Masala|120|True|Lunch|North Style Special|False|Vegeterian|Medium|North Indian|No
+19|Mutton Masala|210|True|Lunch|Awadh Style|False|Non Vegeterian|High|North Indian|No
+20|Biryani|255|True|Lunch|Luncknawi Style|False|Non Vegeterian|High|North Indian|No
+21|Sag Aloo|120|True|Dinner|Plenty of sag good for health|False|Vegeterian|Medium|North Indian|No
+22|rasam|22|False|diet|pure|True|Vegetarian|Medium|South Indian|No
+23|Red lentis curry|130|True|Dinner|Creamy dish|False|Vegetarian|High|Italian|No
+24|Ghobi Parantha|100|True|Dinner|Crispy Parantha with cauliflower|False|Vegetarian|Medium|North Indian|No
+25|Palak Paneer|140|True|Dinner|Enrich with Iron|False|Vegeterian|Medium|North Indian|No
+26|curd rice|76|True|Dinner|good in protein|False|Vegeterian|Low|South Indian|Yes
+27|Mushroom masala|180|True|Dinner|Cooked with fined grained masala|False|Vegeterian|Hi
+2024-08-05 20:17:57 - INFO - Sent message: add_final_recommendation|1
+2024-08-05 20:17:57 - INFO - Received response: gh|North Indian|No
+29|Rajma Chawal|135|True|Dinner|Enrich with Protein|False|Vegeterian|High|North Indian|No
+31|Dal|101|True|Lunch|Fried|False|Vegeterian|Medium|North Indian|No
+32|Chilly paneer|150|True|Lunch|Super spicy|True|None|None|None|None
+33|cold drink|20|True|soft drink|refresh|True|None|None|None|None
+34|Masala Vada|38|True|Snacks|Sweet and sour|True|None|None|None|None
+36|Momos|125|True|Brunch|Spicy in taste|True|None|None|None|None
+37|Veg Soup|55|True|Snacks|Hot & Sour|True|None|None|None|None+-----------+------------------+--------------+
+|   Menu ID | Item Name        |   Vote Count |
++===========+==================+==============+
+|         1 | Kheer            |            1 |
++-----------+------------------+--------------+
+|         9 | Chicken Meal     |            1 |
++-----------+------------------+--------------+
+|        16 | Chowmein Platter |            1 |
++-----------+------------------+--------------+
+|        31 | Dal              |            1 |
++-----------+------------------+---
+2024-08-05 20:18:03 - INFO - Sent message: add_final_recommendation|1
+2024-08-05 20:18:03 - INFO - Received response: -----------+Final recommendation added for tommorrow: (menuID) = 1
+2024-08-05 20:18:22 - INFO - Connection closed
+2024-08-05 20:18:25 - INFO - Connected to server at localhost:9999
+2024-08-05 20:18:36 - INFO - employee authentication successful for ID 103
+2024-08-05 20:19:38 - INFO - Sent message: validate_feedback|1|103
+2024-08-05 20:19:38 - INFO - Received response: Order found. You can now add feedback.
+2024-08-05 20:19:48 - INFO - Sent message: add_feedback|103|1|3|nice taste
+2024-08-05 20:19:48 - INFO - Received response: Feedback added for menu ID : 1
+2024-08-05 20:20:12 - INFO - Sent message: validate_feedback|3113|103
+2024-08-05 20:20:12 - INFO - Received response: Alert!!
+No matching order found for menuID 3113. Please place an order first.
+2024-08-05 20:20:43 - INFO - Sent message: order|3113|103|Idli
+2024-08-05 20:20:43 - INFO - Received response: Error: 'NoneType' object has no attribute 'encode'
+2024-08-05 20:20:53 - INFO - Sent message: validate_feedback|3113|103
+2024-08-05 20:20:53 - INFO - Received response: Order found. You can now add feedback.
+2024-08-05 20:21:01 - INFO - Sent message: add_feedback|103|3113|4|delicious
+2024-08-05 20:21:01 - INFO - Received response: Feedback added for menu ID : 3113
+2024-08-05 20:21:11 - INFO - Sent message: get_feedback
+2024-08-05 20:21:11 - INFO - Received response: [(11, 103, 31, 'Dal', 4, 'nice taste'), (12, 103, 4, 'Samosa', 1, 'Tasteless'), (16, 103, 2, 'Upma', 5, 'extremely_bad'), (19, 112, 1, 'Kheer', 1, 'Tasteless'), (20, 103, 1, 'Kheer', 1, 'de'), (21, 103, 45, 'Chilli paneer', 3, 'delicious'), (22, 103, 1, 'Kheer', 3, 'delicious'), (23, 103, 1, 'Kheer', 3, 'delicious'), (24, 103, 16, 'Chowmein Platter', 3, 'delicious'), (25, 103, 2, 'Upma', 3, 'delicious'), (26, 112, 2079, 'Jalebi', 3, 'delicious'), (27, 103, 7, 'Oats Meal', 4, 'nice taste'), (28, 107, 4, 'Samosa', 3, 'nice taste'), (29, 107, 8, 'Medu Vada', 5, 'delicious'), (30, 107, 9, 'Chicken Meal', 4, 'nice taste')]
+2024-08-05 20:21:43 - INFO - Sent message: employee_view_recommendation
+2024-08-05 20:21:43 - INFO - Received response: {'Breakfast': [], 'Lunch': [(1, 'Kheer', 'Lunch', '2024-08-06', 2.0)], 'Dinner': []}
+2024-08-05 20:22:36 - INFO - Sent message: update_profile|103|Vegeterian|Low|North Indian|Yes
+2024-08-05 20:22:36 - INFO - Received response: Error processing request: ('23000', "[23000] [Microsoft][ODBC SQL Server Driver][SQL Server]Violation of PRIMARY KEY constraint 'PK__UserPref__7AD04FF114BF649C'. Cannot insert duplicate key in object 'dbo.UserPreferenceProfile'. The duplicate key value is (103). (2627) (SQLExecDirectW); [23000] [Microsoft][ODBC SQL Server Driver][SQL Server]The statement has been terminated. (3621)")
+2024-08-05 20:23:00 - INFO - Sent message: user_preference|103
+2024-08-05 20:23:00 - INFO - Received response: Error processing request: ('42S22', "[42S22] [Microsoft][ODBC SQL Server Driver][SQL Server]Invalid column name 'menuIds'. (207) (SQLExecDirectW); [42S22] [Microsoft][ODBC SQL Server Driver][SQL Server]Statement(s) could not be prepared. (8180)")
+2024-08-05 20:23:26 - INFO - Sent message: order|3112|103|Noodles
+2024-08-05 20:23:26 - INFO - Received response: Error: 'NoneType' object has no attribute 'encode'
+2024-08-05 20:25:19 - INFO - Sent message: vote_for_menu_item|1
+2024-08-05 20:25:19 - INFO - Received response: Successfully Voted for Menu Id: 1
+2024-08-05 20:25:33 - INFO - Sent message: view_today_recommendation
+2024-08-05 20:25:33 - INFO - Received response: {'Breakfast': [], 'Lunch': [], 'Dinner': []}
+2024-08-05 20:26:01 - INFO - Connected to server at localhost:9999
+2024-08-05 21:26:21 - INFO - Connected to server at localhost:9999
+2024-08-05 21:26:28 - INFO - employee authentication successful for ID 103
+2024-08-05 21:26:32 - INFO - Connection closed
+2024-08-05 21:26:34 - INFO - Connected to server at localhost:9999
+2024-08-05 21:26:40 - INFO - chef authentication successful for ID 102
+2024-08-05 21:26:43 - INFO - Sent message: view_employee_votes
+2024-08-05 21:26:43 - INFO - Received response: +-----------+------------------+--------------+
+|   Menu ID | Item Name        |   Vote Count |
++===========+==================+==============+
+|         1 | Kheer            |            2 |
++-----------+------------------+--------------+
+|         9 | Chicken Meal     |            1 |
++-----------+------------------+--------------+
+|        16 | Chowmein Platter |            1 |
++-----------+------------------+--------------+
+|        31 | Dal              |            1 |
++-----------+------------------+--------------+
