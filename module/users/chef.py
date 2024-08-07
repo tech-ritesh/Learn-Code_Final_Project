@@ -8,7 +8,6 @@ import ast
 import logging
 from colorama import Fore, Back, Style, init
 
-# Initialize colorama
 init(autoreset=True)
 
 logging.basicConfig(
