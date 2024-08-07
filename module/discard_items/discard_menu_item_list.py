@@ -27,7 +27,7 @@ class discard_menu_item:
                 GROUP BY menuId
             ) AS sf
             ON rf.menuId = sf.menuId
-            WHERE rf.avg_rating < 2 OR sf.menuId IS NOT NULL;
+            WHERE rf.avg_rating <= 2 OR sf.menuId IS NOT NULL;
         """
         cur.execute(sql)
         rows = cur.fetchall()

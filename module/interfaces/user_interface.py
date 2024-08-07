@@ -1,4 +1,3 @@
-# module/interfaces/user_interface.py
 from abc import ABC, abstractmethod
 
 class UserInterface(ABC):

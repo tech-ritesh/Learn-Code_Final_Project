@@ -12,7 +12,6 @@ from colorama import init, Fore, Style
 from Database import connection
 from server import CafeteriaServer
 
-# Initialize colorama
 init(autoreset=True)
 
 

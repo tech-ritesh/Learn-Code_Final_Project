@@ -312,9 +312,24 @@ class Employee(UserInterface):
         try:
             response = self.client.send_message("view_today_recommendation")
 
-            if response is not None and response.strip() and response != "None":
-                print(Fore.GREEN + "Today's Recommendations:\n" + Style.RESET_ALL + Fore.GREEN + response + Style.RESET_ALL)
-            else:
-                print(Fore.RED + "❌  No recommendations for today!!" + Style.RESET_ALL)
+            try:
+                view_today_recommendation = ast.literal_eval(response)
+                columns = [
+                    "menuId",
+                    "itemName",
+                    "price",
+                    "availability Status"
+                    "mealType",
+                    "recommendationDate",
+                ]
+
+                for meal_type, rows in view_today_recommendation.items():
+                    print(Fore.LIGHTMAGENTA_EX + f"\n{meal_type} Recommendations:\n")
+                    if rows:
+                        print(f"{Fore.CYAN}{tabulate(rows, headers=columns, tablefmt='grid')}{Style.RESET_ALL}")
+                    else:
+                        print(Fore.CYAN + "No recommendations available.")
+            except (ValueError, SyntaxError) as e:
+                print(Fore.RED + f"Error processing recommendations data: {e}")
         except Exception as e:
-            print(Fore.RED + f"Error retrieving today's recommendation: {e}" + Style.RESET_ALL)
+            print(Fore.RED + f"Error viewing recommendations: {e}")

@@ -3,6 +3,7 @@ import os
 import logging
 import socket
 
+
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "module"))
 )
@@ -10,8 +11,9 @@ sys.path.append(
 from users.admin import Admin
 from users.chef import Chef
 from users.employee import Employee
+from colorama import init, Fore, Style
+bold = '\033[1m'
 
-# Configure logging
 logging.basicConfig(
     filename="C:\\L_C_ITT\\Learn-Code_Final_Project\\module\\server_logs.log",
     level=logging.INFO,
@@ -54,7 +56,7 @@ class Client:
 def main():
     client = Client("localhost", 9999)
     client.connect()
-
+    print(Fore.LIGHTRED_EX + bold + "\nWelcome to Cafeteria !!\n" + Style.RESET_ALL)
     role = input("Enter your role (admin/chef/employee): ").strip().lower()
     if role == "admin":
         user = Admin(client)
