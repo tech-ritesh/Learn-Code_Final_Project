@@ -1,6 +1,7 @@
 from Database import connection
 from tabulate import tabulate
 
+
 class Voting:
     def __init__(self, menuId=None) -> None:
         self.menuId = menuId
@@ -24,7 +25,7 @@ class Voting:
             cursor.close()
 
     def view_employee_votes(self):
-        
+
         try:
             conn = connection.get_connection()
             query = """
@@ -34,11 +35,15 @@ class Voting:
             GROUP BY m.Id, m.itemName
             ORDER BY voteCount DESC
             """
-            cur =  conn.cursor()
+            cur = conn.cursor()
             cur.execute(query)
             rows = cur.fetchall()
             if rows:
-                table = tabulate(rows, headers=["Menu ID", "Item Name", "Vote Count"], tablefmt="grid")
+                table = tabulate(
+                    rows,
+                    headers=["Menu ID", "Item Name", "Vote Count"],
+                    tablefmt="grid",
+                )
                 return table
             else:
                 return "No votes found."

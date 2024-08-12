@@ -1,5 +1,6 @@
 from Database import connection
 
+
 class Feedback:
 
     def __init__(self, user_id, menu_id, rating, comment, date) -> None:
@@ -33,4 +34,3 @@ class Feedback:
         cur1.execute(sql)
         result = cur1.fetchall()
         return result
-

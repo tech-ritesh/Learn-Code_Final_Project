@@ -126,7 +126,7 @@ class CafeteriaServer:
                 if "itemName" in update_dict:
                     notifications = Notification()
                     notifications.insert_notification(
-                        f"Food Item {itemName} updated today!!"
+                        f"Food Item {update_dict['itemName']} updated today!!"
                     )
                     return f"Food Item Updated (Item Name): {update_dict['itemName']}"
                 else:
