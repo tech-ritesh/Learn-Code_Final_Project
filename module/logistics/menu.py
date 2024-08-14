@@ -5,7 +5,7 @@ from exceptions.exceptions import MenuItemError
 class menuManage:
     def __init__(self) -> None:
         pass
-    
+
     @staticmethod
     def add_menu_item(
         itemName,
@@ -45,10 +45,10 @@ class menuManage:
             print("Menu item added successfully!")
         except Exception as e:
             print(f"Error processing request: {e}")
-          
+
     @staticmethod
-    def update_menu_item(self, menu_id, **kwargs):
-    
+    def update_menu_item(menu_id, **kwargs):
+
         query = "UPDATE menu SET "
         query += ", ".join([f"{key} = ?" for key in kwargs.keys()])
         query += " WHERE id = ?"
@@ -95,7 +95,7 @@ class menuManage:
         try:
             conn = connection.get_connection()
             with conn.cursor() as cur1:
-                sql = "SELECT * FROM Menu"
+                sql = "SELECT TOP 30 *  FROM Menu"
                 cur1.execute(sql)
                 result = cur1.fetchall()
                 return result

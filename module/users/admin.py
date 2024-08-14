@@ -15,7 +15,6 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
-# Initialize colorama
 init(autoreset=True)
 
 

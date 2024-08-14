@@ -34,4 +34,3 @@ class Feedback:
         cur1.execute(sql)
         result = cur1.fetchall()
         return result
-

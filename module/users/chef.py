@@ -3,11 +3,11 @@ from logistics.menu import menuManage
 from logistics.notifications import Notification
 from tabulate import tabulate
 from Authentication.login import Login
+from logistics.employee_voting import Voting
 import ast
 import logging
 from colorama import Fore, Back, Style, init
 
-# Initialize colorama
 init(autoreset=True)
 
 logging.basicConfig(
@@ -254,9 +254,10 @@ class Chef(UserInterface):
             print(f"{Fore.RED}An error occurred while viewing the menu: {e}{Style.RESET_ALL}")
 
     def view_employee_votes(self):
+        
         try:
             response = self.client.send_message("view_employee_votes")
-            print(Fore.LIGHTMAGENTA_EX + "\nVoting list by employee for next dat recommendation for menu items are : \n")
+            print(Fore.LIGHTMAGENTA_EX + "\nVoting list by employee for next day recommendation for menu items are : \n")
             print(Fore.GREEN + response)
         except Exception as e:
             print(Fore.RED + f"Error retrieving votes: {e}")

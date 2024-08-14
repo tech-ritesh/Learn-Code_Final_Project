@@ -36,6 +36,7 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
+
 class CafeteriaServer:
     def __init__(self, host="localhost", port=9999):
         self.server_address = (host, port)
@@ -125,7 +126,7 @@ class CafeteriaServer:
                 if "itemName" in update_dict:
                     notifications = Notification()
                     notifications.insert_notification(
-                        f"Food Item {itemName} updated today!!"
+                        f"Food Item {update_dict['itemName']} updated today!!"
                     )
                     return f"Food Item Updated (Item Name): {update_dict['itemName']}"
                 else:
@@ -139,14 +140,13 @@ class CafeteriaServer:
                 sql = "select id, itemName from Menu where id = ?"
                 cur.execute(sql, (id,))
                 deleted_menu_item = cur.fetchone()
-        
+
                 if deleted_menu_item is None:
                     return "No menu item found with the given menuId."
                 id = deleted_menu_item[0]
                 item_name = deleted_menu_item[1]
-                
-                return f"Menu item deleted with menuId {id} and item name {item_name}"
 
+                return f"Menu item deleted with menuId {id} and item name {item_name}"
 
             elif action == "get_menu":
                 menu_items = menuManage.get_menu()
@@ -273,28 +273,28 @@ class CafeteriaServer:
                 )
                 print(recommendation_for_employee)
                 return str(recommendation_for_employee)
-            
-            elif action == "vote_for_menu_item" :
+
+            elif action == "vote_for_menu_item":
                 menu_id = parts[1]
                 voting = Voting()
                 voting.vote_for_menu_item(menu_id)
                 return f"Successfully Voted for Menu Id: {menu_id}"
-            
-            elif action == "view_employee_votes" :
+
+            elif action == "view_employee_votes":
                 voting = Voting()
                 employee_votes = voting.view_employee_votes()
                 return str(employee_votes)
-            
-            elif action == "add_final_recommendation" :
+
+            elif action == "add_final_recommendation":
                 menu_id = parts[1]
                 recommendation.add_final_recommendation(menu_id)
-                return f'Final recommendation added for tommorrow: (menuID) = {menu_id}'
+                return f"Final recommendation added for tommorrow: (menuID) = {menu_id}"
 
-            elif action == "view_today_recommendation" :
+            elif action == "view_today_recommendation":
                 view_recommendation = recommendation()
                 current_recommendation = view_recommendation.view_today_recommendation()
                 return str(current_recommendation)
-            
+
             else:
                 return "invalid_action"
 
