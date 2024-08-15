@@ -4,8 +4,8 @@ from Database import connection
 
 class Notification:
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self,message) -> None:
+        self.message = message
 
     def insert_notification(self, message):
         self.message = message

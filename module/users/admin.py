@@ -247,11 +247,12 @@ class Admin(UserInterface):
             print(Fore.CYAN + "1. Remove items\n2. Request detailed feedback")
             inp = int(input("Enter your choice: "))
             if inp == 1:
+                discard_items = discard_menu_item_list.DiscardMenuItem()
                 discard_menu_items = (
-                    discard_menu_item_list.discard_menu_item.discard_list()
+                    discard_items.discard_list()
                 )
                 user_feedback = (
-                    discard_menu_item_list.discard_menu_item.fetch_user_feedback_for_discarded_items()
+                    discard_items.fetch_user_feedback_for_discarded_items()
                 )
                 response = (
                     user_feedback

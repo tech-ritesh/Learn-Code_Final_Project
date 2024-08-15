@@ -2,8 +2,9 @@ from Database import connection
 
 
 class Login:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, employee_id, name) -> None:
+        self.employee_id = employee_id
+        self.name = name
 
     def authenticate(self, employee_id, name):
         try:

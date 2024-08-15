@@ -273,7 +273,8 @@ class Employee(UserInterface):
 
     def answer_feedback_questions(self):
         try:
-            feedback_ques = requset.fetch_feedback_requests()
+            request = requset()
+            feedback_ques = request.fetch_feedback_requests()
 
             if feedback_ques:
                 user_id = int(input("Enter user id: "))
@@ -289,8 +290,7 @@ class Employee(UserInterface):
                     match = re.match(pattern, ques[-1])
                     if match:
                         item_name = match.group(0).strip()
-                        print(item_name)
-                        requset.user_feedback_request(f"{feedback_ques[iterator][0]}: {user_input}", user_id, item_name)
+                        request.user_feedback_request(f"{feedback_ques[iterator][0]}: {user_input}", user_id, item_name)
                     else:
                         print(Fore.RED + "Error extracting item name from question.")
             else:
