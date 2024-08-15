@@ -13,7 +13,6 @@ from logistics.feedback import Feedback
 from logistics.menu import menuManage
 from logistics import notifications
 from logistics.recommendation import recommendation
-from logistics.recommendation import recommendation
 from logistics import report
 from Authentication.login import Login
 from discard_items import discard_menu_item_list
@@ -231,7 +230,7 @@ class CafeteriaServer:
                     PreferredCuisine,
                     SweetTooth,
                 ) = (int(parts[1]), parts[2], parts[3], parts[4], parts[5])
-                print(int(parts[1]), parts[2], parts[3], parts[4], parts[5])
+                update_profile = update_profile()
                 update_profile.update_profile(
                     EmployeeID,
                     DietaryPreference,

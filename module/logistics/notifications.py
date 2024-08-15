@@ -22,7 +22,7 @@ class Notification:
             cur1.close()
             conn.close()
 
-    def get_notification():
+    def get_notification(self):
         try:
             conn = connection.get_connection()
             cur1 = conn.cursor()

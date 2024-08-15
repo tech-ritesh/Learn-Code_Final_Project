@@ -11,15 +11,11 @@ from discard_items.feedback_request import requset
 from textwrap import shorten
 import logging
 from colorama import Fore, Style, init
+from socket.logging_config import setup_logging
 
+setup_logging()
 init(autoreset=True)
 
-logging.basicConfig(
-    filename="C:\\L_C_ITT\\Learn-Code_Final_Project\\module\\user_actions.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
 
 class Employee(UserInterface):
 
@@ -29,7 +25,9 @@ class Employee(UserInterface):
     def authenticate_user(self, user):
         try:
             self.user = user
-            print(Fore.CYAN + "\n================== Authentication ==================\n")
+            print(
+                Fore.CYAN + "\n================== Authentication ==================\n"
+            )
             employee_id = int(input(f"Enter {self.user} employee ID: "))
             name = input(f"Enter {self.user} name: ")
             login = Login()
@@ -54,14 +52,24 @@ class Employee(UserInterface):
             res = Notification.get_notification()
             if res:
                 print(Fore.YELLOW + "\nNotifications!! :\n")
-                print("\n".join(Fore.YELLOW + f"{str(item[0]) + ' on date: ' + item[1].strftime('%Y-%m-%d') + ' time: '  + item[1].strftime('%H:%M:%S')}" for item in res))
+                print(
+                    "\n".join(
+                        Fore.YELLOW
+                        + f"{str(item[0]) + ' on date: ' + item[1].strftime('%Y-%m-%d') + ' time: '  + item[1].strftime('%H:%M:%S')}"
+                        for item in res
+                    )
+                )
             else:
                 print(Fore.CYAN + "No new notifications for today!!")
 
             while True:
-                print(Fore.LIGHTRED_EX + "================== Employee Section ==================\n")
                 print(
-                    Fore.MAGENTA + "\n1. Give Feedback\n2. View Menu\n3. View Feedback\n4. View Recommended Menu items for tommorrow\n5. Update Profile\n6. Preference\n7. Order\n8. Answer Feedback Questions\n9. Vote for next day item\n10. View today's recommendation\n11. Exit"
+                    Fore.LIGHTRED_EX
+                    + "================== Employee Section ==================\n"
+                )
+                print(
+                    Fore.MAGENTA
+                    + "\n1. Give Feedback\n2. View Menu\n3. View Feedback\n4. View Recommended Menu items for tommorrow\n5. Update Profile\n6. Preference\n7. Order\n8. Answer Feedback Questions\n9. Vote for next day item\n10. View today's recommendation\n11. Exit"
                 )
                 choice = int(input("Enter your choice: "))
                 if choice == 1:
@@ -124,7 +132,9 @@ class Employee(UserInterface):
                 )
                 for item in li
             ]
-            print(f"{Fore.CYAN}{tabulate(adjusted_menu, headers=headers, tablefmt='grid')}{Style.RESET_ALL}")
+            print(
+                f"{Fore.CYAN}{tabulate(adjusted_menu, headers=headers, tablefmt='grid')}{Style.RESET_ALL}"
+            )
         except Exception as e:
             print(Fore.RED + f"Error viewing menu: {e}")
 
@@ -174,8 +184,12 @@ class Employee(UserInterface):
             ]
 
             columns = ["id", "userId", "menuId", "itemName", "Rating", "Comment"]
-            print((f"{Fore.CYAN}{tabulate(feedback_formatted, headers=columns, tablefmt='grid')}{Style.RESET_ALL}"))
-            
+            print(
+                (
+                    f"{Fore.CYAN}{tabulate(feedback_formatted, headers=columns, tablefmt='grid')}{Style.RESET_ALL}"
+                )
+            )
+
         except Exception as e:
             print(Fore.RED + f"Error viewing feedback: {e}")
 
@@ -196,7 +210,9 @@ class Employee(UserInterface):
                 for meal_type, rows in employee_recommendation.items():
                     print(Fore.LIGHTMAGENTA_EX + f"\n{meal_type} Recommendations:\n")
                     if rows:
-                        print(f"{Fore.CYAN}{tabulate(rows, headers=columns, tablefmt='grid')}{Style.RESET_ALL}")
+                        print(
+                            f"{Fore.CYAN}{tabulate(rows, headers=columns, tablefmt='grid')}{Style.RESET_ALL}"
+                        )
                     else:
                         print(Fore.CYAN + "No recommendations available.")
             except (ValueError, SyntaxError) as e:
@@ -252,8 +268,10 @@ class Employee(UserInterface):
                 for meal_type, rows in user_preference.items():
                     print(Fore.BLUE + f"\n{meal_type} Recommendations:\n")
                     if rows:
-                        print(f"{Fore.CYAN}{tabulate(rows, headers=columns, tablefmt='grid')}{Style.RESET_ALL}")
-                        
+                        print(
+                            f"{Fore.CYAN}{tabulate(rows, headers=columns, tablefmt='grid')}{Style.RESET_ALL}"
+                        )
+
                     else:
                         print(Fore.CYAN + "No recommendations available.")
             except (ValueError, SyntaxError) as e:
@@ -279,35 +297,47 @@ class Employee(UserInterface):
             if feedback_ques:
                 user_id = int(input("Enter user id: "))
                 for iterator in range(len(feedback_ques)):
-                    print(Fore.YELLOW + f"Question {iterator+1}: {feedback_ques[iterator][0]}\n")
+                    print(
+                        Fore.YELLOW
+                        + f"Question {iterator+1}: {feedback_ques[iterator][0]}\n"
+                    )
                     user_input = input("Answer (type 'exit' to return to main menu): ")
                     if user_input.lower() == "exit":
                         print(Fore.GREEN + "\nThanks for your feedback!!\n")
                         self.main_menu()
-                    
+
                     ques = feedback_ques[iterator][0].split()
                     pattern = r"[a-zA-Z\s]+"
                     match = re.match(pattern, ques[-1])
                     if match:
                         item_name = match.group(0).strip()
-                        request.user_feedback_request(f"{feedback_ques[iterator][0]}: {user_input}", user_id, item_name)
+                        request.user_feedback_request(
+                            f"{feedback_ques[iterator][0]}: {user_input}",
+                            user_id,
+                            item_name,
+                        )
                     else:
                         print(Fore.RED + "Error extracting item name from question.")
             else:
                 print(Fore.CYAN + "No feedback questions available.")
         except Exception as e:
             print(Fore.RED + f"Error answering feedback questions: {e}")
-    
+
     def vote_for_menu_item(self):
         try:
-            inp = int(input(Fore.YELLOW + 'Enter the number of menu items you want to vote for: '))
+            inp = int(
+                input(
+                    Fore.YELLOW
+                    + "Enter the number of menu items you want to vote for: "
+                )
+            )
             for iterator in range(inp):
-                menu_id = int(input(Fore.CYAN + 'Enter the menuID: '))
+                menu_id = int(input(Fore.CYAN + "Enter the menuID: "))
                 response = self.client.send_message(f"vote_for_menu_item|{menu_id}")
                 print(Fore.GREEN + response)
         except Exception as e:
             print(Fore.RED + f"Error processing request: {e}")
-    
+
     def view_today_recommendation(self):
         try:
             response = self.client.send_message("view_today_recommendation")
@@ -318,15 +348,16 @@ class Employee(UserInterface):
                     "menuId",
                     "itemName",
                     "price",
-                    "availability Status"
-                    "mealType",
+                    "availability Status" "mealType",
                     "recommendationDate",
                 ]
 
                 for meal_type, rows in view_today_recommendation.items():
                     print(Fore.LIGHTMAGENTA_EX + f"\n{meal_type} Recommendations:\n")
                     if rows:
-                        print(f"{Fore.CYAN}{tabulate(rows, headers=columns, tablefmt='grid')}{Style.RESET_ALL}")
+                        print(
+                            f"{Fore.CYAN}{tabulate(rows, headers=columns, tablefmt='grid')}{Style.RESET_ALL}"
+                        )
                     else:
                         print(Fore.CYAN + "No recommendations available.")
             except (ValueError, SyntaxError) as e:

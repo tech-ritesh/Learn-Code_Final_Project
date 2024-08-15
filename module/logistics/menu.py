@@ -1,6 +1,4 @@
 from Database import connection
-from exceptions.exceptions import MenuItemError
-
 
 class menuManage:
     def __init__(self) -> None:

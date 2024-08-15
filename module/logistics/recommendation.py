@@ -1,7 +1,6 @@
 from Database import connection
 from datetime import datetime
 from tabulate import tabulate
-from exceptions.exceptions import RecommendationError
 
 
 class recommendation:
@@ -35,8 +34,8 @@ class recommendation:
                     connect.commit()
                     return f"Recommendation added for menuId: {menuId}"
 
-            except RecommendationError:
-                return RecommendationError(message="Failed while adding recommendation")
+            except Exception as e:
+                return f"Error while adding recommendation: {e}"
             finally:
                 cursor.close()
 
@@ -58,10 +57,8 @@ class recommendation:
                 results[meal_type] = result
 
             return results
-        except RecommendationError:
-            return RecommendationError(
-                message="Unable to view recommendation for employee"
-            )
+        except Exception as e:
+            return f"Error while viewing employee recommendation : {e}"
         finally:
             cursor.close()
 
@@ -91,8 +88,8 @@ class recommendation:
             cursor.execute(sql)
             result = cursor.fetchall()
             return result
-        except RecommendationError:
-            return RecommendationError(message="Unable to view recommendation")
+        except Exception as e:
+            return f"Error while fetching recommendation as : {e}"
         finally:
             cursor.close()
 
@@ -106,8 +103,8 @@ class recommendation:
             cursor.execute(query, (menuId,))
             cursor.commit()
             return f"Successfully added final recommendation for Menu ID: {menuId} for tomorrow."
-        except RecommendationError:
-            return RecommendationError(message="Recommendation error")
+        except Exception as e:
+            return f"Error while adding final exception: {e}"
         finally:
             cursor.close()
 
@@ -130,9 +127,7 @@ class recommendation:
                 results[meal_type] = result
 
             return results
-        except RecommendationError:
-            return RecommendationError(
-                message="Error processing today's recommendation!!"
-            )
+        except Exception as e:
+            return f"Error while viewing recommendation : {e}"
         finally:
             cursor.close()

@@ -7,14 +7,9 @@ from tabulate import tabulate
 import ast
 import logging
 from colorama import init, Fore, Style
+from socket.logging_config import setup_logging
 
-logging.basicConfig(
-    filename="C:\\L_C_ITT\\Learn-Code_Final_Project\\module\\user_actions.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-
+setup_logging()
 init(autoreset=True)
 
 
@@ -26,7 +21,9 @@ class Admin(UserInterface):
     def authenticate_user(self, user):
         try:
             self.user = user
-            print(Fore.CYAN + "\n================== Authentication ==================\n")
+            print(
+                Fore.CYAN + "\n================== Authentication ==================\n"
+            )
             employee_id = int(input(f"Enter {self.user} employee ID: "))
             name = input(f"Enter {self.user} name: ")
             login = Login()
@@ -49,7 +46,10 @@ class Admin(UserInterface):
     def main_menu(self):
         try:
             while True:
-                print(Fore.LIGHTRED_EX + "================== Admin Section ==================")
+                print(
+                    Fore.LIGHTRED_EX
+                    + "================== Admin Section =================="
+                )
                 print(
                     Fore.YELLOW
                     + "\n1. Add Menu Item\n2. Update Menu Item\n3. Delete Menu Item\n4. View Menu\n5. Discard Menu Items List\n6. Exit"
@@ -192,8 +192,7 @@ class Admin(UserInterface):
                 "sweet_tooth",
             ]
 
-            menu = menuManage()
-            li = menu.get_menu()
+            list = self.client.send_message("get_menu")
             adjusted_menu = [
                 (
                     item[0][:15] if isinstance(item[0], str) else item[0],
@@ -207,7 +206,7 @@ class Admin(UserInterface):
                     item[8][:15] if isinstance(item[8], str) else item[8],
                     item[9][:15] if isinstance(item[9], str) else item[9],
                 )
-                for item in li
+                for item in list
             ]
             print(
                 Fore.GREEN + tabulate(adjusted_menu, headers=headers, tablefmt="grid")
@@ -248,12 +247,8 @@ class Admin(UserInterface):
             inp = int(input("Enter your choice: "))
             if inp == 1:
                 discard_items = discard_menu_item_list.DiscardMenuItem()
-                discard_menu_items = (
-                    discard_items.discard_list()
-                )
-                user_feedback = (
-                    discard_items.fetch_user_feedback_for_discarded_items()
-                )
+                discard_menu_items = discard_items.discard_list()
+                user_feedback = discard_items.fetch_user_feedback_for_discarded_items()
                 response = (
                     user_feedback
                     if isinstance(user_feedback, list)
@@ -266,22 +261,28 @@ class Admin(UserInterface):
                 )
                 print(Fore.GREEN + tabulate(response, headers=columns, floatfmt="grid"))
                 inp = int(input("Enter 1 to delete the item else 2 to exit : "))
-                
+
                 try:
                     inp = int(input("Enter 1 to delete the item else 2 to exit : "))
                     if inp == 1:
-                        menuId = int(input("Enter the menuId to delete from the Menu : "))
-                        response2 = self.client.send_message(f"delete_menu_item|{menuId}")
+                        menuId = int(
+                            input("Enter the menuId to delete from the Menu : ")
+                        )
+                        response2 = self.client.send_message(
+                            f"delete_menu_item|{menuId}"
+                        )
                         notifications = Notification()
-                        max_length = 255  
-                        truncated_message = f"Discarded Item Notification : {response2}"[:max_length]
+                        max_length = 255
+                        truncated_message = (
+                            f"Discarded Item Notification : {response2}"[:max_length]
+                        )
                         notifications.insert_notification(f"{truncated_message}")
                         print(Fore.GREEN + response2)
                     elif inp == 2:
                         self.main_menu()
                 except Exception as e:
                     print(Fore.RED + f"An error occurred while deleting the item: {e}")
-                    
+
             elif inp == 2:
                 size = int(
                     input(
