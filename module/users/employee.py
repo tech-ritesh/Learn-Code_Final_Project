@@ -1,3 +1,9 @@
+import sys
+import os
+sys.path.append(
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "module"))
+)
+
 from interfaces.user_interface import UserInterface
 from logistics.feedback import Feedback
 from logistics.notifications import Notification
@@ -12,7 +18,6 @@ from textwrap import shorten
 import logging
 from colorama import Fore, Style, init
 from socket.logging_config import setup_logging
-
 setup_logging()
 init(autoreset=True)
 
