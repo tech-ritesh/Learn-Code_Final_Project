@@ -1,5 +1,6 @@
 import sys
 import os
+
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "module"))
 )
@@ -14,6 +15,7 @@ import ast
 import logging
 from colorama import Fore, Back, Style, init
 from socket.logging_config import setup_logging
+
 setup_logging()
 init(autoreset=True)
 
@@ -31,18 +33,18 @@ class Chef(UserInterface):
             )
             employee_id = int(input(f"Enter {self.user} employee ID: "))
             name = input(f"Enter {self.user} name: ")
-            login = Login()
-            result = login.authenticate(employee_id, name)
-            if result:
+            response = self.client.send_message(f"authenticate|{employee_id}|{name}")
+
+            if response:
                 logging.info(
                     f"{self.user} authentication successful for ID {employee_id}"
                 )
-                print(Fore.GREEN + f"\n{self.user} authentication successful")
+                print(Fore.GREEN + f"\n{self.user} {response}")
             else:
                 logging.warning(
                     f"{self.user} authentication failed for ID {employee_id}"
                 )
-                print(Fore.RED + f"{self.user} authentication failed")
+                print(Fore.RED + f"{self.user} {response}")
                 exit()
         except Exception as e:
             logging.error(Fore.RED + f"Error during authentication: {e}")
@@ -119,8 +121,9 @@ class Chef(UserInterface):
             )
             print(f"{Fore.GREEN}{response}{Style.RESET_ALL}")
 
-            notifications = Notification()
-            notifications.insert_notification(f"New item {itemName} added today!!")
+            self.client.send_message(
+                f"send_notification|New item {itemName} added today!!"
+            )
         except Exception as e:
             print(
                 f"{Fore.RED}An error occurred while adding a menu item: {e}{Style.RESET_ALL}"
@@ -197,8 +200,7 @@ class Chef(UserInterface):
             id = int(input(f"{Fore.YELLOW}Enter item ID: {Style.RESET_ALL}"))
             response = self.client.send_message(f"delete_menu_item|{id}")
             print(f"{Fore.GREEN}{response}{Style.RESET_ALL}")
-            notifications = Notification()
-            notifications.insert_notification(f"item {id} deleted today!!")
+            self.client.send_message(f"item {id} deleted today!!")
         except Exception as e:
             print(
                 f"{Fore.RED}An error occurred while deleting a menu item: {e}{Style.RESET_ALL}"
@@ -250,9 +252,8 @@ class Chef(UserInterface):
                 response = self.client.send_message(f"add_recommendation|{menuId}")
                 print(f"{Fore.GREEN}{response}{Style.RESET_ALL}")
                 size += 1
-            notifications = Notification()
-            notifications.insert_notification(
-                f"{Num_of_items} items recommended by chef today!!"
+            self.client.send_message(
+                f"send_notification|{Num_of_items} items recommended by chef today!!"
             )
         except Exception as e:
             print(

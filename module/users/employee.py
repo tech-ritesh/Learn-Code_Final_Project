@@ -1,5 +1,6 @@
 import sys
 import os
+
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "module"))
 )
@@ -18,6 +19,7 @@ from textwrap import shorten
 import logging
 from colorama import Fore, Style, init
 from socket.logging_config import setup_logging
+
 setup_logging()
 init(autoreset=True)
 
@@ -35,18 +37,18 @@ class Employee(UserInterface):
             )
             employee_id = int(input(f"Enter {self.user} employee ID: "))
             name = input(f"Enter {self.user} name: ")
-            login = Login()
-            result = login.authenticate(employee_id, name)
-            if result:
+            response = self.client.send_message(f"authenticate|{employee_id}|{name}")
+
+            if response:
                 logging.info(
                     f"{self.user} authentication successful for ID {employee_id}"
                 )
-                print(Fore.GREEN + f"\n{self.user} authentication successful")
+                print(Fore.GREEN + f"\n{self.user} {response}")
             else:
                 logging.warning(
                     f"{self.user} authentication failed for ID {employee_id}"
                 )
-                print(Fore.RED + f"{self.user} authentication failed")
+                print(Fore.RED + f"{self.user} {response}")
                 exit()
         except Exception as e:
             logging.error(Fore.RED + f"Error during authentication: {e}")

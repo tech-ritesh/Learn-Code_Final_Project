@@ -296,6 +296,9 @@ class CafeteriaServer:
                 view_recommendation = recommendation()
                 current_recommendation = view_recommendation.view_today_recommendation()
                 return str(current_recommendation)
+            elif action == "send_notification" :
+                notifications = Notification()
+                notifications.insert_notification(f"New item {itemName} added today!!")
 
             else:
                 return "invalid_action"

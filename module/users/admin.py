@@ -1,5 +1,6 @@
 import sys
 import os
+
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "module"))
 )
@@ -14,6 +15,7 @@ import ast
 import logging
 from colorama import init, Fore, Style
 from socket.logging_config import setup_logging
+
 setup_logging()
 
 init(autoreset=True)
@@ -32,18 +34,18 @@ class Admin(UserInterface):
             )
             employee_id = int(input(f"Enter {self.user} employee ID: "))
             name = input(f"Enter {self.user} name: ")
-            login = Login()
-            result = login.authenticate(employee_id, name)
-            if result:
+            response = self.client.send_message(f"authenticate|{employee_id}|{name}")
+
+            if response:
                 logging.info(
                     f"{self.user} authentication successful for ID {employee_id}"
                 )
-                print(Fore.GREEN + f"\n{self.user} authentication successful")
+                print(Fore.GREEN + f"\n{self.user} {response}")
             else:
                 logging.warning(
                     f"{self.user} authentication failed for ID {employee_id}"
                 )
-                print(Fore.RED + f"{self.user} authentication failed")
+                print(Fore.RED + f"{self.user} {response}")
                 exit()
         except Exception as e:
             logging.error(Fore.RED + f"Error during authentication: {e}")
@@ -105,9 +107,9 @@ class Admin(UserInterface):
                 f"add_menu_item|{itemName}|{price}|{availabilityStatus}|{mealType}|{specialty}|{is_deleted}|{dietary_preference}|{spice_level}|{preferred_cuisine}|{sweet_tooth}"
             )
             print(Fore.GREEN + response)
-
-            notifications = Notification()
-            notifications.insert_notification(f"New item {itemName} added today!!")
+            self.client.send_message(
+                f"send_notification|New item {itemName} added today!!"
+            )
         except Exception as e:
             print(Fore.RED + f"An error occurred while adding a menu item: {e}")
 
@@ -175,8 +177,7 @@ class Admin(UserInterface):
             id = int(input("Enter item ID: "))
             response = self.client.send_message(f"delete_menu_item|{id}")
             print(Fore.GREEN + response)
-            notifications = Notification()
-            notifications.insert_notification(f"item {id} deleted today!!")
+            self.client.send_message(f"send_notification|item {id} deleted today!!")
         except Exception as e:
             print(Fore.RED + f"An error occurred while deleting the menu item: {e}")
 
@@ -277,12 +278,13 @@ class Admin(UserInterface):
                         response2 = self.client.send_message(
                             f"delete_menu_item|{menuId}"
                         )
-                        notifications = Notification()
                         max_length = 255
                         truncated_message = (
                             f"Discarded Item Notification : {response2}"[:max_length]
                         )
-                        notifications.insert_notification(f"{truncated_message}")
+                        self.client.send_message(
+                            f"send_notification|{truncated_message}"
+                        )
                         print(Fore.GREEN + response2)
                     elif inp == 2:
                         self.main_menu()
