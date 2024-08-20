@@ -12,9 +12,7 @@ from utils.update_menu import MenuItemUpdateInputHandler
 from utils.view_menu import MenuDataHandler
 from utils.chef_utils import MenuDataParser, UserInteraction, RecommendationManager
 from colorama import Fore, Back, Style, init
-from socket.logging_config import setup_logging
 
-setup_logging()
 init(autoreset=True)
 
 

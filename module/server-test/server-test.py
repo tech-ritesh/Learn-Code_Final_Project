@@ -10,7 +10,7 @@ import socket
 import threading
 from colorama import init, Fore, Style
 from Database import connection
-from server import CafeteriaServer
+from socket.server import CafeteriaServer
 init(autoreset=True)
 
 

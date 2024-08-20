@@ -42,7 +42,7 @@ class requset:
                 cursor.close()
 
     @classmethod
-    def user_feedback_request(self, user_input, user_id, item_name):
+    def user_feedback_request(cls, user_input, user_id, item_name):
         connect = connection.get_connection()
 
         try:

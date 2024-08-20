@@ -17,9 +17,7 @@ from utils.employee_utils import DataParser
 from utils.employee_utils import DataDisplay, ProfileProcessor, UserPreferenceProcessor, FeedbackAnswerProcessor, RecommendationViewer
 from textwrap import shorten
 from colorama import Fore, Style, init
-from socket.logging_config import setup_logging
 
-setup_logging()
 init(autoreset=True)
 
 

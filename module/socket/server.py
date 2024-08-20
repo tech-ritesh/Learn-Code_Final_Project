@@ -27,13 +27,9 @@ from user_preference.feedback_request import Feedback_request
 from logistics.employee_voting import Voting
 from logistics.feedback import Feedback
 from logistics.order import OrderManager
+from utils.logging_config import setup_logging
 
-logging.basicConfig(
-    filename="C:\\L_C_ITT\\Learn-Code_Final_Project\\module\\user_actions.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
+setup_logging()
 
 
 class CafeteriaServer:
@@ -213,8 +209,8 @@ class CafeteriaServer:
                     int(parts[3]),
                     parts[4],
                 )
-                d = datetime.now()
-                feedback = Feedback(user_id, menu_id, rating, comment, d)
+                date = datetime.now()
+                feedback = Feedback(user_id, menu_id, rating, comment, date)
                 feedback.add_feedback()
                 return f"Feedback added for menu ID : {menu_id}"
 
@@ -296,6 +292,7 @@ class CafeteriaServer:
                 view_recommendation = recommendation()
                 current_recommendation = view_recommendation.view_today_recommendation()
                 return str(current_recommendation)
+            
             elif action == "send_notification" :
                 notifications = Notification()
                 notifications.insert_notification(f"New item {itemName} added today!!")

@@ -8,14 +8,11 @@ sys.path.append(
 from interfaces.user_interface import UserInterface
 from tabulate import tabulate
 from colorama import init, Fore
-from socket.logging_config import setup_logging
 from utils.get_menu import MenuItemInputHandler
 from utils.update_menu import MenuItemUpdateInputHandler
 from utils.view_menu import MenuDataHandler
 from utils.admin_utils import DiscardMenuItemManager
 from utils.admin_utils import UserInteraction
-
-setup_logging()
 
 init(autoreset=True)
 
