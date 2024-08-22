@@ -82,7 +82,7 @@ class menuManage:
         try:
             connect = connection.get_connection()
             cursor = connect.cursor()
-            sql = "SELECT TOP 30 * FROM Menu"
+            sql = "SELECT * FROM Menu"
             cursor.execute(sql)
             result = cursor.fetchall()
             return result
