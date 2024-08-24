@@ -1,4 +1,4 @@
-from Database import connection
+from Database.connection import DatabaseConnection
 
 
 class update_profile:
@@ -8,15 +8,14 @@ class update_profile:
         self.spice_level = spice_level
         self.preferred_cuisine = preferred_cuisine
         self.sweet_tooth = sweet_tooth
+        self.connect = DatabaseConnection().get_connection().cursor()
 
     def update_profile(
         self, employee_id, dietary_preference, spice_level, preferred_cuisine, sweet_tooth
     ):
-        conn = connection.get_connection()
-        cur = conn.cursor()
         sql = """INSERT INTO UserPreferenceProfile (EmployeeID, DietaryPreference, SpiceLevel, PreferredCuisine, SweetTooth)
                     VALUES (?, ?, ?, ?, ?)"""
-        cur.execute(
+        self.connect.execute(
             sql,
             (
                 self.employee_id,
@@ -26,4 +25,4 @@ class update_profile:
                 self.sweet_tooth,
             ),
         )
-        cur.commit()
+        self.connect.commit()

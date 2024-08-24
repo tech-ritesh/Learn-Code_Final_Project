@@ -1,20 +1,18 @@
-from Database import connection
+from Database.connection import DatabaseConnection
 
 
 class Login:
     def __init__(self, employee_id, name) -> None:
         self.employee_id = employee_id
         self.name = name
+        self.connect = DatabaseConnection().get_connection().cursor()
 
     def authenticate(self, employee_id, name):
         try:
-            connect = connection.get_connection()
-            cursor = connect.cursor()
             authenticate_query = "SELECT * FROM Users WHERE employeeId = ? AND name = ?"
-            cursor.execute(authenticate_query, (employee_id, name))
-            result = cursor.fetchone()
-            cursor.close()
-            connect.close()
+            self.connect.execute(authenticate_query, (employee_id, name))
+            result = self.connect.fetchone()
+            self.connect.close()
             return result
         except Exception as e:
             print(f"An error occurred: {str(e)}")

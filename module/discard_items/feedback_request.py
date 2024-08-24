@@ -1,4 +1,4 @@
-from Database import connection
+from Database.connection import DatabaseConnection
 
 
 class requset:
@@ -6,54 +6,46 @@ class requset:
     def __init__(self, menuId, formatted_question) -> None:
         self.menuId = menuId
         self.formatted_question = formatted_question
+        self.connect = DatabaseConnection().get_connection().cursor()
 
     def add_feedback_requst(self, menuId, formatted_question):
-        connect = connection.get_connection()
         try:
-            cursor = connect.cursor()
             sql = (
                 "INSERT INTO discard_feedback (feedback_request, menuId) VALUES (?, ?)"
             )
-            cursor.execute(sql, (self.formatted_question, self.menuId))
-            connect.commit()
+            self.connect.execute(sql, (self.formatted_question, self.menuId))
+            self.connect.commit()
         except Exception as e:
-            connect.rollback()
+            self.connect.rollback()
             return f"An error occurred while inserting feedback requests: {e}"
         finally:
-            cursor.close()
-            connect.close()
+            self.connect.close()
+            self.connect.close()
 
-    @staticmethod
-    def fetch_feedback_requests():
+    def fetch_feedback_requests(self):
         try:
-            connect = connection.get_connection()
-            if connect:
-                cursor = connect.cursor()
+            if self.connect:
                 sql = "SELECT [feedback_request] FROM discard_feedback"
-                cursor.execute(sql)
-                feedback_questions = cursor.fetchall()
+                self.connect.execute(sql)
+                feedback_questions = self.connect.fetchall()
                 return feedback_questions
             else:
                 return "Failed to connect to the database."
         except Exception as e:
             return f"An error occurred while fetching feedback requests: {e}"
         finally:
-            if cursor:
-                cursor.close()
+            if self.connect:
+                self.connect.close()
 
-    @classmethod
     def user_feedback_request(cls, user_input, user_id, item_name):
-        connect = connection.get_connection()
-
         try:
-            cursor = connect.cursor()
             default_feedback_sql = "INSERT INTO requested_feedback (user_input, user_id, item_name) VALUES (?, ?, ?)"
-            cursor.execute(default_feedback_sql, (user_input, user_id, item_name))
-            connect.commit()
+            cls.connect.execute(default_feedback_sql, (user_input, user_id, item_name))
+            cls.connect.execute.commit()
 
         except Exception as e:
-            connect.rollback()
+            cls.connect.execute.rollback()
             return f"An error occurred while inserting feedback request: {e}"
         finally:
-            cursor.close()
-            connect.close()
+            cls.connect.execute.close()
+            

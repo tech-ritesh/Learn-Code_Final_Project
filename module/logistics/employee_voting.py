@@ -1,29 +1,28 @@
-from Database import connection
+from Database.connection import DatabaseConnection
 from tabulate import tabulate
 
 
 class Voting:
     def __init__(self, menuId=None) -> None:
         self.menuId = menuId
+        self.connect = DatabaseConnection().get_connection().cursor()
 
     def vote_for_menu_item(self, menuId=None):
 
         if menuId is None:
             return
         else:
-            cursor = connection.get_connection().cursor()
             try:
-                cursor.execute("INSERT INTO Votes (menuId) VALUES (?)", (menuId,))
-                cursor.commit()
+                self.connect.execute("INSERT INTO Votes (menuId) VALUES (?)", (menuId,))
+                self.connect.commit()
             except Exception as e:
                 return f"Error voting for menu item: {e}"
             finally:
-                cursor.close()
+                self.connect.close()
 
     def view_employee_votes(self):
 
         try:
-            cursor = connection.get_connection().cursor()
             query = """
             SELECT m.Id, m.itemName, COUNT(v.voteId) AS voteCount
             FROM Votes v
@@ -31,9 +30,8 @@ class Voting:
             GROUP BY m.Id, m.itemName
             ORDER BY voteCount DESC
             """
-
-            cursor.execute(query)
-            rows = cursor.fetchall()
+            self.connect.execute(query)
+            rows = self.connect.fetchall()
             if rows:
                 table = tabulate(
                     rows,
@@ -46,4 +44,4 @@ class Voting:
         except Exception as e:
             return f"Error retrieving votes: {e}"
         finally:
-            cursor.close()
+            self.connect.close()

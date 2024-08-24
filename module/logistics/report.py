@@ -1,21 +1,19 @@
-from Database import connection
+from Database.connection import DatabaseConnection
 
 
 class Report:
     def __init__(self) -> None:
-        pass
+        self.connect = DatabaseConnection().get_connection().cursor()
 
     def monthly_feedback_report(self):
         try:
-            connect = connection.get_connection()
-            cursor = connect.cursor()
             sql = """SELECT menuId, AVG(rating) as avg_rating, COUNT(*) as total_feedbacks
                      FROM Feedback 
                      WHERE feedbackDate >= DATEADD(month, -1, GETDATE()) 
                      GROUP BY menuId;
                   """
-            cursor.execute(sql)
-            result = cursor.fetchall()
+            self.connect.execute(sql)
+            result = self.connect.fetchall()
             report_str = "\n".join(
                 [
                     f"Menu ID: {row[0]}, Average Rating: {row[1]}, Total Feedbacks: {row[2]}"
@@ -28,8 +26,8 @@ class Report:
             return f"An error occurred while generating the report: {e}"
 
         finally:
-            if cursor:
-                cursor.close()
+            if self.connect:
+                self.connect.close()
 
 
 if __name__ == "__main__":

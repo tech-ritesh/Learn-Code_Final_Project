@@ -1,14 +1,12 @@
-from Database import connection
+from Database.connection import DatabaseConnection
 
 
 class DiscardMenuItem:
     def __init__(self) -> None:
-        pass
+        self.connect = DatabaseConnection().get_connection().cursor()
 
     def discard_list(self):
         try:
-            connect = connection.get_connection()
-            cursor = connect.cursor()
             sql = """
                 SELECT m.itemName, rf.menuId, rf.avg_rating, rf.total_feedbacks, sf.negative_comments
                 FROM (
@@ -28,32 +26,30 @@ class DiscardMenuItem:
                 ON rf.menuId = sf.menuId
                 WHERE rf.avg_rating <= 2 OR sf.menuId IS NOT NULL;
             """
-            cursor.execute(sql)
-            rows = cursor.fetchall()
+            self.connect.execute(sql)
+            rows = self.connect.fetchall()
             return rows
 
         except Exception as e:
             return f"An error occurred while fetching the discard list: {e}"
         finally:
-            if cursor:
-                cursor.close()
+            if self.connect:
+                self.connect.close()
 
     def fetch_user_feedback_for_discarded_items(self):
         try:
-            connect = connection.get_connection()
-            cursor = connect.cursor()
             sql = (
                 "SELECT DISTINCT user_input, user_id, item_name FROM requested_feedback"
             )
-            cursor.execute(sql)
-            result = cursor.fetchall()
+            self.connect.execute(sql)
+            result = self.connect.fetchall()
             return result
 
         except Exception as e:
             return f"An error occurred while fetching user feedback for discarded items: {e}"
         finally:
-            if cursor:
-                cursor.close()
+            if self.connect:
+                self.connect.close()
 
 
 if __name__ == "__main__":
