@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "module")))
+
 from interfaces.user_interface import UserInterface
 from utils.employee_utils import NotificationsHandler
 from utils.user_authentication import UserAuthentication
