@@ -2,7 +2,41 @@ from colorama import Fore, Style
 from tabulate import tabulate
 import ast
 import re
+from logistics.notifications import Notification
+from Authentication.login import Login
 
+class NotificationsHandler:
+    def __init__(self, client):
+        self.client = client
+
+    def display_notifications(self):
+        try:
+            notifications = Notification.get_notification()
+            if notifications:
+                print(Fore.YELLOW + "\nNotifications!! :\n")
+                for item in notifications:
+                    print(Fore.YELLOW + f"{item[0]} on date: {item[1].strftime('%Y-%m-%d')} time: {item[1].strftime('%H:%M:%S')}")
+            else:
+                print(Fore.CYAN + "No new notifications for today!!")
+        except Exception as e:
+            print(Fore.RED + f"Error displaying notifications: {e}")
+
+class UserInteraction:
+    @staticmethod
+    def get_main_menu_choice():
+        print(Fore.LIGHTRED_EX + "================== Chef Section ==================")
+        print(Fore.YELLOW + "\n1. View Feedback Report\n2. Roll Out Menu Items\n3. View Menu\n4. Add Menu Item\n5. Update Menu Item\n6. Delete Menu Item\n7. View Employee Votes\n8. Final Recommendation\n9. Exit")
+        return int(input("Enter your choice: "))
+
+    @staticmethod
+    def invalid_choice():
+        print(Fore.RED + "Invalid choice. Please try again.")
+
+
+    @staticmethod
+    def exit_program():
+        print(Fore.GREEN + "Thanks for visiting Cafeteria! Good Bye!!")
+        exit()
 
 class FeedbackProcessor:
     def __init__(self, client_communication):
@@ -318,6 +352,32 @@ class FeedbackProcessor:
         else:
             raise ValueError("Error extracting item name from question.")
 
+class FeedbackHandler:
+    def __init__(self, client):
+        self.client = client
+
+    def give_feedback(self):
+        try:
+            FeedbackProcessor(self.client).give_feedback()
+        except Exception as e:
+            print(Fore.RED + f"❌ Error giving feedback: {e}")
+
+    def view_feedback(self):
+        try:
+            feedback_str = DataRetriever.get_feedback()
+            feedback = DataParser.parse_feedback(feedback_str)
+            feedback_formatted = DataParser.format_feedback(feedback)
+            DataDisplay.display_feedback(feedback_formatted)
+        except Exception as e:
+            print(Fore.RED + f"Error viewing feedback: {e}")
+
+    def answer_feedback_questions(self):
+        try:
+            request = request()
+            FeedbackAnswerProcessor(request).answer_feedback_questions()
+        except Exception as e:
+            print(Fore.RED + f"Error answering feedback questions: {e}")
+
 
 class FeedbackAnswerProcessor:
     def __init__(self, request):
@@ -404,3 +464,74 @@ class RecommendationViewer:
                 DataDisplay.print_error(str(e))
         except Exception as e:
             DataDisplay.print_error(f"Error viewing recommendations: {e}")
+
+
+class RecommendationsHandler:
+    def __init__(self, client):
+        self.client = client
+
+    def view_recommendations(self):
+        try:
+            response = DataRetriever.get_recommendations()
+            recommendations = DataParser.parse_recommendations(response)
+            recommendations_formatted = DataParser.format_recommendations(recommendations)
+            DataDisplay.display_recommendations(recommendations_formatted)
+        except Exception as e:
+            print(Fore.RED + f"Error viewing recommendations: {e}")
+
+    def view_today_recommendation(self):
+        try:
+            RecommendationViewer(self.client).view_today_recommendation()
+        except Exception as e:
+            print(Fore.RED + f"Error viewing today's recommendation: {e}")
+            
+class ProfileHandler:
+    def __init__(self, client):
+        self.client = client
+
+    def update_profile(self):
+        try:
+            profile_processor = ProfileProcessor(self.client, Login())
+            profile_processor.update_profile()
+        except Exception as e:
+            print(Fore.RED + f"Error updating profile: {e}")
+            
+class PreferenceHandler:
+    def __init__(self, client):
+        self.client = client
+
+    def user_preference(self):
+        try:
+            UserPreferenceProcessor(self.client).user_preference()
+        except Exception as e:
+            print(Fore.RED + f"Error viewing user preferences: {e}")
+
+class OrderHandler:
+    def __init__(self, client):
+        self.client = client
+
+    def place_order(self):
+        try:
+            menu_id = int(input("Enter the menu ID (1,2,3 etc..): "))
+            user_id = int(input("Enter your user ID: "))
+            item_name = input("Enter the Item Name (Idli, Dosa, Biryani etc..): ")
+            response = self.client.send_message(f"order|{menu_id}|{user_id}|{item_name}")
+            print(Fore.GREEN + f"Order placed successfully for {item_name}!!")
+        except Exception as e:
+            print(Fore.RED + f"Error placing order: {e}")
+
+class VoteHandler:
+    def __init__(self, client):
+        self.client = client
+
+    def vote_for_menu_item(self):
+        try:
+            num_votes = int(input(Fore.YELLOW + "Enter the number of menu items you want to vote for: "))
+            for _ in range(num_votes):
+                menu_id = int(input(Fore.CYAN + "Enter the menu ID: "))
+                response = self.client.send_message(f"vote_for_menu_item|{menu_id}")
+                print(Fore.GREEN + response)
+        except Exception as e:
+            print(Fore.RED + f"Error processing vote: {e}")
+
+

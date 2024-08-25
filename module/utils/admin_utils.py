@@ -34,6 +34,36 @@ class DiscardMenuItemManager:
             )
         else:
             print(Fore.YELLOW + "No discard items found.")
+    
+    def handle_discard_menu_items(self):
+        try:
+            print(Fore.CYAN + "================== Discard Menu Items ==================")
+            response = self.client.send_message("discard_list")
+            discard_menu_items = DiscardMenuItemManager.parse_discard_list(response)
+            DiscardMenuItemManager.display_discard_list(discard_menu_items)
+            print(Fore.YELLOW + "\nNote: Deletion for discarded items will take place only once a month :\n")
+            user_choice = UserInteraction.get_user_choice()
+            if user_choice == 1:
+                self.handle_item_removal()
+            elif user_choice == 2:
+                self.request_detailed_feedback()
+        except Exception as e:
+            print(Fore.RED + f"An error occurred while handling discard menu items: {e}")
+
+    def handle_item_removal(self):
+        UserInteraction.display_user_feedback()
+        deletion_confirmation = UserInteraction.get_deletion_confirmation()
+        if deletion_confirmation == 1:
+            menu_id = UserInteraction.get_item_id_to_delete()
+            response = self.client.send_message(f"delete_menu_item|{menu_id}")
+            print(Fore.GREEN + response)
+            self.client.send_message(f"send_notification|Discarded Item Notification: {response[:255]}")
+
+    def request_detailed_feedback(self):
+        item_name, menu_id, questions = UserInteraction.get_feedback_details()
+        for question in questions:
+            response = self.client.send_message(f"request_feedback|{item_name}|{menu_id}|{question}")
+            print(Fore.GREEN + response)
 
 
 class UserInteraction:
@@ -77,3 +107,18 @@ class UserInteraction:
             for i in range(size)
         ]
         return item_name, menu_id, questions
+    
+    @staticmethod
+    def get_main_menu_choice():
+        print(Fore.LIGHTRED_EX + "================== Admin Section ==================")
+        print(Fore.YELLOW + "\n1. Add Menu Item\n2. Update Menu Item\n3. Delete Menu Item\n4. View Menu\n5. Discard Menu Items List\n6. Exit")
+        return int(input("Enter your choice: "))
+
+    @staticmethod
+    def invalid_choice():
+        print(Fore.RED + "Invalid choice. Please try again.")
+
+    @staticmethod
+    def exit_program():
+        print(Fore.GREEN + "Thanks for visiting Cafeteria! Good Bye!!")
+        exit()
