@@ -1,13 +1,11 @@
-from Database import connection
+from Database.connection import DatabaseConnection
 
 class UserPreference:
-    def __init__(self) -> None:
-        pass
-
-    @staticmethod
-    def user_preference(employee_id):
-        conn = connection.get_connection()
-        cur = conn.cursor()
+    def __init__(self, employee_id) -> None:
+        self.employee_id = employee_id
+        self.connect = DatabaseConnection().get_connection().cursor()
+        
+    def user_preference(self, employee_id):
         meal_types = ["Breakfast", "Lunch", "Dinner"]
         results = {}
 
@@ -63,14 +61,14 @@ class UserPreference:
                     AND r.recommendationDate = DATEADD(DAY, 1, CAST(GETDATE() AS DATE));
             """
 
-            cur.execute(
+            self.connect.execute(
                 sql,
                 (
-                    employee_id,
-                    employee_id,
+                    self.employee_id,
+                    self.employee_id,
                 ),
             )
-            result = cur.fetchall()
+            result = self.connect.fetchall()
             results[meal_type] = result
 
         return results

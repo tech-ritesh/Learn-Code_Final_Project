@@ -1,70 +1,51 @@
-# request.py
+from Database.connection import DatabaseConnection
 
-from Database import connection
 
 class requset:
-    
-    def __init__(self) -> None:
-        pass
 
-    @staticmethod
-    def add_feedback_requst(menuId, formatted_question):
-        conn = connection.get_connection()
-        if conn:
-            try:
-                cur = conn.cursor()
-                sql = "INSERT INTO discard_feedback (feedback_request, menuId) VALUES (?, ?)"
-                cur.execute(sql, (formatted_question,menuId))
-                
-                conn.commit()
-                print("Feedback requests inserted successfully.")
-            except Exception as e:
-                conn.rollback()
-                print(f"An error occurred while inserting feedback requests: {e}")
-            finally:
-                cur.close()
-                conn.close()
-        else:
-            print("Failed to connect to the database.")
-    
-    @staticmethod
-    def fetch_feedback_requests():
+    def __init__(self, menuId, formatted_question) -> None:
+        self.menuId = menuId
+        self.formatted_question = formatted_question
+        self.connect = DatabaseConnection().get_connection().cursor()
+
+    def add_feedback_requst(self, menuId, formatted_question):
         try:
-            conn = connection.get_connection()
-            if conn:
-                cur = conn.cursor()
+            sql = (
+                "INSERT INTO discard_feedback (feedback_request, menuId) VALUES (?, ?)"
+            )
+            self.connect.execute(sql, (self.formatted_question, self.menuId))
+            self.connect.commit()
+        except Exception as e:
+            self.connect.rollback()
+            return f"An error occurred while inserting feedback requests: {e}"
+        finally:
+            self.connect.close()
+            self.connect.close()
+
+    def fetch_feedback_requests(self):
+        try:
+            if self.connect:
                 sql = "SELECT [feedback_request] FROM discard_feedback"
-                cur.execute(sql)
-                feedback_questions = cur.fetchall()
+                self.connect.execute(sql)
+                feedback_questions = self.connect.fetchall()
                 return feedback_questions
             else:
-                print("Failed to connect to the database.")
-                return None
+                return "Failed to connect to the database."
         except Exception as e:
-            print(f"An error occurred while fetching feedback requests: {e}")
-            return None
+            return f"An error occurred while fetching feedback requests: {e}"
         finally:
-            if cur:
-                cur.close()
-            if conn:
-                conn.close()
-    
-    @staticmethod
-    def user_feedback_request(user_input, user_id, item_name):
-        conn = connection.get_connection()
-        if conn:
-            try:
-                cur = conn.cursor()
-                default_feedback_sql = "INSERT INTO requested_feedback (user_input, user_id, item_name) VALUES (?, ?, ?)"
-                cur.execute(default_feedback_sql, (user_input, user_id, item_name))
-                conn.commit()
-                print("Feedback request inserted successfully.")
-            except Exception as e:
-                conn.rollback()
-                print(f"An error occurred while inserting feedback request: {e}")
-            finally:
-                cur.close()
-                conn.close()
-        else:
-            print("Failed to connect to the database.")
+            if self.connect:
+                self.connect.close()
 
+    def user_feedback_request(cls, user_input, user_id, item_name):
+        try:
+            default_feedback_sql = "INSERT INTO requested_feedback (user_input, user_id, item_name) VALUES (?, ?, ?)"
+            cls.connect.execute(default_feedback_sql, (user_input, user_id, item_name))
+            cls.connect.execute.commit()
+
+        except Exception as e:
+            cls.connect.execute.rollback()
+            return f"An error occurred while inserting feedback request: {e}"
+        finally:
+            cls.connect.execute.close()
+            

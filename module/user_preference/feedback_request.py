@@ -1,15 +1,21 @@
-from Database import connection
-
+from Database.connection import DatabaseConnection
 
 class Feedback_request:
 
     def __init__(self) -> None:
-        pass
+        self.connect = DatabaseConnection().get_connection().cursor()
 
-    def feedback_request():
-        conn = connection.get_connection()
-        cur = conn.cursor()
-        sql = "select * from discard_feedback"
-        cur.execute(sql)
-        result = cur.fetchall()
-        return result
+    def feedback_request(self):
+        
+        try:
+            sql = "SELECT * FROM discard_feedback"
+            self.connect.execute(sql)
+            result = self.connect.fetchall()
+            return result
+        except Exception as e:
+            print(f"An error occurred while fetching feedback: {e}")
+            return None
+        finally:
+            if self.connect:
+                self.connect.close()
+            
