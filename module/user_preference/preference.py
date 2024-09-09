@@ -1,11 +1,10 @@
 from Database import connection
 
 class UserPreference:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, employee_id) -> None:
+        self.employee_id = employee_id
 
-    @staticmethod
-    def user_preference(employee_id):
+    def user_preference(self, employee_id):
         conn = connection.get_connection()
         cur = conn.cursor()
         meal_types = ["Breakfast", "Lunch", "Dinner"]
@@ -66,8 +65,8 @@ class UserPreference:
             cur.execute(
                 sql,
                 (
-                    employee_id,
-                    employee_id,
+                    self.employee_id,
+                    self.employee_id,
                 ),
             )
             result = cur.fetchall()

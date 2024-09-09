@@ -7,27 +7,23 @@ class Voting:
         self.menuId = menuId
 
     def vote_for_menu_item(self, menuId=None):
-        if menuId is None:
-            menuId = self.menuId
 
         if menuId is None:
-            print("No menuId provided.")
             return
-
-        cursor = connection.get_connection().cursor()
-        try:
-            cursor.execute("INSERT INTO Votes (menuId) VALUES (?)", (menuId,))
-            cursor.commit()
-            print(f"Successfully voted for menu item {menuId}")
-        except Exception as e:
-            print(f"Error voting for menu item: {e}")
-        finally:
-            cursor.close()
+        else:
+            cursor = connection.get_connection().cursor()
+            try:
+                cursor.execute("INSERT INTO Votes (menuId) VALUES (?)", (menuId,))
+                cursor.commit()
+            except Exception as e:
+                return f"Error voting for menu item: {e}"
+            finally:
+                cursor.close()
 
     def view_employee_votes(self):
 
         try:
-            conn = connection.get_connection()
+            cursor = connection.get_connection().cursor()
             query = """
             SELECT m.Id, m.itemName, COUNT(v.voteId) AS voteCount
             FROM Votes v
@@ -35,9 +31,9 @@ class Voting:
             GROUP BY m.Id, m.itemName
             ORDER BY voteCount DESC
             """
-            cur = conn.cursor()
-            cur.execute(query)
-            rows = cur.fetchall()
+
+            cursor.execute(query)
+            rows = cursor.fetchall()
             if rows:
                 table = tabulate(
                     rows,
@@ -50,4 +46,4 @@ class Voting:
         except Exception as e:
             return f"Error retrieving votes: {e}"
         finally:
-            cur.close()
+            cursor.close()

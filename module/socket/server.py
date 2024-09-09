@@ -13,11 +13,10 @@ from logistics.feedback import Feedback
 from logistics.menu import menuManage
 from logistics import notifications
 from logistics.recommendation import recommendation
-from logistics.recommendation import recommendation
 from logistics import report
 from Authentication.login import Login
 from discard_items import discard_menu_item_list
-from discard_items.delete_discarded_menuItem import delete_discarded
+from discard_items.delete_discarded_menuItem import DiscardItems
 from discard_items.feedback_request import requset
 from Database import connection
 from user_profile_and_prefernce.update_profile import update_profile
@@ -27,14 +26,10 @@ from logistics.notifications import Notification
 from user_preference.feedback_request import Feedback_request
 from logistics.employee_voting import Voting
 from logistics.feedback import Feedback
-from logistics.order import order, validate_order_feedback
+from logistics.order import OrderManager
+from utils.logging_config import setup_logging
 
-logging.basicConfig(
-    filename="C:\\L_C_ITT\\Learn-Code_Final_Project\\module\\user_actions.log",
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
+setup_logging()
 
 
 class CafeteriaServer:
@@ -165,7 +160,7 @@ class CafeteriaServer:
                 discard_menu_items = (
                     discard_menu_item_list.discard_menu_item.discard_list()
                 )
-                delete_discarded.delete_discarded_menuItem(discard_menu_items)
+                DiscardItems.delete_discarded_menuItem(discard_menu_items)
                 for item in discard_menu_item_list:
 
                     return f"Food Item deleted successfully from Menu {item[1]}"
@@ -179,8 +174,8 @@ class CafeteriaServer:
                         menuId = int(parts[2])
                         question = parts[3]
                         formatted_question = question.replace("{itemName}", itemName)
-                        print(formatted_question, itemName, menuId)
-                        requset.add_feedback_requst(menuId, formatted_question)
+                        request = requset()
+                        request.add_feedback_requst(menuId, formatted_question)
                         return f"feedback requested for {itemName} from user"
                     else:
                         print("Improperly formatted request.")
@@ -214,8 +209,8 @@ class CafeteriaServer:
                     int(parts[3]),
                     parts[4],
                 )
-                d = datetime.now()
-                feedback = Feedback(user_id, menu_id, rating, comment, d)
+                date = datetime.now()
+                feedback = Feedback(user_id, menu_id, rating, comment, date)
                 feedback.add_feedback()
                 return f"Feedback added for menu ID : {menu_id}"
 
@@ -231,7 +226,7 @@ class CafeteriaServer:
                     PreferredCuisine,
                     SweetTooth,
                 ) = (int(parts[1]), parts[2], parts[3], parts[4], parts[5])
-                print(int(parts[1]), parts[2], parts[3], parts[4], parts[5])
+                update_profile = update_profile()
                 update_profile.update_profile(
                     EmployeeID,
                     DietaryPreference,
@@ -258,11 +253,14 @@ class CafeteriaServer:
                 menuId = int(parts[1])
                 user_id = int(parts[2])
                 item_name = parts[3]
-                order(menuId, user_id, item_name)
+                order = OrderManager()
+                order.place_order(menuId, user_id, item_name)
+                
             elif action == "validate_feedback":
                 menuId = int(parts[1])
                 userId = int(parts[2])
-                output = validate_order_feedback(menuId, userId)
+                order = OrderManager()
+                output = order.validate_order_feedback(menuId, userId)
                 if output is None:
                     return f"Alert!!\nNo matching order found for menuID {menuId}. Please place an order first."
                 else:
@@ -294,6 +292,10 @@ class CafeteriaServer:
                 view_recommendation = recommendation()
                 current_recommendation = view_recommendation.view_today_recommendation()
                 return str(current_recommendation)
+            
+            elif action == "send_notification" :
+                notifications = Notification()
+                notifications.insert_notification(f"New item {itemName} added today!!")
 
             else:
                 return "invalid_action"
